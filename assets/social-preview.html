@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Social preview - HTML and LLMs for Enterprise Work</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080807;
+      --panel: #11100e;
+      --panel-2: #181512;
+      --ink: #f6f1e8;
+      --muted: #b7afa3;
+      --line: #38322a;
+      --accent: #d7a84f;
+      --amber-2: #f2c96f;
+      --blue: #7ea8ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(215, 168, 79, .18), transparent 34%),
+        radial-gradient(circle at 86% 18%, rgba(126, 168, 255, .14), transparent 28%),
+        linear-gradient(180deg, #11100e, #080807 68%);
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(246, 241, 232, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(246, 241, 232, .045) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, #000, transparent 86%);
+    }
+
+    .card {
+      position: relative;
+      width: 1120px;
+      height: 550px;
+      border: 1px solid rgba(215, 168, 79, .42);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(215, 168, 79, .12), transparent 36%),
+        linear-gradient(180deg, rgba(24, 21, 18, .96), rgba(12, 11, 10, .98));
+      box-shadow: 0 40px 120px rgba(0, 0, 0, .52);
+      padding: 54px;
+      overflow: hidden;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      border: 1px solid rgba(215, 168, 79, .7);
+      border-radius: 22px;
+      background: rgba(215, 168, 79, .14);
+      color: var(--amber-2);
+      font: 900 28px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
+      letter-spacing: -.03em;
+    }
+
+    .brand span:last-child {
+      color: var(--muted);
+      font: 800 22px/1.2 ui-monospace, "SFMono-Regular", Consolas, monospace;
+    }
+
+    .proof {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--accent);
+      font: 800 18px/1.2 ui-monospace, "SFMono-Regular", Consolas, monospace;
+    }
+
+    h1 {
+      max-width: 650px;
+      margin: 62px 0 18px;
+      font-size: 70px;
+      line-height: .96;
+      letter-spacing: -0.04em;
+    }
+
+    .sub {
+      max-width: 720px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 31px;
+      line-height: 1.28;
+    }
+
+    .chips {
+      position: absolute;
+      left: 54px;
+      bottom: 54px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .035);
+      color: var(--ink);
+      padding: 14px 16px;
+      font: 800 16px/1 ui-monospace, "SFMono-Regular", Consolas, monospace;
+    }
+
+    .artifact {
+      position: absolute;
+      right: 50px;
+      bottom: 48px;
+      width: 360px;
+      height: 310px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(8, 8, 7, .66);
+      padding: 22px;
+    }
+
+    .artifact::before {
+      content: "";
+      display: block;
+      width: 72px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-bottom: 22px;
+      box-shadow: 96px 0 0 rgba(246, 241, 232, .18), 192px 0 0 rgba(246, 241, 232, .1);
+    }
+
+    svg {
+      width: 100%;
+      height: 218px;
+    }
+
+    .node {
+      fill: #181512;
+      stroke: #514532;
+      stroke-width: 2;
+    }
+
+    .hot {
+      stroke: var(--accent);
+      fill: rgba(215, 168, 79, .14);
+    }
+
+    .link {
+      fill: none;
+      stroke: rgba(215, 168, 79, .66);
+      stroke-width: 3;
+    }
+
+    text {
+      fill: var(--ink);
+      font: 800 13px ui-monospace, "SFMono-Regular", Consolas, monospace;
+    }
+  </style>
+</head>
+<body>
+  <main class="card" aria-label="Social preview card">
+    <div class="top">
+      <div class="brand">
+        <div class="mark">VS</div>
+        <span>vishalshah.app</span>
+      </div>
+      <div class="proof">Static HTML / CSS / JS</div>
+    </div>
+    <h1>HTML and LLMs for Enterprise Work</h1>
+    <p class="sub">Show the work, not just the prompt.</p>
+    <div class="chips" aria-label="Preview facts">
+      <span class="chip">12 interactive demos</span>
+      <span class="chip">Fictional data only</span>
+      <span class="chip">GitHub Pages ready</span>
+    </div>
+    <div class="artifact" aria-hidden="true">
+      <svg viewBox="0 0 320 220">
+        <path class="link" d="M78 74 C122 28 188 28 232 74"></path>
+        <path class="link" d="M78 126 C126 174 192 174 242 126"></path>
+        <path class="link" d="M232 74 C260 74 270 88 284 108"></path>
+        <rect class="node hot" x="22" y="52" width="112" height="54" rx="10"></rect>
+        <rect class="node" x="172" y="26" width="112" height="54" rx="10"></rect>
+        <rect class="node hot" x="172" y="128" width="112" height="54" rx="10"></rect>
+        <rect class="node" x="34" y="138" width="92" height="42" rx="9"></rect>
+        <text x="42" y="84">Change</text>
+        <text x="190" y="58">Evidence</text>
+        <text x="191" y="160">Impact</text>
+        <text x="53" y="165">Users</text>
+      </svg>
+    </div>
+  </main>
+</body>
+</html>

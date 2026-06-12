@@ -710,6 +710,245 @@ td strong {
   stroke-dasharray: 5 5;
 }
 
+.impact-presentation-active .app-grid {
+  grid-template-columns: 1fr;
+}
+
+.impact-presentation-active [data-controls],
+.impact-presentation-active [data-inspector] {
+  display: none;
+}
+
+.impact-presentation-active .workspace {
+  min-height: 760px;
+}
+
+.impact-presenter-shell {
+  display: grid;
+  gap: 16px;
+}
+
+.impact-presenter-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 44%),
+    var(--bg-2);
+}
+
+.impact-presenter-top span,
+.panel-label {
+  display: block;
+  color: var(--accent);
+  font: 850 11px/1.2 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.impact-presenter-top h2 {
+  margin: 7px 0 0;
+  color: var(--ink);
+  font-size: clamp(30px, 5vw, 56px);
+  letter-spacing: -0.04em;
+  line-height: .95;
+}
+
+.impact-presenter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.impact-presenter {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.impact-slide-rail {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.impact-slide-button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 62px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: var(--muted);
+  text-align: left;
+}
+
+.impact-slide-button span {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--accent);
+  font: 900 11px/1 var(--mono);
+}
+
+.impact-slide-button.active {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--line));
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-2));
+  color: var(--ink);
+}
+
+.impact-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(240px, .45fr);
+  grid-template-areas:
+    "map inspector"
+    "evidence notes";
+  gap: 14px;
+}
+
+.impact-map-card,
+.impact-inspector,
+.impact-evidence-drawer,
+.impact-notes {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, transparent), var(--bg-2));
+  box-shadow: 0 18px 70px color-mix(in srgb, #000 20%, transparent);
+}
+
+.impact-map-card {
+  position: relative;
+  grid-area: map;
+  overflow: hidden;
+}
+
+.impact-map-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 48%);
+}
+
+.impact-map {
+  position: relative;
+  min-height: 430px;
+  border: 0;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--line-strong) 58%, transparent) 1px, transparent 1.5px),
+    color-mix(in srgb, var(--bg-2) 82%, #000);
+  background-size: 20px 20px;
+}
+
+.diagram .node.spotlight {
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 75%, transparent));
+}
+
+.diagram .line.critical {
+  stroke-dasharray: 10 7;
+  animation: dashFlow 1.6s linear infinite;
+}
+
+.impact-inspector {
+  grid-area: inspector;
+  padding: 16px;
+}
+
+.impact-inspector .note,
+.impact-notes p {
+  margin-top: 12px;
+}
+
+.muted-text {
+  color: var(--muted);
+}
+
+.impact-evidence-drawer {
+  grid-area: evidence;
+  padding: 16px;
+  animation: drawerReveal .28s ease both;
+}
+
+.impact-notes {
+  grid-area: notes;
+  padding: 16px;
+}
+
+.impact-notes p {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.impact-timeline {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.impact-timeline-step {
+  display: grid;
+  gap: 8px;
+  min-height: 74px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: var(--muted);
+  font: 800 11px/1.25 var(--mono);
+}
+
+.impact-timeline-step span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+
+.impact-timeline-step.complete {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+}
+
+.impact-timeline-step.current {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-2));
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -34;
+  }
+}
+
+@keyframes drawerReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .matrix {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -858,12 +1097,28 @@ td strong {
   .sample-hero,
   .hero-panel,
   .app-grid,
-  .artifact-sections {
+  .artifact-sections,
+  .impact-presenter,
+  .impact-stage {
     grid-template-columns: 1fr;
   }
 
   .workspace {
     min-height: 0;
+  }
+
+  .impact-stage {
+    grid-template-areas:
+      "map"
+      "inspector"
+      "evidence"
+      "notes";
+  }
+
+  .impact-slide-rail,
+  .impact-timeline {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    overflow-x: auto;
   }
 }
 
@@ -927,6 +1182,27 @@ td strong {
     align-items: flex-start;
     flex-direction: column;
   }
+
+  .impact-presentation-active .workspace {
+    min-height: 0;
+  }
+
+  .impact-presenter-top {
+    flex-direction: column;
+  }
+
+  .impact-presenter-actions {
+    justify-content: flex-start;
+  }
+
+  .impact-slide-rail,
+  .impact-timeline {
+    grid-template-columns: 1fr;
+  }
+
+  .impact-map {
+    min-height: 320px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -937,5 +1213,9 @@ td strong {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .diagram .line.critical {
+    stroke-dasharray: 0;
   }
 }

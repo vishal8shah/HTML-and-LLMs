@@ -645,38 +645,220 @@ function renderImpact() {
   renderShell();
   $("[data-workspace-title]").textContent = "Dependency map";
   const nodes = [
-    { id: "portal", label: "Web Portal", x: 70, y: 48, team: "DX", risk: "Low", evidence: "Accessibility smoke, release note" },
-    { id: "mobile", label: "Mobile App", x: 70, y: 152, team: "DX", risk: "Medium", evidence: "Regression test, comms wording" },
-    { id: "api", label: "API Gateway", x: 280, y: 48, team: "Platform", risk: "High", evidence: "Contract tests, rollback plan" },
-    { id: "order", label: "Order Service", x: 290, y: 152, team: "Commerce", risk: "Critical", evidence: "Design review, migration plan, perf summary" },
-    { id: "pay", label: "Payment Service", x: 520, y: 98, team: "Payments", risk: "Critical", evidence: "PCI review, regression summary" },
-    { id: "inv", label: "Inventory", x: 520, y: 198, team: "Supply", risk: "Medium", evidence: "Stock sync test" },
-    { id: "auth", label: "Auth Service", x: 520, y: 20, team: "IAM", risk: "High", evidence: "Privileged access review" }
+    { id: "portal", label: "Client Portal", x: 64, y: 46, team: "Digital Experience", owner: "Mira Chen", risk: "Low", evidence: "Accessibility smoke, release note", upstream: ["auth", "api"], downstream: [], controls: ["UX-02", "CHANGE-01"], note: "Customer-facing entry point; validate fallback messaging." },
+    { id: "mobile", label: "Mobile App", x: 64, y: 168, team: "Digital Experience", owner: "Noah Patel", risk: "Medium", evidence: "Regression test, communication wording", upstream: ["auth", "api"], downstream: [], controls: ["REL-03", "COMMS-01"], note: "Release comms and app-store timing change the exposure window." },
+    { id: "api", label: "API Gateway", x: 292, y: 76, team: "Platform", owner: "Iris Morgan", risk: "High", evidence: "Contract tests, rollback plan", upstream: ["auth"], downstream: ["portal", "mobile", "order"], controls: ["API-04", "CHANGE-01"], note: "Contract drift here cascades quickly across channels." },
+    { id: "order", label: "Order Service", x: 514, y: 116, team: "Commerce Platform", owner: "Sam Rivera", risk: "Critical", evidence: "Design review, migration plan, performance summary", upstream: ["api"], downstream: ["pay", "inv", "notify"], controls: ["CHANGE-01", "DATA-07"], note: "Central change point with data migration and rollback complexity." },
+    { id: "pay", label: "Payment Service", x: 742, y: 62, team: "Payments", owner: "Priya Singh", risk: "Critical", evidence: "Payment regression summary, reconciliation check", upstream: ["order"], downstream: ["ledger"], controls: ["PAY-02", "SOX-AC-01"], note: "Financial reconciliation and retry behavior need explicit review." },
+    { id: "inv", label: "Inventory", x: 742, y: 184, team: "Supply Systems", owner: "Leo Martin", risk: "Medium", evidence: "Stock sync test, batch replay sample", upstream: ["order"], downstream: ["warehouse"], controls: ["DATA-07", "OPS-05"], note: "Late inventory updates can hide in asynchronous batch paths." },
+    { id: "auth", label: "Auth Service", x: 292, y: 214, team: "Identity", owner: "Ava Stone", risk: "High", evidence: "Privileged-access review, token scope check", upstream: [], downstream: ["api", "portal", "mobile"], controls: ["PRIV-02", "IAM-01"], note: "Token and role changes are not implied by the feature change." },
+    { id: "ledger", label: "Ledger Feed", x: 944, y: 62, team: "Finance Systems", owner: "Eli Brooks", risk: "High", evidence: "Posting sample, reconciliation query", upstream: ["pay"], downstream: [], controls: ["FIN-01", "SOX-AC-01"], note: "Evidence should show postings and reconciliation exceptions." },
+    { id: "warehouse", label: "Warehouse", x: 944, y: 184, team: "Operations", owner: "Nina Rao", risk: "Medium", evidence: "Pick-list replay, exception report", upstream: ["inv"], downstream: [], controls: ["OPS-05"], note: "Operational users need a clear exception path during rollout." },
+    { id: "notify", label: "Notification Hub", x: 742, y: 306, team: "Messaging", owner: "Owen Blake", risk: "Low", evidence: "Template review, opt-out check", upstream: ["order"], downstream: [], controls: ["COMMS-01"], note: "Customer wording belongs in approved communication tooling." }
   ];
+  const links = [
+    ["auth", "api"], ["auth", "portal"], ["auth", "mobile"], ["portal", "api"], ["mobile", "api"],
+    ["api", "order"], ["mobile", "order"], ["order", "pay"], ["order", "inv"], ["order", "notify"],
+    ["pay", "ledger"], ["inv", "warehouse"]
+  ];
+  const criticalPath = ["api", "order", "pay", "ledger"];
+  const slideData = [
+    {
+      title: "Impact overview",
+      eyebrow: "Scope the blast radius",
+      focus: ["api", "order", "pay", "inv", "auth"],
+      selected: "order",
+      progress: 1,
+      notes: "Start by showing that a single change is not one box. The useful artifact keeps owners, evidence, risk and dependency paths visible at the same time.",
+      evidence: [
+        ["EV-2101", "Service inventory snapshot", "Platform", "Ready"],
+        ["EV-2102", "Change proposal summary", "Commerce Platform", "Draft"],
+        ["EV-2103", "Stakeholder review notes", "Release Lead", "Review"]
+      ]
+    },
+    {
+      title: "Critical path",
+      eyebrow: "Follow the path that can hurt most",
+      focus: criticalPath,
+      selected: "pay",
+      progress: 3,
+      notes: "The highlighted path is fictional, but the pattern is practical: reviewers can see where contract, data, payment and reconciliation risks join up.",
+      evidence: [
+        ["EV-2110", "API contract regression", "Platform", "Ready"],
+        ["EV-2111", "Order migration dry run", "Commerce Platform", "Review"],
+        ["EV-2112", "Payment reconciliation sample", "Payments", "Review"],
+        ["EV-2113", "Ledger posting query", "Finance Systems", "Draft"]
+      ]
+    },
+    {
+      title: "Services deep dive",
+      eyebrow: "Inspect one node without losing context",
+      focus: ["order", "pay", "inv"],
+      selected: "order",
+      progress: 4,
+      notes: "A briefing page can behave like an application: click any node, keep the map alive, and still show the presenter what to say.",
+      evidence: [
+        ["EV-2120", "Owner confirmation", "Commerce Platform", "Ready"],
+        ["EV-2121", "Rollback decision record", "Release Lead", "Review"],
+        ["EV-2122", "Performance comparison", "SRE", "Draft"]
+      ]
+    },
+    {
+      title: "Cascade scenarios",
+      eyebrow: "Make second-order effects visible",
+      focus: ["mobile", "api", "order", "inv", "warehouse"],
+      selected: "inv",
+      progress: 5,
+      notes: "This is where HTML becomes stronger than a static slide. The same data can show channel, platform, batch and operations consequences in one surface.",
+      evidence: [
+        ["EV-2130", "Mobile retry behavior", "Digital Experience", "Review"],
+        ["EV-2131", "Batch replay sample", "Supply Systems", "Ready"],
+        ["EV-2132", "Warehouse exception report", "Operations", "Draft"]
+      ]
+    },
+    {
+      title: "Mitigations",
+      eyebrow: "Tie controls to action",
+      focus: ["auth", "api", "order", "pay", "ledger"],
+      selected: "auth",
+      progress: 6,
+      notes: "Keep the boundary honest: this artifact can organize review evidence, but it cannot grant approval, attest controls, or integrate with identity systems by itself.",
+      evidence: [
+        ["EV-2140", "Token scope review", "Identity", "Ready"],
+        ["EV-2141", "Rollback runbook excerpt", "SRE", "Review"],
+        ["EV-2142", "Monitoring threshold proposal", "Platform", "Draft"]
+      ]
+    },
+    {
+      title: "Summary",
+      eyebrow: "Close with what humans can trust",
+      focus: ["order", "pay", "ledger"],
+      selected: "ledger",
+      progress: 7,
+      notes: "The close is not that HTML replaces enterprise systems. It is that AI can produce a reviewable artifact that humans can navigate, challenge and carry into approved workflows.",
+      evidence: [
+        ["EV-2150", "Decision summary", "Release Lead", "Draft"],
+        ["EV-2151", "Open questions list", "All owners", "Review"],
+        ["EV-2152", "Boundary statement", "Governance", "Ready"]
+      ]
+    }
+  ];
+  const timeline = ["Plan", "Design", "Code complete", "Test", "Change window", "Verify", "Close"];
   let selected = "order";
   let riskFilter = "All";
-  $("[data-controls]").innerHTML = `<h2>Filters</h2><div class="control-group"><label>Risk<select data-risk><option>All</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></label><button data-critical>Highlight critical path</button></div>`;
-  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy reviewer checklist</button>`;
-  $("[data-workspace]").innerHTML = `<svg class="diagram" viewBox="0 0 760 300" data-map aria-label="Interactive dependency map"></svg><div data-evidence></div>`;
+  let slideIndex = 0;
+  let presenting = false;
+  $("[data-controls]").innerHTML = `<h2>Filters</h2><div class="control-group"><label>Risk<select data-risk><option>All</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></label><button data-critical>Highlight critical path</button><button data-impact-present>Enter presentation mode</button></div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy reviewer checklist</button><button data-impact-present>Present</button>`;
+  $("[data-workspace]").innerHTML = `
+    <div data-impact-normal>
+      <svg class="diagram" viewBox="0 0 1100 420" data-map aria-label="Interactive dependency map"></svg>
+      <div data-evidence></div>
+    </div>
+    <div class="impact-presenter-shell" data-impact-presenter hidden></div>`;
   $("[data-inspector]").innerHTML = `<h2>Selected service</h2><div data-selected></div>`;
-  function update() {
-    const visible = nodes.filter((node) => riskFilter === "All" || node.risk === riskFilter);
+
+  function isCriticalEdge(a, b, focus = criticalPath) {
+    return focus.includes(a) && focus.includes(b) && Math.abs(focus.indexOf(a) - focus.indexOf(b)) === 1;
+  }
+
+  function renderMap(target, options = {}) {
+    const focus = options.focus || [];
+    const visible = options.presenter ? nodes : nodes.filter((node) => riskFilter === "All" || node.risk === riskFilter);
     const visibleIds = new Set(visible.map((node) => node.id));
-    const links = [["portal", "api"], ["mobile", "api"], ["api", "order"], ["order", "pay"], ["order", "inv"], ["api", "auth"], ["mobile", "order"]];
-    $("[data-map]").innerHTML = links.map(([a, b]) => {
+    target.innerHTML = links.map(([a, b]) => {
       const from = nodes.find((node) => node.id === a);
       const to = nodes.find((node) => node.id === b);
       if (!visibleIds.has(a) || !visibleIds.has(b)) return "";
-      return `<path class="line ${a === "api" || b === "order" ? "hot" : ""} ${b === "pay" ? "danger" : ""}" d="M${from.x + 130} ${from.y + 32} C${from.x + 175} ${from.y + 32} ${to.x - 45} ${to.y + 32} ${to.x} ${to.y + 32}"></path>`;
-    }).join("") + visible.map((node) => `<g data-node="${node.id}"><rect class="node ${node.id === selected ? "active" : ""} ${statusClass(node.risk)}" x="${node.x}" y="${node.y}" width="130" height="64" rx="7"></rect><text x="${node.x + 16}" y="${node.y + 29}">${escapeHtml(node.label)}</text><text x="${node.x + 16}" y="${node.y + 49}">${escapeHtml(node.team)}</text></g>`).join("");
-    const current = nodes.find((node) => node.id === selected) || visible[0] || nodes[0];
-    selected = current.id;
-    $("[data-selected]").innerHTML = `<div class="note"><strong>${escapeHtml(current.label)}</strong><br>Team: ${escapeHtml(current.team)}<br>Risk: ${escapeHtml(current.risk)}<br>Evidence: ${escapeHtml(current.evidence)}</div><h3>Related controls</h3><p><span class="badge">SOX-AC-01</span> <span class="badge">CHANGE-01</span> <span class="badge">PRIV-02</span></p>`;
-    $("[data-evidence]").innerHTML = renderTable(["ID", "Document", "Owner", "Status"], visible.map((node, index) => [`EV-${1042 + index}`, escapeHtml(node.evidence), escapeHtml(node.team), `<span class="status ${node.risk === "Critical" ? "review" : "ready"}">${node.risk === "Critical" ? "Review" : "Ready"}</span>`]));
-    $$("[data-node]").forEach((nodeEl) => nodeEl.addEventListener("click", () => {
+      const hot = isCriticalEdge(a, b, focus) || (a === "api" && b === "order");
+      return `<path class="line ${hot ? "hot critical" : ""} ${b === "pay" || b === "ledger" ? "danger" : ""}" d="M${from.x + 150} ${from.y + 34} C${from.x + 205} ${from.y + 34} ${to.x - 55} ${to.y + 34} ${to.x} ${to.y + 34}"></path>`;
+    }).join("") + visible.map((node) => {
+      const focused = focus.includes(node.id);
+      return `<g data-node="${node.id}" class="${focused ? "focused" : ""}"><rect class="node ${node.id === selected ? "active" : ""} ${focused ? "spotlight" : ""} ${statusClass(node.risk)}" x="${node.x}" y="${node.y}" width="150" height="68" rx="8"></rect><text x="${node.x + 16}" y="${node.y + 29}">${escapeHtml(node.label)}</text><text x="${node.x + 16}" y="${node.y + 50}">${escapeHtml(node.risk)} | ${escapeHtml(node.team.split(" ")[0])}</text></g>`;
+    }).join("");
+    $$("[data-node]", target).forEach((nodeEl) => nodeEl.addEventListener("click", () => {
       selected = nodeEl.dataset.node;
       update();
     }));
+  }
+
+  function selectedPanel(current) {
+    return `<div class="note"><strong>${escapeHtml(current.label)}</strong><br>Owner: ${escapeHtml(current.owner)}<br>Team: ${escapeHtml(current.team)}<br>Risk: ${escapeHtml(current.risk)}<br>Evidence: ${escapeHtml(current.evidence)}</div><h3>Related controls</h3><p>${current.controls.map((control) => `<span class="badge">${escapeHtml(control)}</span>`).join(" ")}</p><h3>Dependencies</h3><p class="muted-text">Upstream: ${current.upstream.length ? current.upstream.join(", ") : "None"}<br>Downstream: ${current.downstream.length ? current.downstream.join(", ") : "None"}</p>`;
+  }
+
+  function renderPresentation() {
+    const slide = slideData[slideIndex];
+    const current = nodes.find((node) => node.id === selected) || nodes.find((node) => node.id === slide.selected);
+    const shell = $("[data-impact-presenter]");
+    shell.innerHTML = `
+      <div class="impact-presenter-top">
+        <div><span>${escapeHtml(slide.eyebrow)}</span><h2>${escapeHtml(slide.title)}</h2></div>
+        <div class="impact-presenter-actions">
+          <button data-present-prev aria-label="Previous presentation slide">Previous</button>
+          <button data-present-next aria-label="Next presentation slide">Next</button>
+          <button class="primary" data-present-exit>Exit</button>
+        </div>
+      </div>
+      <div class="impact-presenter">
+        <nav class="impact-slide-rail" aria-label="Presentation sections">
+          ${slideData.map((item, index) => `<button class="impact-slide-button ${index === slideIndex ? "active" : ""}" data-slide="${index}"><span>0${index + 1}</span>${escapeHtml(item.title)}</button>`).join("")}
+        </nav>
+        <section class="impact-stage">
+          <div class="impact-map-card">
+            <svg class="diagram impact-map" viewBox="0 0 1100 420" data-present-map aria-label="Presentation dependency map"></svg>
+          </div>
+          <aside class="impact-inspector">
+            <span class="panel-label">Selected service</span>
+            <div data-present-selected>${selectedPanel(current)}</div>
+          </aside>
+          <section class="impact-evidence-drawer">
+            <div class="panel-head"><h3>Evidence drawer</h3><span class="status review">${escapeHtml(slide.title)}</span></div>
+            ${renderTable(["ID", "Evidence", "Owner", "State"], slide.evidence.map((row) => [escapeHtml(row[0]), escapeHtml(row[1]), escapeHtml(row[2]), `<span class="status ${row[3] === "Ready" ? "ready" : "review"}">${escapeHtml(row[3])}</span>`]))}
+          </section>
+          <aside class="impact-notes">
+            <span class="panel-label">Presenter notes</span>
+            <p>${escapeHtml(slide.notes)}</p>
+          </aside>
+        </section>
+      </div>
+      <ol class="impact-timeline" aria-label="Change timeline">
+        ${timeline.map((item, index) => `<li class="impact-timeline-step ${index + 1 <= slide.progress ? "complete" : ""} ${index + 1 === slide.progress ? "current" : ""}"><span>${index + 1}</span>${escapeHtml(item)}</li>`).join("")}
+      </ol>`;
+    renderMap($("[data-present-map]"), { focus: slide.focus, presenter: true });
+    $$("[data-slide]").forEach((button) => button.addEventListener("click", () => setSlide(Number(button.dataset.slide))));
+    $("[data-present-prev]").addEventListener("click", () => setSlide(slideIndex - 1));
+    $("[data-present-next]").addEventListener("click", () => setSlide(slideIndex + 1));
+    $("[data-present-exit]").addEventListener("click", () => setPresentation(false));
+  }
+
+  function update() {
+    const visible = nodes.filter((node) => riskFilter === "All" || node.risk === riskFilter);
+    const current = nodes.find((node) => node.id === selected) || visible[0] || nodes[0];
+    selected = current.id;
+    renderMap($("[data-map]"), { focus: riskFilter === "Critical" ? criticalPath : [] });
+    $("[data-selected]").innerHTML = selectedPanel(current);
+    $("[data-evidence]").innerHTML = renderTable(["ID", "Document", "Owner", "Status"], visible.map((node, index) => [`EV-${1042 + index}`, escapeHtml(node.evidence), escapeHtml(node.team), `<span class="status ${node.risk === "Critical" ? "review" : "ready"}">${node.risk === "Critical" ? "Review" : "Ready"}</span>`]));
+    if (presenting) renderPresentation();
+  }
+
+  function setSlide(index) {
+    slideIndex = (index + slideData.length) % slideData.length;
+    selected = slideData[slideIndex].selected;
+    renderPresentation();
+  }
+
+  function setPresentation(active) {
+    presenting = active;
+    document.body.classList.toggle("impact-presentation-active", active);
+    $("[data-impact-normal]").hidden = active;
+    $("[data-impact-presenter]").hidden = !active;
+    if (active) {
+      selected = slideData[slideIndex].selected;
+      renderPresentation();
+      $("[data-impact-presenter]").focus?.();
+    } else {
+      update();
+    }
   }
   $("[data-risk]").addEventListener("change", (event) => {
     riskFilter = event.target.value;
@@ -689,7 +871,32 @@ function renderImpact() {
   });
   $("[data-copy]").addEventListener("click", (event) => {
     const current = nodes.find((node) => node.id === selected);
-    copyText(`Reviewer checklist for ${current.label}\n- Confirm owner: ${current.team}\n- Review evidence: ${current.evidence}\n- Validate rollback and monitoring\n- Record decision outside this demo`, event.currentTarget);
+    copyText(`Reviewer checklist for ${current.label}\n- Confirm owner: ${current.owner} (${current.team})\n- Review evidence: ${current.evidence}\n- Validate upstream dependencies: ${current.upstream.join(", ") || "None"}\n- Validate downstream dependencies: ${current.downstream.join(", ") || "None"}\n- Record decision outside this demo`, event.currentTarget);
+  });
+  $$("[data-impact-present]").forEach((button) => button.addEventListener("click", () => setPresentation(true)));
+  document.addEventListener("keydown", (event) => {
+    const target = event.target;
+    const isTyping = target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
+    if (isTyping) return;
+    if (event.key.toLowerCase() === "p" && !presenting) {
+      event.preventDefault();
+      setPresentation(true);
+      return;
+    }
+    if (!presenting) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setPresentation(false);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      setSlide(slideIndex + 1);
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      setSlide(slideIndex - 1);
+    } else if (/^[1-6]$/.test(event.key)) {
+      event.preventDefault();
+      setSlide(Number(event.key) - 1);
+    }
   });
   update();
 }
