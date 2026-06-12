@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Enterprise-focused HTML and LLM examples for business users and engineers in regulated environments.">
+  <title>HTML and LLMs for Enterprise Work | Vishal Shah</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="https://vishalshah.app" aria-label="Vishal Shah home">
+        <span class="brand-mark">VS</span>
+        <span class="brand-text">HTML and LLMs <small>for enterprise work</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="https://vishalshah.app">Home</a>
+        <a href="#samples">Samples</a>
+        <a href="#business">Business</a>
+        <a href="#engineering">Engineering</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#boundaries">Boundaries</a>
+        <button type="button" data-open-presenter>Present</button>
+        <button class="theme-toggle" type="button" data-theme-toggle>Light</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="shell hero" id="top">
+      <div class="reveal">
+        <p class="hero-kicker">HTML and LLMs for enterprise work</p>
+        <h1>Show the work, not just the prompt.</h1>
+        <p class="hero-copy">
+          Twelve browser-native artifacts that make AI-assisted output inspectable, interactive, and useful in enterprise settings. Built with static HTML, CSS, SVG, and a bit of JavaScript.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#samples">Open the showcase</a>
+          <a class="button" href="#evidence">See the evidence</a>
+        </div>
+        <p class="credit">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l1.7 5.2L19 9l-5.3 1.8L12 16l-1.7-5.2L5 9l5.3-1.8L12 2Zm6 10l.9 2.6 2.6.9-2.6.9L18 19l-.9-2.6-2.6-.9 2.6-.9L18 12Z" fill="currentColor"/></svg>
+          <span>Inspired by <a href="https://thariqs.github.io/html-effectiveness/">Thariq Shihipar's original HTML effectiveness examples</a>. This site uses original enterprise scenarios, copy, sample data, and design.</span>
+        </p>
+      </div>
+
+      <div class="cockpit reveal" aria-label="Browser-native enterprise artifact preview">
+        <div class="cockpit-grid">
+          <section class="cockpit-card">
+            <h2>1. Decision brief</h2>
+            <div class="recommendation">Proceed with phased entry via governed pilot.</div>
+            <div class="check-list">
+              <span>Business impact visible</span>
+              <span>Risk trade-offs reviewable</span>
+              <span>Decision caveat explicit</span>
+            </div>
+            <div class="mini-metrics">
+              <div class="mini-metric"><strong>12</strong><span>Controls</span></div>
+              <div class="mini-metric"><strong>6</strong><span>Owners</span></div>
+              <div class="mini-metric"><strong>4</strong><span>Risks</span></div>
+            </div>
+          </section>
+          <section class="cockpit-card">
+            <h2>2. Dependency map (SVG)</h2>
+            <svg class="dependency-svg" viewBox="0 0 360 180" role="img" aria-label="Service dependency diagram">
+              <path class="link" d="M68 84 C122 36 184 36 238 84"></path>
+              <path class="link" d="M68 104 C126 142 190 142 256 110"></path>
+              <path class="link" d="M238 84 C274 76 292 76 320 84"></path>
+              <rect class="node hot" x="18" y="66" width="100" height="44" rx="7"></rect>
+              <rect class="node" x="148" y="22" width="100" height="44" rx="7"></rect>
+              <rect class="node" x="148" y="114" width="100" height="44" rx="7"></rect>
+              <rect class="node" x="260" y="66" width="82" height="44" rx="7"></rect>
+              <text x="38" y="92">Order Svc</text>
+              <text x="168" y="49">API Gate</text>
+              <text x="170" y="141">Payments</text>
+              <text x="279" y="92">Portal</text>
+            </svg>
+            <p>Solid lines, dotted paths, and selected nodes stay code-native and inspectable.</p>
+          </section>
+          <section class="cockpit-card">
+            <h2>3. Risk register (CSV)</h2>
+            <table class="data-table">
+              <thead><tr><th>ID</th><th>Risk</th><th>Owner</th><th>Score</th></tr></thead>
+              <tbody>
+                <tr><td>R-101</td><td>Data residency</td><td>Priya</td><td>12</td></tr>
+                <tr><td>R-104</td><td>Privileged access</td><td>Sam</td><td>8</td></tr>
+                <tr><td>R-107</td><td>Rollback gap</td><td>Lee</td><td>6</td></tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="cockpit-card">
+            <h2>4. Evidence pack</h2>
+            <div class="pack-row"><strong>01_decision-brief.html</strong><span>42 KB</span></div>
+            <div class="pack-row"><strong>02_dependency-map.svg</strong><span>18 KB</span></div>
+            <div class="pack-row"><strong>03_risk-register.csv</strong><span>5 KB</span></div>
+            <div class="pack-row"><strong>readme.txt</strong><span>2 KB</span></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell proof-strip reveal" aria-label="Verification summary">
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <strong>Runs anywhere</strong><span>Static files. No app server required for the public demo.</span>
+      </div>
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <strong>Fictional data</strong><span>No company data, customer data, secrets, or employer branding.</span>
+      </div>
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 18-6-6 6-6M16 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <strong>Web standards</strong><span>HTML, CSS, SVG, File API, storage, and clipboard patterns.</span>
+      </div>
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6l4 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <strong>Reviewable</strong><span>Every sample states what it can and cannot prove.</span>
+      </div>
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <strong>Shareable</strong><span>Open, copy, download, print, and link from GitHub Pages.</span>
+      </div>
+    </section>
+
+    <section class="shell section-block reveal" id="business">
+      <div class="section-head">
+        <h2>Two enterprise lenses, one browser.</h2>
+        <p>HTML is not replacing enterprise systems. It is a high-signal artifact format for turning AI-assisted thinking into something humans can inspect, operate, and challenge.</p>
+      </div>
+      <div class="lens-grid">
+        <article class="lens-card">
+          <div class="lens-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-8 0v2M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div>
+            <h3>Business and office users</h3>
+            <p>Useful when work is cross-functional, decision-heavy, and usually trapped in static notes, decks, or spreadsheets.</p>
+            <ul>
+              <li>Compare options without losing the decision context.</li>
+              <li>Turn meeting notes into tracked actions and follow-ups.</li>
+              <li>Navigate policy and process paths by role and intent.</li>
+              <li>Triage CSV-like business data before raising system work.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="lens-card" id="engineering">
+          <div class="lens-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 18-6-6 6-6M16 6l6 6-6 6M14 4l-4 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div>
+            <h3>Regulated-enterprise engineers</h3>
+            <p>Useful when the artifact must explain risk, dependencies, evidence, and review focus without pretending to be the source of truth.</p>
+            <ul>
+              <li>Show architecture choices as interactive decision records.</li>
+              <li>Make change impact visible with dependency maps.</li>
+              <li>Prepare review aids, incident narratives, and control packs.</li>
+              <li>Keep boundaries explicit: demo, draft, review aid, not approval.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section-block reveal" id="samples">
+      <div class="section-head">
+        <h2>Explore the 12 samples.</h2>
+        <p>Each sample is a standalone, public-safe HTML artifact with real interaction, richer fictional data, diagrams, prompt cards, and boundary notes.</p>
+      </div>
+      <div class="samples-toolbar">
+        <div class="segment" aria-label="Filter samples by lens">
+          <button class="active" type="button" data-filter="all">All 12</button>
+          <button type="button" data-filter="business">Business 6</button>
+          <button type="button" data-filter="engineering">Engineering 6</button>
+        </div>
+        <a class="button" href="samples/decision-brief-explorer.html">Open first sample</a>
+      </div>
+      <div class="sample-grid">
+        <a class="sample-card" data-lens="business" href="samples/decision-brief-explorer.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="18" y="22" width="130" height="78" rx="6" fill="none" stroke="currentColor" opacity=".35"/><rect x="174" y="22" width="128" height="78" rx="6" fill="none" stroke="currentColor" opacity=".55"/><path d="M48 78h70M48 55h92M204 82h70M204 58h88" stroke="currentColor" opacity=".4"/><path d="M148 62h26" stroke="var(--accent)" stroke-width="3"/><circle cx="238" cy="62" r="21" fill="none" stroke="var(--accent)" stroke-width="3"/><path d="M228 63l7 7 17-20" fill="none" stroke="var(--accent)" stroke-width="3"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">01</span><span class="tag">Business</span></div><h3>Decision brief explorer</h3><p>Weighted criteria, options matrix, stakeholder heatmap, and exportable recommendation.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="business" href="samples/meeting-action-tracker.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><path d="M58 26v78" stroke="currentColor" opacity=".35"/><circle cx="58" cy="34" r="7" fill="var(--accent)"/><circle cx="58" cy="66" r="7" fill="var(--green)"/><circle cx="58" cy="98" r="7" fill="var(--red)"/><path d="M82 34h166M82 66h128M82 98h184" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity=".35"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">02</span><span class="tag">Business</span></div><h3>Meeting action tracker</h3><p>Owner filters, due timeline, decision log, persisted state, and follow-up export.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="business" href="samples/policy-process-navigator.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="28" y="50" width="58" height="36" rx="6" fill="none" stroke="var(--accent)"/><rect x="132" y="20" width="58" height="36" rx="6" fill="none" stroke="currentColor" opacity=".45"/><rect x="232" y="78" width="58" height="36" rx="6" fill="none" stroke="currentColor" opacity=".45"/><path d="M86 68h28q18 0 18-18v-12M190 38h24q18 0 18 18v40" fill="none" stroke="var(--accent)" stroke-width="2"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">03</span><span class="tag">Business</span></div><h3>Policy/process navigator</h3><p>Role selector, process map, approval flow, controls, and RACI-style guidance.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="business" href="samples/csv-triage-workspace.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="28" y="20" width="264" height="88" rx="6" fill="none" stroke="currentColor" opacity=".4"/><path d="M28 46h264M28 72h264M28 98h264M102 20v88M190 20v88" stroke="currentColor" opacity=".22"/><rect x="42" y="55" width="42" height="10" rx="5" fill="var(--accent)"/><rect x="206" y="82" width="58" height="10" rx="5" fill="var(--red)"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">04</span><span class="tag">Business</span></div><h3>CSV triage workspace</h3><p>Upload or paste CSV, quality scorecards, filters, anomaly flags, and cleaned export.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="business" href="samples/risk-acceptance-brief.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="46" y="22" width="36" height="30" fill="var(--green)" opacity=".55"/><rect x="82" y="22" width="36" height="30" fill="var(--accent)" opacity=".55"/><rect x="118" y="22" width="36" height="30" fill="var(--red)" opacity=".55"/><rect x="46" y="52" width="36" height="30" fill="var(--green)" opacity=".35"/><rect x="82" y="52" width="36" height="30" fill="var(--accent)" opacity=".35"/><rect x="118" y="52" width="36" height="30" fill="var(--red)" opacity=".35"/><path d="M196 34h72M196 62h52M196 90h64" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".4"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">05</span><span class="tag">Business</span></div><h3>Risk acceptance brief</h3><p>5x5 matrix, mitigation timeline, control checklist, and printable risk draft.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="business" href="samples/customer-conversation-simulator.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="35" y="28" width="116" height="40" rx="18" fill="none" stroke="currentColor" opacity=".42"/><rect x="170" y="72" width="118" height="42" rx="18" fill="none" stroke="var(--accent)"/><circle cx="70" cy="92" r="16" fill="var(--accent)" opacity=".55"/><circle cx="236" cy="40" r="16" fill="var(--blue)" opacity=".55"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">06</span><span class="tag">Business</span></div><h3>Customer conversation simulator</h3><p>Branching scenarios, tone comparison, response checklist, and safe-language boundary.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="engineering" href="samples/architecture-decision-record.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="30" y="36" width="70" height="58" rx="6" fill="none" stroke="currentColor" opacity=".38"/><rect x="125" y="36" width="70" height="58" rx="6" fill="none" stroke="var(--accent)"/><rect x="220" y="36" width="70" height="58" rx="6" fill="none" stroke="currentColor" opacity=".38"/><path d="M100 65h25M195 65h25" stroke="var(--accent)" stroke-width="3"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">07</span><span class="tag engineering">Engineering</span></div><h3>Architecture decision record</h3><p>Option scorecards, current/target diagram, timeline, consequences, and ADR export.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="engineering" href="samples/change-impact-map.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><path d="M84 65 C122 20 190 20 236 65 C190 110 122 110 84 65Z" fill="none" stroke="currentColor" opacity=".35"/><circle cx="84" cy="65" r="24" fill="none" stroke="var(--accent)"/><circle cx="236" cy="65" r="24" fill="none" stroke="currentColor" opacity=".5"/><circle cx="160" cy="28" r="18" fill="none" stroke="var(--red)"/><circle cx="160" cy="102" r="18" fill="none" stroke="var(--green)"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">08</span><span class="tag engineering">Engineering</span></div><h3>Change impact map</h3><p>Interactive node graph, risk paths, filters, evidence table, and reviewer checklist.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="engineering" href="samples/pull-request-reviewer-aid.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="30" y="20" width="168" height="90" rx="6" fill="none" stroke="currentColor" opacity=".38"/><path d="M52 46h92M52 68h120M52 90h84" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".36"/><rect x="222" y="36" width="68" height="54" rx="6" fill="none" stroke="var(--accent)"/><path d="M238 55h34M238 72h24" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">09</span><span class="tag engineering">Engineering</span></div><h3>Pull request reviewer aid</h3><p>Annotated diff mock, severity filters, reviewer checklist, and ownership matrix.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="engineering" href="samples/incident-timeline.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><path d="M62 22v88" stroke="currentColor" opacity=".35"/><circle cx="62" cy="34" r="8" fill="var(--accent)"/><circle cx="62" cy="66" r="8" fill="var(--red)"/><circle cx="62" cy="98" r="8" fill="var(--green)"/><path d="M88 34h154M88 66h118M88 98h176" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity=".38"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">10</span><span class="tag engineering">Engineering</span></div><h3>Incident timeline</h3><p>Multi-lane timeline, five-whys, event filters, remediation board, and export.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="engineering" href="samples/control-evidence-pack.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="42" y="26" width="88" height="78" rx="6" fill="none" stroke="currentColor" opacity=".38"/><rect x="156" y="26" width="124" height="78" rx="6" fill="none" stroke="var(--accent)"/><path d="M66 52l10 10 24-28M66 86l10 10 24-28" fill="none" stroke="var(--accent)" stroke-width="4"/><path d="M180 52h68M180 76h48M180 94h58" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".38"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">11</span><span class="tag engineering">Engineering</span></div><h3>Control evidence pack</h3><p>Evidence readiness dashboard, checklist, heatmap, and non-attestation boundary.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+        <a class="sample-card" data-lens="engineering" href="samples/feature-flag-risk-editor.html">
+          <div class="sample-thumb"><svg viewBox="0 0 320 130"><rect x="38" y="32" width="244" height="20" rx="10" fill="none" stroke="var(--accent)"/><circle cx="260" cy="42" r="13" fill="var(--accent)"/><rect x="38" y="76" width="244" height="20" rx="10" fill="none" stroke="currentColor" opacity=".42"/><circle cx="60" cy="86" r="13" fill="currentColor" opacity=".35"/><path d="M160 52v24" stroke="var(--red)" stroke-width="3"/></svg></div>
+          <div class="sample-body"><div class="sample-meta"><span class="sample-number">12</span><span class="tag engineering">Engineering</span></div><h3>Feature-flag risk editor</h3><p>Toggle matrix, dependency graph, blast-radius score, rollout timeline, and JSON export.</p><span class="sample-link">Open sample <span>→</span></span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="evidence-band" id="evidence">
+      <div class="shell section-block reveal">
+        <div class="section-head">
+          <h2>Evidence first. Claims second.</h2>
+          <p>The demos rely on ordinary web platform capabilities. Where a capability matters, the page links to browser, standard, accessibility, or security references.</p>
+        </div>
+        <div class="evidence-grid">
+          <article class="source-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>HTML standard</h3><p><a href="https://html.spec.whatwg.org/multipage/">WHATWG HTML Living Standard</a> documents the language itself.</p></div></article>
+          <article class="source-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>Files and storage</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/File_API">MDN File API</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">Web Storage API</a> support local inputs and state.</p></div></article>
+          <article class="source-card"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="6" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.6 10.6 15.4 7.4M8.6 13.4l6.8 3.2" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>Visual systems</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/SVG">MDN SVG</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a> document browser-native graphics.</p></div></article>
+          <article class="source-card"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 9h14M12 7v14M8 21l4-8 4 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><div><h3>Accessibility</h3><p><a href="https://www.w3.org/TR/WCAG22/">W3C WCAG 2.2</a> guides keyboard, contrast, semantics, and inclusive interaction expectations.</p></div></article>
+          <article class="source-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 12l2 2 4-5" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>Security caveats</h3><p><a href="https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html">OWASP CSP guidance</a> frames browser content as something to review deliberately.</p></div></article>
+          <article class="source-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>What is proved here</h3><p>The site demonstrates browser-native interaction, diagrams, local parsing, export, and presentation flow using fictional data.</p></div></article>
+        </div>
+        <div class="verification" aria-label="Static site verification checklist">
+          <div class="verify-item"><strong>12</strong><span>HTML samples</span></div>
+          <div class="verify-item"><strong>0</strong><span>Build steps</span></div>
+          <div class="verify-item"><strong>0</strong><span>Runtime frameworks</span></div>
+          <div class="verify-item"><strong>Yes</strong><span>GitHub Pages ready</span></div>
+          <div class="verify-item"><strong>Yes</strong><span>Fictional data</span></div>
+          <div class="verify-item"><strong>Yes</strong><span>Boundaries stated</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell section-block reveal" id="boundaries">
+      <div class="section-head">
+        <h2>Boundaries protect credibility.</h2>
+        <p>These artifacts can make enterprise work easier to review, but they should never blur the line between a useful demo and governed enterprise process.</p>
+      </div>
+      <div class="boundary-grid">
+        <article class="boundary-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>No production approval</h3><p>Formal approval still belongs in governed enterprise systems with identity, logging, ownership, and retention.</p></div></article>
+        <article class="boundary-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10M7 4v16M17 4v8" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>No sensitive data</h3><p>All sample content is fictional. Real use needs data classification, privacy, access, and retention review.</p></div></article>
+        <article class="boundary-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10M7 12h6M5 20l3-3h11a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2Z" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>No hidden AI claim</h3><p>The HTML demonstrates artifact design. AI output quality, facts, and accuracy require separate human evaluation.</p></div></article>
+        <article class="boundary-card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11 12 14 22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" fill="none" stroke="currentColor" stroke-width="2"/></svg><div><h3>No compliance attestation</h3><p>Control packs and risk briefs are drafts or review aids, not audit evidence by themselves.</p></div></article>
+      </div>
+    </section>
+
+    <section class="shell section-block reveal">
+      <div class="presentation-strip">
+        <div>
+          <h2>Built for a talk, useful after the talk.</h2>
+          <p>Press P or use the Present button for a short keyboard-friendly walkthrough. The same page can be linked from LinkedIn or vishalshah.app.</p>
+        </div>
+        <div class="key-row" aria-label="Presentation keyboard controls">
+          <kbd>P</kbd><kbd>←</kbd><kbd>→</kbd><kbd>Esc</kbd>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div class="footer-brand">
+        <span class="brand-mark">VS</span>
+        <div>
+          <h2>Vishal Shah</h2>
+          <p>Enterprise AI Platform Architect. Operator. Builder.</p>
+        </div>
+      </div>
+      <div>
+        <h2>This site</h2>
+        <p><a href="#samples">Samples</a><br><a href="#business">Business lens</a><br><a href="#engineering">Engineering lens</a><br><a href="#evidence">Evidence</a><br><a href="#boundaries">Boundaries</a></p>
+      </div>
+      <div>
+        <h2>References</h2>
+        <p><a href="https://html.spec.whatwg.org/multipage/">HTML Living Standard</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/File_API">MDN File API</a><br><a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a><br><a href="https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html">OWASP CSP Cheat Sheet</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="presenter" data-presenter aria-hidden="true" role="dialog" aria-label="Presentation mode">
+    <section class="slide active" data-slide><div class="slide-inner"><h2>HTML can be a working artifact.</h2><p>Not a transcript. Not only markdown. A browser-native object people can inspect, change, present, and export.</p></div></section>
+    <section class="slide" data-slide><div class="slide-inner"><h2>The enterprise question is credibility.</h2><p>Every strong claim must be visible in the artifact, linked to a public reference, or bounded clearly.</p></div></section>
+    <section class="slide" data-slide><div class="slide-inner"><h2>Business users need shape.</h2><p>Decisions, meetings, policies, CSV triage, risks, and conversations become navigable workspaces.</p></div></section>
+    <section class="slide" data-slide><div class="slide-inner"><h2>Engineers need reviewable evidence.</h2><p>Architecture choices, change impact, PR review, incidents, controls, and feature flags become visible.</p></div></section>
+    <section class="slide" data-slide><div class="slide-inner"><h2>The boundary is the message.</h2><p>HTML can improve the artifact. Enterprise approval, identity, controls, data governance, and system integration still matter.</p></div></section>
+    <div class="presenter-bar">
+      <button type="button" data-close-presenter>Close</button>
+      <span data-slide-count>1 / 5</span>
+      <span><button type="button" data-prev-slide>Previous</button> <button type="button" data-next-slide>Next</button></span>
+    </div>
+  </div>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>
