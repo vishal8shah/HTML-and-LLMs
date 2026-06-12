@@ -1,6 +1,8 @@
 # Enterprise HTML Effectiveness
 
-A static GitHub Pages showcase for enterprise-focused HTML artifacts created with LLMs.
+A static collection of self-contained HTML artifacts for enterprise-focused work
+created with LLMs. Each page embeds its CSS and JavaScript, opens directly in the
+browser, uses no framework, no backend, and no build step.
 
 The site is designed to support an AI guild presentation and public sharing from
 [vishalshah.app](https://vishalshah.app). It demonstrates how HTML can turn AI-assisted
@@ -16,10 +18,14 @@ and fictional sample data.
 
 ## What is included
 
-- `index.html` - the public showcase page.
-- `samples/` - twelve standalone HTML sample entry points.
-- `assets/site.css` and `assets/site.js` - shared landing page styling, theme toggle, sample filtering, and presenter mode.
-- `assets/sample.css` and `assets/sample.js` - shared sample runtime, diagrams, local state, copy/download actions, prompts, and boundaries.
+- `index.html` - the public showcase page with inline CSS and inline JavaScript.
+- `samples/` - twelve self-contained browser-native artifacts. Each sample is a
+  `.html` file with inline CSS and inline JavaScript.
+- `assets/social-preview.html` - editable source for the social preview image.
+- `assets/social-preview.png` - Open Graph/Twitter preview image used by metadata.
+
+There are no runtime external CSS or JavaScript dependencies for the landing page
+or demos. The `assets/` folder remains only for the social preview files.
 
 ## Enterprise lenses
 
@@ -57,7 +63,8 @@ such as WHATWG HTML, MDN Web Docs, W3C WCAG, or OWASP guidance.
 
 ## Local preview
 
-Open `index.html` directly in a browser, or run a static server from the repo root:
+Open `index.html` or any file under `samples/` directly in a browser. A static
+server is optional and useful when checking the GitHub Pages path:
 
 ```powershell
 python -m http.server 4173

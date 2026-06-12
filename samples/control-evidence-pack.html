@@ -4,10 +4,2307 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Control evidence pack | Enterprise HTML</title>
-  <link rel="stylesheet" href="../assets/sample.css">
+  <style>
+:root {
+  color-scheme: dark;
+  --bg: oklch(14% 0 0);
+  --bg-2: oklch(11% 0 0);
+  --surface: oklch(17% 0 0);
+  --surface-2: oklch(20% 0 0);
+  --ink: oklch(96% 0 0);
+  --muted: oklch(66% 0 0);
+  --faint: oklch(48% 0 0);
+  --line: oklch(26% 0 0);
+  --line-strong: oklch(34% 0 0);
+  --accent: oklch(82% .14 78);
+  --accent-2: #ffb43b;
+  --accent-ink: oklch(14% 0 0);
+  --blue: #62a8ff;
+  --green: #63c981;
+  --red: #ff6b57;
+  --orange: #ff8b3d;
+  --shadow: 0 24px 80px rgba(0, 0, 0, .38);
+  --radius: 8px;
+  --sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: oklch(98.5% 0 0);
+  --bg-2: oklch(96% 0 0);
+  --surface: oklch(100% 0 0);
+  --surface-2: oklch(94.5% 0 0);
+  --ink: oklch(18% 0 0);
+  --muted: oklch(45% 0 0);
+  --faint: oklch(60% 0 0);
+  --line: oklch(88% 0 0);
+  --line-strong: oklch(76% 0 0);
+  --accent: oklch(78% .14 78);
+  --accent-2: #c68509;
+  --accent-ink: oklch(18% 0 0);
+  --shadow: 0 24px 70px rgba(0, 0, 0, .12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 78% 6%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 34rem),
+    linear-gradient(180deg, var(--bg-2), var(--bg) 30rem),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: .18;
+  background-image:
+    radial-gradient(circle, color-mix(in srgb, var(--line-strong) 55%, transparent) 1px, transparent 1.5px),
+    linear-gradient(color-mix(in srgb, var(--line) 50%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--line) 50%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px, 36px 36px, 36px 36px;
+  mask-image: linear-gradient(180deg, #000, transparent 78%);
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.sample-shell {
+  width: min(1440px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.sample-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.sample-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 72px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  font-family: var(--mono);
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  color: var(--accent);
+  font-size: 19px;
+}
+
+.brand-text {
+  display: grid;
+  gap: 1px;
+  font-size: 13px;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.brand-text small {
+  color: var(--muted);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.links a,
+.links button {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: 800 12px/1 var(--mono);
+  padding: 10px 11px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.links a:hover,
+.links button:hover {
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font: 700 12px/1 var(--mono);
+  padding: 8px 11px;
+  text-transform: uppercase;
+}
+
+.theme-toggle::before {
+  content: "";
+  width: 22px;
+  height: 12px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent 44%, var(--accent) 45%);
+}
+
+.sample-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .52fr);
+  gap: 18px;
+  align-items: stretch;
+  padding: 38px 0 20px;
+}
+
+.hero-panel,
+.proof-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  padding: 26px;
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .72fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.crumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--muted);
+  font: 700 13px/1.2 var(--mono);
+}
+
+.crumb a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.crumb span:last-child {
+  color: var(--accent);
+}
+
+.sample-subnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 0 26px;
+}
+
+.sample-pager {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.sample-pager a,
+.sample-pager span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--muted);
+  font: 800 11px/1 var(--mono);
+  padding: 9px 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.sample-pager a {
+  color: var(--ink);
+}
+
+.sample-pager a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sample-pager span {
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
+  color: var(--accent);
+}
+
+.sample-hero h1 {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: clamp(38px, 5.4vw, 74px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.sample-hero p {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stat {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-2);
+  padding: 14px;
+}
+
+.stat strong {
+  display: block;
+  color: var(--accent);
+  font: 800 24px/1 var(--mono);
+}
+
+.stat span {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font: 700 11px/1.35 var(--mono);
+  text-transform: uppercase;
+}
+
+.proof-panel {
+  display: grid;
+  gap: 22px;
+}
+
+.proof-panel h2,
+.workspace h2,
+.panel h2,
+.panel h3 {
+  margin: 0;
+  font: 700 15px/1.35 var(--mono);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.proof-list {
+  display: grid;
+  gap: 9px;
+  color: var(--muted);
+  font: 600 13px/1.45 var(--mono);
+}
+
+.proof-list span::before {
+  content: "✓";
+  color: var(--accent);
+  margin-right: 9px;
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.badge {
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  color: var(--muted);
+  font: 800 11px/1 var(--mono);
+  padding: 7px 9px;
+}
+
+.badge.good {
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--line));
+  color: var(--accent);
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr) 360px;
+  gap: 14px;
+  align-items: start;
+  padding: 0 0 78px;
+}
+
+.panel,
+.workspace {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .16);
+}
+
+.panel {
+  padding: 18px;
+}
+
+.workspace {
+  min-height: 620px;
+  overflow: hidden;
+}
+
+.workspace-head,
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding: 16px 18px;
+}
+
+.workspace-body {
+  padding: 18px;
+}
+
+.control-group {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+label,
+.label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font: 760 12px/1.35 var(--mono);
+  text-transform: uppercase;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--bg-2);
+  color: var(--ink);
+  padding: 11px 12px;
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+button,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  font: 820 12px/1 var(--mono);
+  padding: 10px 13px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+button.primary,
+.button.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+button:hover,
+.button:hover {
+  border-color: var(--accent);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tabs button.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mini-card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-2);
+  padding: 15px;
+}
+
+.mini-card.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+
+.mini-card h3 {
+  margin: 0 0 8px;
+  font: 700 16px/1.3 var(--mono);
+  text-transform: none;
+}
+
+.mini-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0;
+}
+
+.metric:last-child {
+  border-bottom: 0;
+}
+
+.meter {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+}
+
+.data-table,
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--faint);
+  font: 800 11px/1.25 var(--mono);
+  text-transform: uppercase;
+}
+
+td {
+  color: var(--muted);
+}
+
+td strong {
+  color: var(--ink);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--muted);
+  font: 800 11px/1 var(--mono);
+  padding: 5px 8px;
+}
+
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status.high,
+.status.critical,
+.status.blocked,
+.status.missing {
+  color: var(--red);
+}
+
+.status.medium,
+.status.review,
+.status.draft {
+  color: var(--accent);
+}
+
+.status.low,
+.status.ready,
+.status.approved,
+.status.done {
+  color: var(--green);
+}
+
+.note {
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--ink);
+  padding: 13px;
+}
+
+.note.warning {
+  border-left-color: var(--orange);
+}
+
+.note.danger {
+  border-left-color: var(--red);
+  background: color-mix(in srgb, var(--red) 11%, transparent);
+}
+
+.output {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-2);
+  color: var(--ink);
+  font: 650 12px/1.55 var(--mono);
+  min-height: 190px;
+  overflow: auto;
+  padding: 14px;
+  white-space: pre-wrap;
+}
+
+.diagram {
+  width: 100%;
+  min-height: 300px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--line-strong) 58%, transparent) 1px, transparent 1.5px),
+    var(--bg-2);
+  background-size: 18px 18px;
+}
+
+.diagram text {
+  fill: var(--ink);
+  font: 750 12px var(--mono);
+  pointer-events: none;
+}
+
+.diagram .node {
+  fill: var(--surface);
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  cursor: pointer;
+}
+
+.diagram .node.active {
+  fill: color-mix(in srgb, var(--accent) 13%, var(--surface));
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+
+.diagram .node.high {
+  stroke: var(--red);
+}
+
+.diagram .node.medium {
+  stroke: var(--accent);
+}
+
+.diagram .node.low {
+  stroke: var(--green);
+}
+
+.diagram .line {
+  fill: none;
+  stroke: var(--faint);
+  stroke-width: 1.8;
+}
+
+.diagram .line.hot {
+  stroke: var(--accent);
+  stroke-width: 2.6;
+}
+
+.diagram .line.danger {
+  stroke: var(--red);
+}
+
+.diagram .line.dashed {
+  stroke-dasharray: 5 5;
+}
+
+.impact-presentation-active .app-grid {
+  grid-template-columns: 1fr;
+}
+
+.impact-presentation-active [data-controls],
+.impact-presentation-active [data-inspector] {
+  display: none;
+}
+
+.impact-presentation-active .workspace {
+  min-height: 760px;
+}
+
+.impact-presenter-shell {
+  display: grid;
+  gap: 16px;
+}
+
+.impact-presenter-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 44%),
+    var(--bg-2);
+}
+
+.impact-presenter-top span,
+.panel-label {
+  display: block;
+  color: var(--accent);
+  font: 850 11px/1.2 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.impact-presenter-top h2 {
+  margin: 7px 0 0;
+  color: var(--ink);
+  font-size: clamp(30px, 5vw, 56px);
+  letter-spacing: -0.04em;
+  line-height: .95;
+}
+
+.impact-presenter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.impact-presenter {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.impact-slide-rail {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.impact-slide-button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 62px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: var(--muted);
+  text-align: left;
+}
+
+.impact-slide-button span {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--accent);
+  font: 900 11px/1 var(--mono);
+}
+
+.impact-slide-button.active {
+  border-color: color-mix(in srgb, var(--accent) 62%, var(--line));
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-2));
+  color: var(--ink);
+}
+
+.impact-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(240px, .45fr);
+  grid-template-areas:
+    "map inspector"
+    "evidence notes";
+  gap: 14px;
+}
+
+.impact-map-card,
+.impact-inspector,
+.impact-evidence-drawer,
+.impact-notes {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, transparent), var(--bg-2));
+  box-shadow: 0 18px 70px color-mix(in srgb, #000 20%, transparent);
+}
+
+.impact-map-card {
+  position: relative;
+  grid-area: map;
+  overflow: hidden;
+}
+
+.impact-map-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 48%);
+}
+
+.impact-map {
+  position: relative;
+  min-height: 430px;
+  border: 0;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--line-strong) 58%, transparent) 1px, transparent 1.5px),
+    color-mix(in srgb, var(--bg-2) 82%, #000);
+  background-size: 20px 20px;
+}
+
+.diagram .node.spotlight {
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 75%, transparent));
+}
+
+.diagram .line.critical {
+  stroke-dasharray: 10 7;
+  animation: dashFlow 1.6s linear infinite;
+}
+
+.impact-inspector {
+  grid-area: inspector;
+  padding: 16px;
+}
+
+.impact-inspector .note,
+.impact-notes p {
+  margin-top: 12px;
+}
+
+.muted-text {
+  color: var(--muted);
+}
+
+.impact-evidence-drawer {
+  grid-area: evidence;
+  padding: 16px;
+  animation: drawerReveal .28s ease both;
+}
+
+.impact-notes {
+  grid-area: notes;
+  padding: 16px;
+}
+
+.impact-notes p {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.impact-timeline {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.impact-timeline-step {
+  display: grid;
+  gap: 8px;
+  min-height: 74px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+  color: var(--muted);
+  font: 800 11px/1.25 var(--mono);
+}
+
+.impact-timeline-step span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+
+.impact-timeline-step.complete {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+}
+
+.impact-timeline-step.current {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-2));
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -34;
+  }
+}
+
+@keyframes drawerReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.matrix-cell {
+  display: grid;
+  min-height: 58px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--bg-2);
+  color: var(--muted);
+  font: 800 12px/1 var(--mono);
+}
+
+.matrix-cell.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+}
+
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+.heatmap span {
+  min-height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 12px;
+}
+
+.event {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-2);
+  padding: 14px;
+}
+
+.event time {
+  color: var(--accent);
+  font: 800 13px/1 var(--mono);
+}
+
+.event p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+  padding: 13px 0;
+}
+
+.switch {
+  position: relative;
+  width: 54px;
+  height: 30px;
+  flex: 0 0 auto;
+}
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--line-strong);
+  cursor: pointer;
+}
+
+.slider::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: transform 160ms ease;
+}
+
+.switch input:checked + .slider {
+  background: var(--accent);
+}
+
+.switch input:checked + .slider::after {
+  transform: translateX(24px);
+  background: var(--accent-ink);
+}
+
+.artifact-sections {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 0 0 42px;
+}
+
+.artifact-sections .panel {
+  min-height: 210px;
+}
+
+.artifact-sections p {
+  color: var(--muted);
+}
+
+.prompt {
+  font: 650 12px/1.6 var(--mono);
+  white-space: pre-wrap;
+}
+
+.footer-note {
+  border-top: 1px solid var(--line);
+  padding: 28px 0 44px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.footer-note a {
+  color: var(--ink);
+  text-decoration-color: var(--accent);
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 1180px) {
+  .sample-hero,
+  .hero-panel,
+  .app-grid,
+  .artifact-sections,
+  .impact-presenter,
+  .impact-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace {
+    min-height: 0;
+  }
+
+  .impact-stage {
+    grid-template-areas:
+      "map"
+      "inspector"
+      "evidence"
+      "notes";
+  }
+
+  .impact-slide-rail,
+  .impact-timeline {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .sample-shell {
+    width: min(100% - 28px, 1440px);
+  }
+
+  .sample-nav {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 0;
+  }
+
+  .links {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 3px;
+  }
+
+  .links a,
+  .links button {
+    flex: 0 0 auto;
+    font-size: 11px;
+  }
+
+  .sample-hero {
+    padding-top: 24px;
+  }
+
+  .sample-subnav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sample-pager {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .hero-panel,
+  .proof-panel,
+  .panel,
+  .workspace-body {
+    padding: 14px;
+  }
+
+  .sample-hero h1 {
+    font-size: clamp(34px, 10vw, 46px);
+  }
+
+  .hero-stats,
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-head,
+  .panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .impact-presentation-active .workspace {
+    min-height: 0;
+  }
+
+  .impact-presenter-top {
+    flex-direction: column;
+  }
+
+  .impact-presenter-actions {
+    justify-content: flex-start;
+  }
+
+  .impact-slide-rail,
+  .impact-timeline {
+    grid-template-columns: 1fr;
+  }
+
+  .impact-map {
+    min-height: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .diagram .line.critical {
+    stroke-dasharray: 0;
+  }
+}
+
+  </style>
 </head>
 <body data-sample="control-evidence-pack">
   <div data-sample-root></div>
-  <script src="../assets/sample.js"></script>
+  <script>
+const SAMPLES = {
+  "decision-brief-explorer": {
+    number: "01",
+    lens: "Business lens",
+    title: "Decision brief explorer",
+    summary: "Compare fictional options, tune criteria weights, inspect stakeholder impact, and export a concise recommendation draft.",
+    stats: [["3", "Options"], ["5", "Criteria"], ["8", "Stakeholders"]],
+    proof: ["Forms update the decision model instantly", "CSS meters and SVG make trade-offs visible", "Clipboard/download actions create a portable brief"],
+    boundary: "This structures a human decision review. It does not validate facts, approve spend, or replace governance forums.",
+    prompt: "Create a self-contained HTML decision brief explorer for three enterprise options. Include weighted criteria, stakeholder impact, a recommendation draft, export actions, and a clear boundary that it is not an approval record.",
+    type: "decision"
+  },
+  "meeting-action-tracker": {
+    number: "02",
+    lens: "Business lens",
+    title: "Meeting action tracker",
+    summary: "Turn a fictional meeting into owner-filtered actions, due-date timeline, decisions, and a copyable follow-up note.",
+    stats: [["9", "Actions"], ["4", "Owners"], ["3", "Decisions"]],
+    proof: ["Checkboxes persist locally in the browser", "Filters and timelines make follow-up easier to scan", "Generated text can be copied into approved tools"],
+    boundary: "This is not a system of record. Real actions belong in the approved workflow, ticketing, or collaboration platform.",
+    prompt: "Create a standalone HTML meeting action tracker for an enterprise review meeting. Include owners, due dates, statuses, decisions, filters, local state, a timeline, and a follow-up export.",
+    type: "meeting"
+  },
+  "policy-process-navigator": {
+    number: "03",
+    lens: "Business lens",
+    title: "Policy/process navigator",
+    summary: "Select a role and goal to reveal relevant process steps, linked controls, escalation points, and RACI guidance.",
+    stats: [["4", "Roles"], ["12", "Steps"], ["7", "Controls"]],
+    proof: ["Native controls can reveal role-specific process paths", "Inline SVG can make approvals and handoffs readable", "Tables keep ownership and control context close to the workflow"],
+    boundary: "Policy owners must validate all content. This demo does not interpret policy or provide official advice.",
+    prompt: "Create a public-safe HTML process navigator for enterprise users. Include role and goal selectors, a process diagram, controls, RACI, escalation points, and a policy-owner validation boundary.",
+    type: "policy"
+  },
+  "csv-triage-workspace": {
+    number: "04",
+    lens: "Business lens",
+    title: "CSV triage workspace",
+    summary: "Paste or upload fictional CSV data, profile quality, filter rows, flag anomalies, and export a cleaned view.",
+    stats: [["18", "Rows"], ["5", "Fields"], ["4", "Issues"]],
+    proof: ["The File API lets a static page read local files selected by the user", "JavaScript can profile and filter rows in the browser", "Export patterns create a reviewed working copy"],
+    boundary: "Do not use sensitive data without enterprise approval. This is not a governed data platform or data-quality control.",
+    prompt: "Create a self-contained HTML CSV triage workspace. It should read pasted or uploaded CSV, profile missing values, filter by risk, flag anomalies, show charts, and export cleaned data.",
+    type: "csv"
+  },
+  "risk-acceptance-brief": {
+    number: "05",
+    lens: "Business lens",
+    title: "Risk acceptance brief",
+    summary: "Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit approval caveats.",
+    stats: [["25", "Matrix cells"], ["6", "Controls"], ["4", "Milestones"]],
+    proof: ["Forms create structured risk drafts", "Matrix visuals make likelihood and impact visible", "Print/download actions turn the artifact into a review pack"],
+    boundary: "This is not risk acceptance, audit evidence, legal advice, or an approval. It is a draft aid for accountable humans.",
+    prompt: "Create a standalone HTML risk acceptance brief for fictional enterprise risk. Include a 5x5 matrix, mitigations, controls, residual risk, approval path, export, and no-attestation boundary.",
+    type: "risk"
+  },
+  "customer-conversation-simulator": {
+    number: "06",
+    lens: "Business lens",
+    title: "Customer conversation simulator",
+    summary: "Practice response framing for fictional customer scenarios with tone comparison, branching next steps, and a quality checklist.",
+    stats: [["4", "Scenarios"], ["3", "Tones"], ["6", "Checks"]],
+    proof: ["Branching UI can simulate realistic review practice", "HTML keeps scenario, response, and checklist visible together", "Copy actions preserve the draft while keeping policy boundaries clear"],
+    boundary: "This does not represent real customers, policy advice, regulated communication approval, or AI quality assurance.",
+    prompt: "Create a customer conversation simulator as one HTML file. Use fictional scenarios, tone selectors, branching response drafts, communication checklist, and safe-language boundaries.",
+    type: "conversation"
+  },
+  "architecture-decision-record": {
+    number: "07",
+    lens: "Engineering lens",
+    title: "Architecture decision record",
+    summary: "Compare architecture options, inspect target-state diagrams, capture consequences, and export an ADR-shaped draft.",
+    stats: [["3", "Options"], ["9", "Forces"], ["1", "Draft ADR"]],
+    proof: ["Option scorecards make ADR trade-offs inspectable", "SVG diagrams connect current and target architectures", "Generated text can follow a familiar ADR structure"],
+    boundary: "Engineering leads still own design review, threat modeling, approval, and production implementation.",
+    prompt: "Create a self-contained HTML architecture decision record for a regulated enterprise team. Include options, scoring, architecture diagram, consequences, guardrails, and ADR export.",
+    type: "adr"
+  },
+  "change-impact-map": {
+    number: "08",
+    lens: "Engineering lens",
+    title: "Change impact map",
+    summary: "Click services in an SVG dependency map to inspect owners, blast radius, risk paths, evidence, and reviewer checklist.",
+    stats: [["12", "Services"], ["6", "Data stores"], ["14", "Controls"]],
+    proof: ["Inline SVG can be scripted directly in HTML", "Filters and selected states turn diagrams into review tools", "Evidence tables make reviewer actions concrete"],
+    boundary: "The map is fictional. Real dependency and ownership data must come from governed source-of-truth systems.",
+    prompt: "Create a standalone HTML change impact map for a regulated enterprise service change. Include SVG dependencies, risk filters, owner details, evidence table, timeline, and reviewer checklist export.",
+    type: "impact"
+  },
+  "pull-request-reviewer-aid": {
+    number: "09",
+    lens: "Engineering lens",
+    title: "Pull request reviewer aid",
+    summary: "Inspect a fictional annotated diff, filter findings by severity, check ownership, and copy a focused review summary.",
+    stats: [["7", "Findings"], ["4", "Files"], ["5", "Checks"]],
+    proof: ["HTML can present code review focus without burying signal in a long comment", "Filters and checklists help reviewers scan by risk", "Copy/export actions preserve a compact review note"],
+    boundary: "This does not replace code review, tests, security review, or reviewer accountability.",
+    prompt: "Create a public-safe HTML pull request reviewer aid. Include an annotated diff mock, severity filters, ownership matrix, checklist, and copyable review summary.",
+    type: "pr"
+  },
+  "incident-timeline": {
+    number: "10",
+    lens: "Engineering lens",
+    title: "Incident timeline",
+    summary: "Build a multi-lane incident narrative with event filters, five-whys, remediation board, and exportable postmortem draft.",
+    stats: [["11", "Events"], ["5", "Whys"], ["6", "Actions"]],
+    proof: ["Local forms and DOM updates turn a narrative into an inspectable timeline", "Filtering by event type supports live facilitation", "Generated postmortem text remains editable and bounded"],
+    boundary: "Official incident records belong in approved operational systems with timestamps, ownership, and retention controls.",
+    prompt: "Create a self-contained HTML incident timeline for a fictional enterprise outage. Include multi-lane events, filters, five-whys, remediation actions, and postmortem export.",
+    type: "incident"
+  },
+  "control-evidence-pack": {
+    number: "11",
+    lens: "Engineering lens",
+    title: "Control evidence pack",
+    summary: "Track fictional evidence items, readiness status, control coverage, heatmap, and a non-attestational audit-pack view.",
+    stats: [["14", "Evidence items"], ["8", "Controls"], ["4", "Owners"]],
+    proof: ["Tables and status controls make evidence readiness visible", "Heatmaps make gaps easier to discuss", "Print/export patterns create a review pack without claiming attestation"],
+    boundary: "This is not compliance attestation. Evidence validity requires approved controls, source systems, and audit process.",
+    prompt: "Create a static HTML control evidence pack for fictional regulated engineering change. Include readiness status, owners, controls, heatmap, print view, export, and non-attestation boundary.",
+    type: "control"
+  },
+  "feature-flag-risk-editor": {
+    number: "12",
+    lens: "Engineering lens",
+    title: "Feature-flag risk editor",
+    summary: "Toggle fictional feature flags, inspect dependencies, calculate blast-radius risk, view rollout stages, and export a JSON diff.",
+    stats: [["8", "Flags"], ["5", "Dependencies"], ["4", "Stages"]],
+    proof: ["Local state can simulate rollout choices safely", "Dependency checks make hidden risk visible", "JSON export demonstrates a reviewable change payload"],
+    boundary: "This does not change production flags. Real changes need identity, authorization, logging, approvals, and rollback controls.",
+    prompt: "Create a feature-flag risk editor as one HTML artifact. Include toggle matrix, dependency graph, blast-radius scoring, staged rollout plan, JSON diff export, and production-change boundary.",
+    type: "flags"
+  }
+};
+
+const root = document.querySelector("[data-sample-root]");
+const sampleId = document.body.dataset.sample;
+const sample = SAMPLES[sampleId] || SAMPLES["decision-brief-explorer"];
+const SAMPLE_ORDER = Object.keys(SAMPLES);
+
+function $(selector, scope = document) {
+  return scope.querySelector(selector);
+}
+
+function $$(selector, scope = document) {
+  return Array.from(scope.querySelectorAll(selector));
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function statusClass(value) {
+  return String(value || "").toLowerCase().replaceAll(" ", "-");
+}
+
+function downloadText(filename, text, type = "text/plain;charset=utf-8") {
+  const blob = new Blob([text], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function copyText(text, button) {
+  try {
+    await navigator.clipboard.writeText(text);
+    const old = button.textContent;
+    button.textContent = "Copied";
+    setTimeout(() => {
+      button.textContent = old;
+    }, 1200);
+  } catch {
+    downloadText("artifact.txt", text);
+  }
+}
+
+function renderTable(headers, rows) {
+  return `<table><thead><tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+
+function setOutput(text) {
+  const output = $("[data-output]");
+  if (output) output.textContent = text;
+}
+
+function metricCard(value, label) {
+  return `<div class="stat"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`;
+}
+
+function setupTheme() {
+  const html = document.documentElement;
+  const stored = localStorage.getItem("enterprise-html-theme");
+  html.dataset.theme = stored || "dark";
+
+  function sync() {
+    $$("[data-theme-toggle]").forEach((button) => {
+      const isLight = html.dataset.theme === "light";
+      button.textContent = isLight ? "Dark" : "Light";
+      button.setAttribute("aria-label", `Switch to ${isLight ? "dark" : "light"} mode`);
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-theme-toggle]");
+    if (!button) return;
+    html.dataset.theme = html.dataset.theme === "light" ? "dark" : "light";
+    localStorage.setItem("enterprise-html-theme", html.dataset.theme);
+    sync();
+  });
+  sync();
+}
+
+function renderShell() {
+  document.title = `${sample.title} | HTML and LLMs for Enterprise Work`;
+  const currentIndex = Math.max(0, SAMPLE_ORDER.indexOf(sampleId));
+  const previousId = SAMPLE_ORDER[(currentIndex - 1 + SAMPLE_ORDER.length) % SAMPLE_ORDER.length];
+  const nextId = SAMPLE_ORDER[(currentIndex + 1) % SAMPLE_ORDER.length];
+  const previousSample = SAMPLES[previousId];
+  const nextSample = SAMPLES[nextId];
+  root.innerHTML = `
+    <header class="sample-header">
+      <div class="sample-shell sample-nav">
+        <a class="brand" href="../index.html" aria-label="Back to showcase">
+          <span class="brand-mark">VS</span>
+          <span class="brand-text">HTML and LLMs <small>for enterprise work</small></span>
+        </a>
+        <nav class="links" aria-label="Sample navigation">
+          <a href="../index.html">Home</a>
+          <a href="../index.html#samples">Samples</a>
+          <a href="../index.html#evidence">Evidence</a>
+          <a href="../index.html#boundaries">Boundaries</a>
+          <a href="https://vishalshah.app">vishalshah.app</a>
+          <button type="button" data-theme-toggle>Light</button>
+        </nav>
+      </div>
+    </header>
+    <main class="sample-shell">
+      <div class="sample-subnav">
+        <div class="crumb"><a href="../index.html#samples">&larr; Back to samples</a><span>/</span><span>${escapeHtml(sample.title)}</span></div>
+        <nav class="sample-pager" aria-label="Sample sequence navigation">
+          <a href="${previousId}.html" aria-label="Previous sample: ${escapeHtml(previousSample.title)}">&larr; ${escapeHtml(previousSample.number)} Previous</a>
+          <span>${escapeHtml(sample.number)} / ${SAMPLE_ORDER.length}</span>
+          <a href="${nextId}.html" aria-label="Next sample: ${escapeHtml(nextSample.title)}">Next ${escapeHtml(nextSample.number)} &rarr;</a>
+        </nav>
+      </div>
+      <section class="sample-hero">
+        <div class="hero-panel">
+          <div>
+            <div class="badge-row"><span class="badge good">${escapeHtml(sample.number)}</span><span class="badge good">${escapeHtml(sample.lens)}</span><span class="badge">Standalone demo</span></div>
+            <h1>${escapeHtml(sample.title)}</h1>
+            <p>${escapeHtml(sample.summary)}</p>
+          </div>
+          <div class="hero-stats">${sample.stats.map(([value, label]) => metricCard(value, label)).join("")}</div>
+        </div>
+        <aside class="proof-panel">
+          <div>
+            <h2>What HTML makes possible</h2>
+            <div class="proof-list">${sample.proof.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
+          </div>
+          <div class="note warning">${escapeHtml(sample.boundary)}</div>
+        </aside>
+      </section>
+      <section class="app-grid">
+        <aside class="panel" data-controls></aside>
+        <article class="workspace">
+          <div class="workspace-head">
+            <h2 data-workspace-title>Workspace</h2>
+            <div class="toolbar" data-workspace-actions></div>
+          </div>
+          <div class="workspace-body" data-workspace></div>
+        </article>
+        <aside class="panel" data-inspector></aside>
+      </section>
+      <section class="artifact-sections">
+        <article class="panel">
+          <h2>Example prompt</h2>
+          <p class="prompt">${escapeHtml(sample.prompt)}</p>
+        </article>
+        <article class="panel">
+          <h2>Boundary note</h2>
+          <p>${escapeHtml(sample.boundary)}</p>
+        </article>
+        <article class="panel">
+          <h2>References used for claims</h2>
+          <p><a href="https://html.spec.whatwg.org/multipage/">WHATWG HTML</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/File_API">MDN File API</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">MDN Web Storage</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/SVG">MDN SVG</a><br><a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a></p>
+        </article>
+      </section>
+    </main>
+    <footer class="sample-shell footer-note">
+      Inspired by <a href="https://thariqs.github.io/html-effectiveness/">Thariq Shihipar's original HTML effectiveness examples</a>. Original enterprise scenarios and implementation by Vishal Shah. Fictional data only.
+    </footer>
+  `;
+  setupTheme();
+}
+
+function renderDecision() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Decision model";
+  const options = [
+    { name: "Guided HTML artifact", speed: 92, confidence: 78, effort: 82, risk: 66, reach: 86, stakeholders: [88, 76, 72, 84, 68], note: "Best for a fast, reviewable artifact that can be attached to a discussion." },
+    { name: "Slide-only summary", speed: 76, confidence: 52, effort: 92, risk: 38, reach: 62, stakeholders: [54, 62, 45, 70, 58], note: "Familiar and quick, but weak for interaction, traceability, and reuse." },
+    { name: "Platform backlog item", speed: 38, confidence: 88, effort: 44, risk: 82, reach: 78, stakeholders: [74, 86, 90, 60, 82], note: "Most durable for governed integration, but needs prioritization and delivery capacity." }
+  ];
+  const weights = { speed: 30, confidence: 25, effort: 20, risk: 15, reach: 10 };
+  $("[data-controls]").innerHTML = `
+    <h2>Weights</h2>
+    <div class="control-group">
+      ${Object.keys(weights).map((key) => `<label>${key}<input type="range" min="0" max="100" value="${weights[key]}" data-weight="${key}"></label>`).join("")}
+    </div>
+  `;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy brief</button><button data-download>Download</button>`;
+  $("[data-workspace]").innerHTML = `<div class="cards" data-options></div><svg class="diagram" viewBox="0 0 760 260" data-radar aria-label="Decision radar"></svg><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Stakeholder heatmap</h2><p>Scores reflect fictional review friction and confidence.</p><div class="heatmap" data-heatmap></div><div class="note" data-decision-note></div>`;
+
+  function update() {
+    Object.keys(weights).forEach((key) => {
+      weights[key] = Number($(`[data-weight="${key}"]`).value);
+    });
+    const total = Object.values(weights).reduce((sum, value) => sum + value, 0) || 1;
+    const scored = options.map((option) => ({
+      ...option,
+      score: Math.round((option.speed * weights.speed + option.confidence * weights.confidence + option.effort * weights.effort + option.risk * weights.risk + option.reach * weights.reach) / total)
+    })).sort((a, b) => b.score - a.score);
+    $("[data-options]").innerHTML = scored.map((option, index) => `
+      <section class="mini-card ${index === 0 ? "selected" : ""}">
+        <h3>${escapeHtml(option.name)}</h3>
+        <p>${escapeHtml(option.note)}</p>
+        <div class="meter"><span style="width:${option.score}%"></span></div>
+        <p><strong>${option.score}/100</strong> weighted fit</p>
+      </section>
+    `).join("");
+    const best = scored[0];
+    const center = [380, 132];
+    const axes = ["speed", "confidence", "effort", "risk", "reach"];
+    const points = axes.map((axis, index) => {
+      const angle = -Math.PI / 2 + index * Math.PI * 2 / axes.length;
+      const radius = best[axis] * 1.05;
+      return [center[0] + Math.cos(angle) * radius, center[1] + Math.sin(angle) * radius];
+    });
+    $("[data-radar]").innerHTML = `
+      ${[45, 75, 105].map((r) => `<polygon points="${axes.map((_, i) => `${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * r},${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * r}`).join(" ")}" fill="none" stroke="var(--line)"/>`).join("")}
+      ${axes.map((axis, i) => `<line class="line" x1="${center[0]}" y1="${center[1]}" x2="${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 118}" y2="${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 118}"/><text x="${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 136 - 28}" y="${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 136}">${axis}</text>`).join("")}
+      <polygon points="${points.map((point) => point.join(",")).join(" ")}" fill="color-mix(in srgb, var(--accent) 22%, transparent)" stroke="var(--accent)" stroke-width="2"/>
+    `;
+    $("[data-heatmap]").innerHTML = best.stakeholders.map((score) => `<span style="background: color-mix(in srgb, var(--accent) ${score}%, var(--bg-2));"></span>`).join("");
+    $("[data-decision-note]").textContent = best.note;
+    setOutput(`Decision brief draft\n\nRecommendation: ${best.name}\nWeighted fit: ${best.score}/100\nWhy: ${best.note}\n\nReview boundary: this is a structured decision aid, not spend approval, risk acceptance, or governance sign-off.`);
+  }
+  $$("[data-weight]").forEach((input) => input.addEventListener("input", update));
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  $("[data-download]").addEventListener("click", () => downloadText("decision-brief.txt", $("[data-output]").textContent));
+  update();
+}
+
+function renderMeeting() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Actions and decisions";
+  const key = "enterprise-html-meeting-v2";
+  const actions = [
+    { item: "Confirm review forum and accountable approver", owner: "Asha", due: "May 20", status: "Review", type: "Decision" },
+    { item: "Prepare customer-safe summary", owner: "Ben", due: "May 21", status: "Ready", type: "Action" },
+    { item: "Validate data classification for sample inputs", owner: "Mina", due: "May 22", status: "Blocked", type: "Control" },
+    { item: "Draft engineering impact note", owner: "Leo", due: "May 23", status: "Review", type: "Action" },
+    { item: "Check accessibility basics for artifact", owner: "Sam", due: "May 24", status: "Ready", type: "Control" },
+    { item: "Create LinkedIn-safe summary", owner: "Asha", due: "May 25", status: "Draft", type: "Comms" }
+  ];
+  let done = JSON.parse(localStorage.getItem(key) || "[]");
+  $("[data-controls]").innerHTML = `
+    <h2>Filters</h2>
+    <div class="control-group">
+      <label>Owner<select data-owner><option>All</option>${[...new Set(actions.map((a) => a.owner))].map((owner) => `<option>${owner}</option>`).join("")}</select></label>
+      <label>Status<select data-status-filter><option>All</option><option>Draft</option><option>Review</option><option>Ready</option><option>Blocked</option></select></label>
+      <button data-reset>Reset completed</button>
+    </div>
+  `;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy follow-up</button><button data-download>Download</button>`;
+  $("[data-workspace]").innerHTML = `<div data-action-table></div><div class="timeline" data-timeline></div><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Decision log</h2><div class="stack">${["Use fictional data only", "Publish as static GitHub Pages", "Keep approvals outside the demo"].map((item) => `<div class="note">${item}</div>`).join("")}</div>`;
+
+  function update() {
+    const owner = $("[data-owner]").value;
+    const status = $("[data-status-filter]").value;
+    const visible = actions.filter((action) => (owner === "All" || action.owner === owner) && (status === "All" || action.status === status));
+    $("[data-action-table]").innerHTML = renderTable(["Done", "Item", "Owner", "Due", "Status"], visible.map((action) => {
+      const index = actions.indexOf(action);
+      return [`<input aria-label="Mark ${escapeHtml(action.item)} done" type="checkbox" data-action="${index}" ${done.includes(index) ? "checked" : ""}>`, `<strong>${escapeHtml(action.item)}</strong><br>${escapeHtml(action.type)}`, escapeHtml(action.owner), escapeHtml(action.due), `<span class="status ${statusClass(action.status)}">${escapeHtml(action.status)}</span>`];
+    }));
+    $("[data-timeline]").innerHTML = visible.map((action) => `<section class="event"><time>${escapeHtml(action.due)}</time><div><strong>${escapeHtml(action.owner)}</strong><p>${escapeHtml(action.item)}</p></div></section>`).join("");
+    const open = actions.filter((_, index) => !done.includes(index));
+    setOutput(`Meeting follow-up\n\nCompleted: ${done.length}/${actions.length}\n\nOpen items:\n${open.map((action) => `- ${action.item} | owner: ${action.owner} | due: ${action.due} | status: ${action.status}`).join("\n") || "- None"}\n\nBoundary: paste this into the approved action-tracking system.`);
+    $$("[data-action]").forEach((box) => box.addEventListener("change", () => {
+      const index = Number(box.dataset.action);
+      done = box.checked ? [...new Set([...done, index])] : done.filter((item) => item !== index);
+      localStorage.setItem(key, JSON.stringify(done));
+      update();
+    }));
+  }
+  $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", update));
+  $("[data-reset]").addEventListener("click", () => {
+    done = [];
+    localStorage.removeItem(key);
+    update();
+  });
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  $("[data-download]").addEventListener("click", () => downloadText("meeting-follow-up.txt", $("[data-output]").textContent));
+  update();
+}
+
+function renderPolicy() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Process navigator";
+  const paths = {
+    launch: ["Intake", "Risk review", "Approval forum", "Customer-safe comms", "Monitor"],
+    vendor: ["Business need", "Due diligence", "Data sharing review", "Residual risk", "Contract owner"],
+    process: ["Impact map", "Control review", "Training plan", "Decision record", "Measure"]
+  };
+  $("[data-controls]").innerHTML = `
+    <h2>Scenario</h2>
+    <div class="control-group">
+      <label>Role<select data-role><option>Business owner</option><option>Risk partner</option><option>Engineering lead</option><option>Operations lead</option></select></label>
+      <label>Goal<select data-goal><option value="launch">Launch customer-facing change</option><option value="vendor">Assess vendor workflow</option><option value="process">Change internal process</option></select></label>
+    </div>
+  `;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy path</button>`;
+  $("[data-workspace]").innerHTML = `<svg class="diagram" viewBox="0 0 860 320" data-flow aria-label="Process flow"></svg><div data-raci></div><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Controls</h2><div data-controls-list></div>`;
+
+  function update() {
+    const goal = $("[data-goal]").value;
+    const role = $("[data-role]").value;
+    const steps = paths[goal];
+    $("[data-flow]").innerHTML = steps.map((step, index) => {
+      const x = 45 + index * 160;
+      return `<g><rect class="node ${index === 1 ? "active" : ""}" x="${x}" y="112" width="124" height="66" rx="7"></rect><text x="${x + 18}" y="142">${escapeHtml(step.split(" ").slice(0, 2).join(" "))}</text><text x="${x + 18}" y="162">${escapeHtml(step.split(" ").slice(2).join(" "))}</text>${index < steps.length - 1 ? `<path class="line hot" d="M${x + 124} 145h36"></path>` : ""}</g>`;
+    }).join("");
+    $("[data-raci]").innerHTML = renderTable(["Step", "Responsible", "Accountable", "Consulted"], steps.map((step, index) => [escapeHtml(step), index % 2 ? "Risk partner" : role, "Business owner", "Engineering, Legal, Ops"]));
+    $("[data-controls-list]").innerHTML = ["DATA-01 Classification", "PRIV-02 Privacy review", "CHANGE-01 Change record", "COMM-03 Customer wording"].map((item) => `<div class="metric"><span>${item}</span><span class="status review">Review</span></div>`).join("");
+    setOutput(`Process path for ${role}\n\n${steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}\n\nBoundary: confirm the latest official policy and accountable owner before acting.`);
+  }
+  $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", update));
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  update();
+}
+
+function parseCsv(text) {
+  const lines = text.trim().split(/\r?\n/).filter(Boolean);
+  if (!lines.length) return [];
+  const headers = lines.shift().split(",").map((cell) => cell.trim());
+  return lines.map((line) => {
+    const cells = line.split(",").map((cell) => cell.trim());
+    return Object.fromEntries(headers.map((header, index) => [header, cells[index] || ""]));
+  });
+}
+
+function toCsv(rows) {
+  if (!rows.length) return "";
+  const headers = Object.keys(rows[0]);
+  return [headers.join(","), ...rows.map((row) => headers.map((header) => row[header]).join(","))].join("\n");
+}
+
+function renderCsv() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Local CSV triage";
+  const defaultCsv = `request,owner,status,risk,amount
+Customer notice refresh,Asha,ready,low,12000
+Vendor workflow review,Ben,review,medium,42000
+Manual upload exception,,blocked,high,86000
+Pricing FAQ update,Mina,ready,low,9000
+Data extract request,Leo,review,high,64000
+Portal wording change,Sam,draft,medium,18000`;
+  let rows = parseCsv(defaultCsv);
+  $("[data-controls]").innerHTML = `
+    <h2>Input</h2>
+    <div class="control-group">
+      <label>Upload CSV<input type="file" accept=".csv,text/csv" data-file></label>
+      <label>Paste CSV<textarea data-csv>${defaultCsv}</textarea></label>
+      <label>Risk filter<select data-filter><option value="all">All</option><option>low</option><option>medium</option><option>high</option></select></label>
+    </div>
+  `;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-export>Download cleaned CSV</button>`;
+  $("[data-workspace]").innerHTML = `<div class="hero-stats" data-profile></div><svg class="diagram" viewBox="0 0 760 230" data-chart aria-label="CSV risk chart"></svg><div data-table></div>`;
+  $("[data-inspector]").innerHTML = `<h2>Quality findings</h2><div data-findings></div>`;
+
+  function update() {
+    const filter = $("[data-filter]").value;
+    const visible = rows.filter((row) => filter === "all" || row.risk === filter);
+    const missing = rows.filter((row) => Object.values(row).some((value) => !value)).length;
+    const high = rows.filter((row) => row.risk === "high").length;
+    $("[data-profile]").innerHTML = [["Rows", rows.length], ["Missing", missing], ["High risk", high]].map(([label, value]) => metricCard(value, label)).join("");
+    $("[data-table]").innerHTML = rows.length ? renderTable(Object.keys(rows[0]), visible.map((row) => Object.values(row).map((value) => escapeHtml(value || "Missing")))) : "<p>No rows.</p>";
+    const groups = ["low", "medium", "high"].map((risk) => rows.filter((row) => row.risk === risk).length);
+    $("[data-chart]").innerHTML = groups.map((count, index) => {
+      const height = 28 + count * 48;
+      const x = 160 + index * 150;
+      const color = ["var(--green)", "var(--accent)", "var(--red)"][index];
+      return `<rect x="${x}" y="${190 - height}" width="70" height="${height}" fill="${color}" opacity=".72"></rect><text x="${x + 10}" y="214">${["low", "med", "high"][index]}</text><text x="${x + 26}" y="${180 - height}">${count}</text>`;
+    }).join("");
+    $("[data-findings]").innerHTML = [
+      `${missing} row(s) contain missing fields`,
+      `${high} high-risk row(s) need review`,
+      `${visible.length} row(s) match current filter`,
+      "All data remains local to this browser demo"
+    ].map((item, index) => `<div class="note ${index === 1 && high ? "danger" : ""}">${escapeHtml(item)}</div>`).join("");
+  }
+  $("[data-csv]").addEventListener("input", (event) => {
+    rows = parseCsv(event.target.value);
+    update();
+  });
+  $("[data-file]").addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const text = await file.text();
+    $("[data-csv]").value = text;
+    rows = parseCsv(text);
+    update();
+  });
+  $("[data-filter]").addEventListener("change", update);
+  $("[data-export]").addEventListener("click", () => {
+    const filter = $("[data-filter]").value;
+    const visible = rows.filter((row) => filter === "all" || row.risk === filter);
+    downloadText("csv-triage-cleaned.csv", toCsv(visible), "text/csv;charset=utf-8");
+  });
+  update();
+}
+
+function renderRisk() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Risk acceptance draft";
+  $("[data-controls]").innerHTML = `
+    <h2>Inputs</h2>
+    <div class="control-group">
+      <label>Scenario<input data-risk-name value="Temporary manual reconciliation for customer notification list"></label>
+      <label>Likelihood<input type="range" min="1" max="5" value="3" data-likelihood></label>
+      <label>Impact<input type="range" min="1" max="5" value="4" data-impact></label>
+      <label>Mitigation<textarea data-mitigation>Limit use to fictional test records, require peer review, and retire after the approved workflow is available.</textarea></label>
+    </div>
+  `;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy brief</button><button data-print>Print</button>`;
+  $("[data-workspace]").innerHTML = `<div class="matrix" data-matrix></div><div class="timeline" data-risk-timeline></div><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Control checklist</h2><div data-control-list></div>`;
+  const controls = ["Data classification checked", "Peer review captured", "Rollback owner named", "Expiry date agreed", "Residual risk owner named", "Formal forum identified"];
+
+  function update() {
+    const likelihood = Number($("[data-likelihood]").value);
+    const impact = Number($("[data-impact]").value);
+    const score = likelihood * impact;
+    const rating = score >= 16 ? "High" : score >= 8 ? "Medium" : "Low";
+    $("[data-matrix]").innerHTML = Array.from({ length: 25 }, (_, index) => {
+      const x = index % 5 + 1;
+      const y = Math.floor(index / 5) + 1;
+      return `<div class="matrix-cell ${x === likelihood && y === impact ? "active" : ""}">${x}×${y}</div>`;
+    }).join("");
+    $("[data-risk-timeline]").innerHTML = ["Draft brief", "Peer review", "Risk forum", "Retire workaround"].map((item, index) => `<section class="event"><time>Step ${index + 1}</time><div><strong>${item}</strong><p>${index < 2 ? "Artifact can help prepare this step." : "Approval remains outside this demo."}</p></div></section>`).join("");
+    $("[data-control-list]").innerHTML = controls.map((item, index) => `<div class="toggle-row"><span>${escapeHtml(item)}</span><label class="switch"><input type="checkbox" ${index < 3 ? "checked" : ""}><span class="slider"></span></label></div>`).join("");
+    setOutput(`Risk acceptance draft\n\nScenario: ${$("[data-risk-name]").value}\nRating: ${rating} (${score}/25)\nLikelihood: ${likelihood}/5\nImpact: ${impact}/5\n\nMitigation:\n${$("[data-mitigation]").value}\n\nBoundary: draft only. Formal acceptance requires approved risk governance.`);
+  }
+  $$("input, textarea", $("[data-controls]")).forEach((field) => field.addEventListener("input", update));
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  $("[data-print]").addEventListener("click", () => window.print());
+  update();
+}
+
+function renderConversation() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Conversation simulator";
+  const scenarios = {
+    delay: "We expected an answer yesterday. Why is this still waiting?",
+    data: "Can you explain where our data is stored and who can access it?",
+    complaint: "The previous message was confusing and made it sound like the change was already approved.",
+    escalation: "I need this escalated now because our leadership meeting is tomorrow."
+  };
+  const drafts = {
+    "Clear and calm": "I understand the concern. The safe next step is to confirm the current status with the accountable owner and give you a clear update window.",
+    "Brief and practical": "Thanks for raising it. I will confirm the owner, status, and next action, then come back with the approved update path.",
+    "Empathetic and detailed": "I can see why this creates uncertainty. I will separate what is confirmed from what still needs approval, then share the next step and owner."
+  };
+  $("[data-controls]").innerHTML = `
+    <h2>Scenario</h2>
+    <div class="control-group">
+      <label>Customer intent<select data-intent>${Object.keys(scenarios).map((key) => `<option value="${key}">${key}</option>`).join("")}</select></label>
+      <label>Tone<select data-tone>${Object.keys(drafts).map((tone) => `<option>${tone}</option>`).join("")}</select></label>
+    </div>
+  `;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy response</button>`;
+  $("[data-workspace]").innerHTML = `<div class="cards"><section class="mini-card"><h3>Listen</h3><p>Acknowledge before explaining.</p></section><section class="mini-card"><h3>Bound</h3><p>Avoid unsupported promises.</p></section><section class="mini-card"><h3>Next</h3><p>Give one owner and step.</p></section></div><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Quality checklist</h2><div data-checks></div>`;
+  function update() {
+    const intent = $("[data-intent]").value;
+    const tone = $("[data-tone]").value;
+    const response = `${drafts[tone]} For anything account-specific or policy-sensitive, I will use the approved support process.`;
+    setOutput(`Fictional customer says:\n"${scenarios[intent]}"\n\n${tone} response draft:\n${response}\n\nBoundary: not approved customer communication.`);
+    $("[data-checks]").innerHTML = ["Acknowledges concern", "Separates known from unknown", "Avoids policy promises", "Names next step", "Uses safe wording", "Routes formal approval elsewhere"].map((item) => `<div class="metric"><span>${item}</span><span class="status ready">Pass</span></div>`).join("");
+  }
+  $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", update));
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  update();
+}
+
+function renderAdr() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "ADR workspace";
+  const options = [
+    { name: "Static artifact pack", quality: 86, cost: 82, governance: 62, note: "Fast, portable, and reviewable; integration remains manual." },
+    { name: "Internal platform feature", quality: 92, cost: 38, governance: 88, note: "Durable and governed; needs roadmap capacity." },
+    { name: "Deck plus wiki page", quality: 58, cost: 90, governance: 54, note: "Low friction, but weak for interaction and evidence packing." }
+  ];
+  let selected = 0;
+  $("[data-controls]").innerHTML = `<h2>Options</h2><div class="control-group">${options.map((option, index) => `<button data-option="${index}">${escapeHtml(option.name)}</button>`).join("")}</div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy ADR</button>`;
+  $("[data-workspace]").innerHTML = `<div class="cards" data-scorecards></div><svg class="diagram" viewBox="0 0 840 280" data-arch aria-label="Architecture diagram"></svg><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Consequences</h2><div data-consequences></div>`;
+  function update() {
+    const option = options[selected];
+    $("[data-scorecards]").innerHTML = options.map((item, index) => `<section class="mini-card ${index === selected ? "selected" : ""}"><h3>${escapeHtml(item.name)}</h3><div class="meter"><span style="width:${item.quality}%"></span></div><p>${escapeHtml(item.note)}</p></section>`).join("");
+    $("[data-arch]").innerHTML = `
+      <rect class="node active" x="70" y="92" width="150" height="72" rx="7"></rect><text x="105" y="132">LLM output</text>
+      <path class="line hot" d="M220 128h70"></path>
+      <rect class="node active" x="290" y="92" width="170" height="72" rx="7"></rect><text x="318" y="132">HTML artifact</text>
+      <path class="line hot" d="M460 128h70"></path>
+      <rect class="node" x="530" y="52" width="190" height="58" rx="7"></rect><text x="562" y="88">Human review</text>
+      <rect class="node" x="530" y="146" width="190" height="58" rx="7"></rect><text x="556" y="182">Governed system</text>
+      <path class="line dashed" d="M625 110v36"></path>`;
+    $("[data-consequences]").innerHTML = [`Quality ${option.quality}/100`, `Delivery fit ${option.cost}/100`, `Governance fit ${option.governance}/100`, option.note].map((item) => `<div class="note">${escapeHtml(item)}</div>`).join("");
+    setOutput(`Architecture Decision Record - Draft\n\nContext: team needs a reviewable enterprise artifact.\nDecision: ${option.name}\nStatus: Proposed\nConsequences:\n- ${option.note}\n- Normal engineering review remains required\n- Production integration is out of scope for this demo`);
+  }
+  $$("[data-option]").forEach((button) => button.addEventListener("click", () => {
+    selected = Number(button.dataset.option);
+    update();
+  }));
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  update();
+}
+
+function renderImpact() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Dependency map";
+  const nodes = [
+    { id: "portal", label: "Client Portal", x: 64, y: 46, team: "Digital Experience", owner: "Mira Chen", risk: "Low", evidence: "Accessibility smoke, release note", upstream: ["auth", "api"], downstream: [], controls: ["UX-02", "CHANGE-01"], note: "Customer-facing entry point; validate fallback messaging." },
+    { id: "mobile", label: "Mobile App", x: 64, y: 168, team: "Digital Experience", owner: "Noah Patel", risk: "Medium", evidence: "Regression test, communication wording", upstream: ["auth", "api"], downstream: [], controls: ["REL-03", "COMMS-01"], note: "Release comms and app-store timing change the exposure window." },
+    { id: "api", label: "API Gateway", x: 292, y: 76, team: "Platform", owner: "Iris Morgan", risk: "High", evidence: "Contract tests, rollback plan", upstream: ["auth"], downstream: ["portal", "mobile", "order"], controls: ["API-04", "CHANGE-01"], note: "Contract drift here cascades quickly across channels." },
+    { id: "order", label: "Order Service", x: 514, y: 116, team: "Commerce Platform", owner: "Sam Rivera", risk: "Critical", evidence: "Design review, migration plan, performance summary", upstream: ["api"], downstream: ["pay", "inv", "notify"], controls: ["CHANGE-01", "DATA-07"], note: "Central change point with data migration and rollback complexity." },
+    { id: "pay", label: "Payment Service", x: 742, y: 62, team: "Payments", owner: "Priya Singh", risk: "Critical", evidence: "Payment regression summary, reconciliation check", upstream: ["order"], downstream: ["ledger"], controls: ["PAY-02", "SOX-AC-01"], note: "Financial reconciliation and retry behavior need explicit review." },
+    { id: "inv", label: "Inventory", x: 742, y: 184, team: "Supply Systems", owner: "Leo Martin", risk: "Medium", evidence: "Stock sync test, batch replay sample", upstream: ["order"], downstream: ["warehouse"], controls: ["DATA-07", "OPS-05"], note: "Late inventory updates can hide in asynchronous batch paths." },
+    { id: "auth", label: "Auth Service", x: 292, y: 214, team: "Identity", owner: "Ava Stone", risk: "High", evidence: "Privileged-access review, token scope check", upstream: [], downstream: ["api", "portal", "mobile"], controls: ["PRIV-02", "IAM-01"], note: "Token and role changes are not implied by the feature change." },
+    { id: "ledger", label: "Ledger Feed", x: 944, y: 62, team: "Finance Systems", owner: "Eli Brooks", risk: "High", evidence: "Posting sample, reconciliation query", upstream: ["pay"], downstream: [], controls: ["FIN-01", "SOX-AC-01"], note: "Evidence should show postings and reconciliation exceptions." },
+    { id: "warehouse", label: "Warehouse", x: 944, y: 184, team: "Operations", owner: "Nina Rao", risk: "Medium", evidence: "Pick-list replay, exception report", upstream: ["inv"], downstream: [], controls: ["OPS-05"], note: "Operational users need a clear exception path during rollout." },
+    { id: "notify", label: "Notification Hub", x: 742, y: 306, team: "Messaging", owner: "Owen Blake", risk: "Low", evidence: "Template review, opt-out check", upstream: ["order"], downstream: [], controls: ["COMMS-01"], note: "Customer wording belongs in approved communication tooling." }
+  ];
+  const links = [
+    ["auth", "api"], ["auth", "portal"], ["auth", "mobile"], ["portal", "api"], ["mobile", "api"],
+    ["api", "order"], ["mobile", "order"], ["order", "pay"], ["order", "inv"], ["order", "notify"],
+    ["pay", "ledger"], ["inv", "warehouse"]
+  ];
+  const criticalPath = ["api", "order", "pay", "ledger"];
+  const slideData = [
+    {
+      title: "Impact overview",
+      eyebrow: "Scope the blast radius",
+      focus: ["api", "order", "pay", "inv", "auth"],
+      selected: "order",
+      progress: 1,
+      notes: "Start by showing that a single change is not one box. The useful artifact keeps owners, evidence, risk and dependency paths visible at the same time.",
+      evidence: [
+        ["EV-2101", "Service inventory snapshot", "Platform", "Ready"],
+        ["EV-2102", "Change proposal summary", "Commerce Platform", "Draft"],
+        ["EV-2103", "Stakeholder review notes", "Release Lead", "Review"]
+      ]
+    },
+    {
+      title: "Critical path",
+      eyebrow: "Follow the path that can hurt most",
+      focus: criticalPath,
+      selected: "pay",
+      progress: 3,
+      notes: "The highlighted path is fictional, but the pattern is practical: reviewers can see where contract, data, payment and reconciliation risks join up.",
+      evidence: [
+        ["EV-2110", "API contract regression", "Platform", "Ready"],
+        ["EV-2111", "Order migration dry run", "Commerce Platform", "Review"],
+        ["EV-2112", "Payment reconciliation sample", "Payments", "Review"],
+        ["EV-2113", "Ledger posting query", "Finance Systems", "Draft"]
+      ]
+    },
+    {
+      title: "Services deep dive",
+      eyebrow: "Inspect one node without losing context",
+      focus: ["order", "pay", "inv"],
+      selected: "order",
+      progress: 4,
+      notes: "A briefing page can behave like an application: click any node, keep the map alive, and still show the presenter what to say.",
+      evidence: [
+        ["EV-2120", "Owner confirmation", "Commerce Platform", "Ready"],
+        ["EV-2121", "Rollback decision record", "Release Lead", "Review"],
+        ["EV-2122", "Performance comparison", "SRE", "Draft"]
+      ]
+    },
+    {
+      title: "Cascade scenarios",
+      eyebrow: "Make second-order effects visible",
+      focus: ["mobile", "api", "order", "inv", "warehouse"],
+      selected: "inv",
+      progress: 5,
+      notes: "This is where HTML becomes stronger than a static slide. The same data can show channel, platform, batch and operations consequences in one surface.",
+      evidence: [
+        ["EV-2130", "Mobile retry behavior", "Digital Experience", "Review"],
+        ["EV-2131", "Batch replay sample", "Supply Systems", "Ready"],
+        ["EV-2132", "Warehouse exception report", "Operations", "Draft"]
+      ]
+    },
+    {
+      title: "Mitigations",
+      eyebrow: "Tie controls to action",
+      focus: ["auth", "api", "order", "pay", "ledger"],
+      selected: "auth",
+      progress: 6,
+      notes: "Keep the boundary honest: this artifact can organize review evidence, but it cannot grant approval, attest controls, or integrate with identity systems by itself.",
+      evidence: [
+        ["EV-2140", "Token scope review", "Identity", "Ready"],
+        ["EV-2141", "Rollback runbook excerpt", "SRE", "Review"],
+        ["EV-2142", "Monitoring threshold proposal", "Platform", "Draft"]
+      ]
+    },
+    {
+      title: "Summary",
+      eyebrow: "Close with what humans can trust",
+      focus: ["order", "pay", "ledger"],
+      selected: "ledger",
+      progress: 7,
+      notes: "The close is not that HTML replaces enterprise systems. It is that AI can produce a reviewable artifact that humans can navigate, challenge and carry into approved workflows.",
+      evidence: [
+        ["EV-2150", "Decision summary", "Release Lead", "Draft"],
+        ["EV-2151", "Open questions list", "All owners", "Review"],
+        ["EV-2152", "Boundary statement", "Governance", "Ready"]
+      ]
+    }
+  ];
+  const timeline = ["Plan", "Design", "Code complete", "Test", "Change window", "Verify", "Close"];
+  let selected = "order";
+  let riskFilter = "All";
+  let slideIndex = 0;
+  let presenting = false;
+  $("[data-controls]").innerHTML = `<h2>Filters</h2><div class="control-group"><label>Risk<select data-risk><option>All</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></label><button data-critical>Highlight critical path</button><button data-impact-present>Enter presentation mode</button></div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy reviewer checklist</button><button data-impact-present>Present</button>`;
+  $("[data-workspace]").innerHTML = `
+    <div data-impact-normal>
+      <svg class="diagram" viewBox="0 0 1100 420" data-map aria-label="Interactive dependency map"></svg>
+      <div data-evidence></div>
+    </div>
+    <div class="impact-presenter-shell" data-impact-presenter hidden></div>`;
+  $("[data-inspector]").innerHTML = `<h2>Selected service</h2><div data-selected></div>`;
+
+  function isCriticalEdge(a, b, focus = criticalPath) {
+    return focus.includes(a) && focus.includes(b) && Math.abs(focus.indexOf(a) - focus.indexOf(b)) === 1;
+  }
+
+  function renderMap(target, options = {}) {
+    const focus = options.focus || [];
+    const visible = options.presenter ? nodes : nodes.filter((node) => riskFilter === "All" || node.risk === riskFilter);
+    const visibleIds = new Set(visible.map((node) => node.id));
+    target.innerHTML = links.map(([a, b]) => {
+      const from = nodes.find((node) => node.id === a);
+      const to = nodes.find((node) => node.id === b);
+      if (!visibleIds.has(a) || !visibleIds.has(b)) return "";
+      const hot = isCriticalEdge(a, b, focus) || (a === "api" && b === "order");
+      return `<path class="line ${hot ? "hot critical" : ""} ${b === "pay" || b === "ledger" ? "danger" : ""}" d="M${from.x + 150} ${from.y + 34} C${from.x + 205} ${from.y + 34} ${to.x - 55} ${to.y + 34} ${to.x} ${to.y + 34}"></path>`;
+    }).join("") + visible.map((node) => {
+      const focused = focus.includes(node.id);
+      return `<g data-node="${node.id}" class="${focused ? "focused" : ""}"><rect class="node ${node.id === selected ? "active" : ""} ${focused ? "spotlight" : ""} ${statusClass(node.risk)}" x="${node.x}" y="${node.y}" width="150" height="68" rx="8"></rect><text x="${node.x + 16}" y="${node.y + 29}">${escapeHtml(node.label)}</text><text x="${node.x + 16}" y="${node.y + 50}">${escapeHtml(node.risk)} | ${escapeHtml(node.team.split(" ")[0])}</text></g>`;
+    }).join("");
+    $$("[data-node]", target).forEach((nodeEl) => nodeEl.addEventListener("click", () => {
+      selected = nodeEl.dataset.node;
+      update();
+    }));
+  }
+
+  function selectedPanel(current) {
+    return `<div class="note"><strong>${escapeHtml(current.label)}</strong><br>Owner: ${escapeHtml(current.owner)}<br>Team: ${escapeHtml(current.team)}<br>Risk: ${escapeHtml(current.risk)}<br>Evidence: ${escapeHtml(current.evidence)}</div><h3>Related controls</h3><p>${current.controls.map((control) => `<span class="badge">${escapeHtml(control)}</span>`).join(" ")}</p><h3>Dependencies</h3><p class="muted-text">Upstream: ${current.upstream.length ? current.upstream.join(", ") : "None"}<br>Downstream: ${current.downstream.length ? current.downstream.join(", ") : "None"}</p>`;
+  }
+
+  function renderPresentation() {
+    const slide = slideData[slideIndex];
+    const current = nodes.find((node) => node.id === selected) || nodes.find((node) => node.id === slide.selected);
+    const shell = $("[data-impact-presenter]");
+    shell.innerHTML = `
+      <div class="impact-presenter-top">
+        <div><span>${escapeHtml(slide.eyebrow)}</span><h2>${escapeHtml(slide.title)}</h2></div>
+        <div class="impact-presenter-actions">
+          <button data-present-prev aria-label="Previous presentation slide">Previous</button>
+          <button data-present-next aria-label="Next presentation slide">Next</button>
+          <button class="primary" data-present-exit>Exit</button>
+        </div>
+      </div>
+      <div class="impact-presenter">
+        <nav class="impact-slide-rail" aria-label="Presentation sections">
+          ${slideData.map((item, index) => `<button class="impact-slide-button ${index === slideIndex ? "active" : ""}" data-slide="${index}"><span>0${index + 1}</span>${escapeHtml(item.title)}</button>`).join("")}
+        </nav>
+        <section class="impact-stage">
+          <div class="impact-map-card">
+            <svg class="diagram impact-map" viewBox="0 0 1100 420" data-present-map aria-label="Presentation dependency map"></svg>
+          </div>
+          <aside class="impact-inspector">
+            <span class="panel-label">Selected service</span>
+            <div data-present-selected>${selectedPanel(current)}</div>
+          </aside>
+          <section class="impact-evidence-drawer">
+            <div class="panel-head"><h3>Evidence drawer</h3><span class="status review">${escapeHtml(slide.title)}</span></div>
+            ${renderTable(["ID", "Evidence", "Owner", "State"], slide.evidence.map((row) => [escapeHtml(row[0]), escapeHtml(row[1]), escapeHtml(row[2]), `<span class="status ${row[3] === "Ready" ? "ready" : "review"}">${escapeHtml(row[3])}</span>`]))}
+          </section>
+          <aside class="impact-notes">
+            <span class="panel-label">Presenter notes</span>
+            <p>${escapeHtml(slide.notes)}</p>
+          </aside>
+        </section>
+      </div>
+      <ol class="impact-timeline" aria-label="Change timeline">
+        ${timeline.map((item, index) => `<li class="impact-timeline-step ${index + 1 <= slide.progress ? "complete" : ""} ${index + 1 === slide.progress ? "current" : ""}"><span>${index + 1}</span>${escapeHtml(item)}</li>`).join("")}
+      </ol>`;
+    renderMap($("[data-present-map]"), { focus: slide.focus, presenter: true });
+    $$("[data-slide]").forEach((button) => button.addEventListener("click", () => setSlide(Number(button.dataset.slide))));
+    $("[data-present-prev]").addEventListener("click", () => setSlide(slideIndex - 1));
+    $("[data-present-next]").addEventListener("click", () => setSlide(slideIndex + 1));
+    $("[data-present-exit]").addEventListener("click", () => setPresentation(false));
+  }
+
+  function update() {
+    const visible = nodes.filter((node) => riskFilter === "All" || node.risk === riskFilter);
+    const current = nodes.find((node) => node.id === selected) || visible[0] || nodes[0];
+    selected = current.id;
+    renderMap($("[data-map]"), { focus: riskFilter === "Critical" ? criticalPath : [] });
+    $("[data-selected]").innerHTML = selectedPanel(current);
+    $("[data-evidence]").innerHTML = renderTable(["ID", "Document", "Owner", "Status"], visible.map((node, index) => [`EV-${1042 + index}`, escapeHtml(node.evidence), escapeHtml(node.team), `<span class="status ${node.risk === "Critical" ? "review" : "ready"}">${node.risk === "Critical" ? "Review" : "Ready"}</span>`]));
+    if (presenting) renderPresentation();
+  }
+
+  function setSlide(index) {
+    slideIndex = (index + slideData.length) % slideData.length;
+    selected = slideData[slideIndex].selected;
+    renderPresentation();
+  }
+
+  function setPresentation(active) {
+    presenting = active;
+    document.body.classList.toggle("impact-presentation-active", active);
+    $("[data-impact-normal]").hidden = active;
+    $("[data-impact-presenter]").hidden = !active;
+    if (active) {
+      selected = slideData[slideIndex].selected;
+      renderPresentation();
+      $("[data-impact-presenter]").focus?.();
+    } else {
+      update();
+    }
+  }
+  $("[data-risk]").addEventListener("change", (event) => {
+    riskFilter = event.target.value;
+    update();
+  });
+  $("[data-critical]").addEventListener("click", () => {
+    riskFilter = "Critical";
+    $("[data-risk]").value = "Critical";
+    update();
+  });
+  $("[data-copy]").addEventListener("click", (event) => {
+    const current = nodes.find((node) => node.id === selected);
+    copyText(`Reviewer checklist for ${current.label}\n- Confirm owner: ${current.owner} (${current.team})\n- Review evidence: ${current.evidence}\n- Validate upstream dependencies: ${current.upstream.join(", ") || "None"}\n- Validate downstream dependencies: ${current.downstream.join(", ") || "None"}\n- Record decision outside this demo`, event.currentTarget);
+  });
+  $$("[data-impact-present]").forEach((button) => button.addEventListener("click", () => setPresentation(true)));
+  document.addEventListener("keydown", (event) => {
+    const target = event.target;
+    const isTyping = target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
+    if (isTyping) return;
+    if (event.key.toLowerCase() === "p" && !presenting) {
+      event.preventDefault();
+      setPresentation(true);
+      return;
+    }
+    if (!presenting) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setPresentation(false);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      setSlide(slideIndex + 1);
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      setSlide(slideIndex - 1);
+    } else if (/^[1-6]$/.test(event.key)) {
+      event.preventDefault();
+      setSlide(Number(event.key) - 1);
+    }
+  });
+  update();
+}
+
+function renderPr() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Review aid";
+  const findings = [
+    ["High", "migration.sql", "Rollback path does not cover rows inserted after upgrade."],
+    ["High", "api/client.ts", "New outbound host needs security owner review."],
+    ["Medium", "ReviewPanel.tsx", "Empty response state lacks explicit user message."],
+    ["Medium", "risk.ts", "Risk score denominator is not shown to reviewers."],
+    ["Low", "utils.ts", "Helper name hides side effect."],
+    ["Low", "README.md", "Add local preview note for reviewers."]
+  ];
+  let severity = "All";
+  $("[data-controls]").innerHTML = `<h2>Severity</h2><div class="control-group">${["All", "High", "Medium", "Low"].map((item) => `<button data-sev="${item}">${item}</button>`).join("")}</div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy review summary</button>`;
+  $("[data-workspace]").innerHTML = `<div class="output" data-diff></div><div data-findings></div><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Ownership matrix</h2>${renderTable(["Area", "Owner", "Review"], [["Data migration", "Platform", '<span class="status high">Required</span>'], ["Security", "AppSec", '<span class="status high">Required</span>'], ["UX copy", "Product", '<span class="status medium">Optional</span>']])}`;
+  function update() {
+    const visible = findings.filter((finding) => severity === "All" || finding[0] === severity);
+    $("[data-diff]").textContent = `@@ fictional diff excerpt @@\n+ await client.post("/external/review", payload)\n+ await db.execute(migrationStatement)\n- return null\n+ return { status: "pending_review" }`;
+    $("[data-findings]").innerHTML = renderTable(["Severity", "File", "Reviewer focus"], visible.map((finding) => [`<span class="status ${statusClass(finding[0])}">${finding[0]}</span>`, escapeHtml(finding[1]), escapeHtml(finding[2])]));
+    setOutput(`PR review summary (${severity})\n\n${visible.map((finding) => `- [${finding[0]}] ${finding[1]}: ${finding[2]}`).join("\n")}\n\nBoundary: reviewer remains accountable for final judgment.`);
+  }
+  $$("[data-sev]").forEach((button) => button.addEventListener("click", () => {
+    severity = button.dataset.sev;
+    update();
+  }));
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  update();
+}
+
+function renderIncident() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Incident timeline";
+  const events = [
+    ["09:12", "Detect", "Alert fired for elevated checkout failures."],
+    ["09:18", "Assess", "On-call linked failures to payment timeout changes."],
+    ["09:31", "Mitigate", "Feature flag disabled for high-volume path."],
+    ["09:47", "Recover", "Error rate returned to expected range."],
+    ["10:15", "Follow-up", "Drafted remediation owner list."]
+  ];
+  let filter = "All";
+  $("[data-controls]").innerHTML = `<h2>Event controls</h2><div class="control-group"><label>Type<select data-type-filter><option>All</option><option>Detect</option><option>Assess</option><option>Mitigate</option><option>Recover</option><option>Follow-up</option></select></label><label>Time<input data-time value="10:30"></label><label>Type<select data-new-type><option>Follow-up</option><option>Detect</option><option>Assess</option><option>Mitigate</option><option>Recover</option></select></label><label>Note<input data-note value="Schedule learning review."></label><button class="primary" data-add>Add event</button></div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy postmortem</button>`;
+  $("[data-workspace]").innerHTML = `<div class="timeline" data-timeline></div><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Five whys</h2>${["Why alert?", "Timeouts increased", "Why timeouts?", "Config changed", "Why not caught?", "Fixture missed peak load"].map((item) => `<div class="note">${escapeHtml(item)}</div>`).join("")}`;
+  function update() {
+    const visible = events.filter((event) => filter === "All" || event[1] === filter);
+    $("[data-timeline]").innerHTML = visible.map((event) => `<section class="event"><time>${event[0]}</time><div><strong>${event[1]}</strong><p>${event[2]}</p></div></section>`).join("");
+    setOutput(`Incident postmortem draft\n\n${events.map((event) => `${event[0]} - ${event[1]} - ${event[2]}`).join("\n")}\n\nBoundary: official incident record remains in approved operational tooling.`);
+  }
+  $("[data-type-filter]").addEventListener("change", (event) => {
+    filter = event.target.value;
+    update();
+  });
+  $("[data-add]").addEventListener("click", () => {
+    events.push([$("[data-time]").value, $("[data-new-type]").value, $("[data-note]").value]);
+    events.sort((a, b) => a[0].localeCompare(b[0]));
+    update();
+  });
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  update();
+}
+
+function renderControl() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Evidence readiness";
+  const items = [
+    ["Change ticket", "CHANGE-01", "Asha", "Ready"],
+    ["Peer review notes", "SDLC-04", "Ben", "Needs review"],
+    ["Regression test evidence", "TEST-02", "Mina", "Ready"],
+    ["Rollback notes", "CHANGE-01", "Leo", "Missing"],
+    ["Data classification", "DATA-01", "Sam", "Needs review"],
+    ["Monitoring screenshot", "OPS-03", "Asha", "Ready"]
+  ];
+  $("[data-controls]").innerHTML = `<h2>Actions</h2><div class="control-group"><button class="primary" data-ready>Mark ready items</button><button data-print>Print pack</button></div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy readiness summary</button>`;
+  $("[data-workspace]").innerHTML = `<div class="hero-stats" data-readiness></div><div class="heatmap" data-heatmap></div><div data-table></div><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Control caveat</h2><div class="note warning">Readiness is not attestation. Each evidence item must be validated against the approved control and source system.</div>`;
+  function update() {
+    const ready = items.filter((item) => item[3] === "Ready").length;
+    const missing = items.filter((item) => item[3] === "Missing").length;
+    $("[data-readiness]").innerHTML = [["Ready", ready], ["Review", items.length - ready - missing], ["Missing", missing]].map(([label, value]) => metricCard(value, label)).join("");
+    $("[data-heatmap]").innerHTML = items.map((item) => `<span style="background:${item[3] === "Ready" ? "var(--green)" : item[3] === "Missing" ? "var(--red)" : "var(--accent)"}"></span>`).join("");
+    $("[data-table]").innerHTML = renderTable(["Evidence", "Control", "Owner", "Status"], items.map((item, index) => [escapeHtml(item[0]), escapeHtml(item[1]), escapeHtml(item[2]), `<select data-status="${index}"><option ${item[3] === "Ready" ? "selected" : ""}>Ready</option><option ${item[3] === "Needs review" ? "selected" : ""}>Needs review</option><option ${item[3] === "Missing" ? "selected" : ""}>Missing</option></select>`]));
+    setOutput(`Control evidence readiness\n\nReady: ${ready}/${items.length}\n${items.map((item) => `- ${item[0]} (${item[1]}): ${item[3]} | owner: ${item[2]}`).join("\n")}\n\nBoundary: not audit attestation.`);
+    $$("[data-status]").forEach((select) => select.addEventListener("change", () => {
+      items[Number(select.dataset.status)][3] = select.value;
+      update();
+    }));
+  }
+  $("[data-ready]").addEventListener("click", () => {
+    items.forEach((item) => {
+      if (item[3] === "Needs review") item[3] = "Ready";
+    });
+    update();
+  });
+  $("[data-print]").addEventListener("click", () => window.print());
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  update();
+}
+
+function renderFlags() {
+  renderShell();
+  $("[data-workspace-title]").textContent = "Flag rollout risk";
+  const defaults = {
+    "checkout-v2": false,
+    "payment-routing": false,
+    "new-dashboard": true,
+    "bulk-export": false,
+    "legacy-fallback": true,
+    "customer-copy-refresh": true
+  };
+  const dependencies = {
+    "checkout-v2": ["payment-routing", "legacy-fallback"],
+    "bulk-export": ["new-dashboard"],
+    "payment-routing": ["legacy-fallback"]
+  };
+  const key = "enterprise-html-flags-v2";
+  let state = JSON.parse(localStorage.getItem(key) || "null") || { ...defaults };
+  $("[data-controls]").innerHTML = `<h2>Rollout</h2><div class="control-group"><label>Target<select data-target><option>Internal pilot</option><option>5% customers</option><option>25% customers</option><option>100% customers</option></select></label><button data-reset>Reset</button></div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy JSON diff</button><button data-download>Download diff</button>`;
+  $("[data-workspace]").innerHTML = `<div data-flags></div><svg class="diagram" viewBox="0 0 760 250" data-flag-map aria-label="Feature flag dependency graph"></svg><pre class="output" data-output></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Risk analysis</h2><div data-warnings></div>`;
+  function update() {
+    localStorage.setItem(key, JSON.stringify(state));
+    $("[data-flags]").innerHTML = Object.keys(state).map((flag) => `<div class="toggle-row"><div><strong>${escapeHtml(flag)}</strong><p>${dependencies[flag] ? `Depends on: ${dependencies[flag].join(", ")}` : "No sample dependency"}</p></div><label class="switch"><input type="checkbox" data-flag="${flag}" ${state[flag] ? "checked" : ""}><span class="slider"></span></label></div>`).join("");
+    const diff = Object.fromEntries(Object.entries(state).filter(([flag, value]) => defaults[flag] !== value));
+    const warnings = Object.entries(dependencies).filter(([flag, deps]) => state[flag] && deps.some((dep) => !state[dep]));
+    const blast = Object.values(state).filter(Boolean).length * ($("[data-target]").selectedIndex + 1);
+    $("[data-flag-map]").innerHTML = `
+      <rect class="node ${state["checkout-v2"] ? "active" : ""}" x="60" y="70" width="150" height="58" rx="7"></rect><text x="88" y="106">checkout-v2</text>
+      <rect class="node ${state["payment-routing"] ? "active" : ""}" x="300" y="35" width="170" height="58" rx="7"></rect><text x="323" y="71">payment-routing</text>
+      <rect class="node ${state["legacy-fallback"] ? "active" : ""}" x="300" y="145" width="170" height="58" rx="7"></rect><text x="324" y="181">legacy-fallback</text>
+      <rect class="node ${state["bulk-export"] ? "active" : ""}" x="540" y="70" width="150" height="58" rx="7"></rect><text x="575" y="106">bulk-export</text>
+      <path class="line hot" d="M210 99h90"></path><path class="line hot" d="M210 99 C260 140 270 174 300 174"></path><path class="line dashed" d="M470 64 C520 64 520 99 540 99"></path>`;
+    setOutput(JSON.stringify(diff, null, 2) || "{}");
+    $("[data-warnings]").innerHTML = `<div class="stat"><strong>${blast}</strong><span>Blast-radius score</span></div>` + (warnings.length ? warnings.map(([flag, deps]) => `<div class="note danger">${escapeHtml(flag)} is on, but dependency is off: ${escapeHtml(deps.filter((dep) => !state[dep]).join(", "))}</div>`).join("") : `<div class="note">No dependency warnings in this fictional flag set.</div>`) + `<div class="note">Target: ${escapeHtml($("[data-target]").value)}</div>`;
+    $$("[data-flag]").forEach((input) => input.addEventListener("change", () => {
+      state[input.dataset.flag] = input.checked;
+      update();
+    }));
+  }
+  $("[data-target]").addEventListener("change", update);
+  $("[data-reset]").addEventListener("click", () => {
+    state = { ...defaults };
+    localStorage.removeItem(key);
+    update();
+  });
+  $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
+  $("[data-download]").addEventListener("click", () => downloadText("feature-flag-diff.json", $("[data-output]").textContent, "application/json;charset=utf-8"));
+  update();
+}
+
+const renderers = {
+  decision: renderDecision,
+  meeting: renderMeeting,
+  policy: renderPolicy,
+  csv: renderCsv,
+  risk: renderRisk,
+  conversation: renderConversation,
+  adr: renderAdr,
+  impact: renderImpact,
+  pr: renderPr,
+  incident: renderIncident,
+  control: renderControl,
+  flags: renderFlags
+};
+
+renderers[sample.type]();
+
+  </script>
 </body>
 </html>
