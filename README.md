@@ -16,6 +16,17 @@ Inspired by [Thariq's original HTML effectiveness examples](https://thariqs.gith
 This repository uses original enterprise scenarios, original copy, original styling,
 and fictional sample data.
 
+## Provenance
+
+This enterprise-focused showcase was created by Vishal Shah with GPT assistance
+and reviewed as a set of self-contained HTML artifacts.
+
+A related earlier experiment explored the same idea with Claude assistance:
+[Power of HTML with LLMs](https://vishal8shah.github.io/Power-of-HTML-with-LLMs/index.html).
+
+The point is not a model comparison. The point is HTML as a useful artifact format
+for LLM-assisted work.
+
 ## What is included
 
 - `index.html` - the public showcase page with inline CSS and inline JavaScript.
