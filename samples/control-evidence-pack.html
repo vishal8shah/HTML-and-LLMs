@@ -16,6 +16,7 @@
   <meta name="theme-color" content="#080807">
   <link rel="canonical" href="https://vishal8shah.github.io/HTML-and-LLMs/samples/control-evidence-pack.html">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/HTML-and-LLMs/favicon.ico" sizes="any">
   <title>Control evidence pack | HTML and LLMs for Enterprise Work</title>
   <style>
 :root {
@@ -437,6 +438,12 @@ textarea:focus-visible {
   display: grid;
   gap: 14px;
   margin-top: 18px;
+}
+
+.control-group button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  color: var(--accent);
 }
 
 label,
@@ -1342,12 +1349,71 @@ textarea.why-editor {
 .diff-line {
   display: block;
   border-left: 3px solid transparent;
+  color: var(--muted);
+  font-family: var(--mono);
   padding: 4px 8px;
+  transition: background .2s ease, border-color .2s ease, color .2s ease, opacity .2s ease;
 }
 
-.diff-line.active {
+.diff-line.highlight {
   border-left-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--ink);
+}
+
+.diff-line.muted {
+  color: var(--faint);
+  opacity: .52;
+}
+
+.diff-line.context {
+  color: var(--faint);
+}
+
+.finding-list {
+  display: grid;
+  gap: 10px;
+}
+
+.finding-button {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 12px;
+  text-align: left;
+}
+
+.finding-button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+
+.finding-button strong,
+.finding-button span {
+  display: block;
+}
+
+.finding-button span {
+  margin-top: 6px;
+  color: var(--muted);
+  font: 600 12px/1.45 var(--mono);
+}
+
+.type-badge {
+  margin-left: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--accent);
+  font: 800 10px/1 var(--mono);
+  padding: 3px 6px;
+  text-transform: uppercase;
+}
+
+.csv-notice {
+  margin: 0 0 12px;
 }
 
 
@@ -1869,37 +1935,57 @@ function renderPolicy() {
   update();
 }
 
-function parseCsv(text) {
-  const rows = [];
+function parseCsv(text, rowLimit = 500) {
+  const records = [];
   let row = [];
   let cell = "";
   let quoted = false;
+  let fieldStarted = false;
+
+  function pushCell() {
+    row.push(cell);
+    cell = "";
+    fieldStarted = false;
+  }
+
+  function pushRow() {
+    if (row.some((value) => value.length)) records.push(row);
+    row = [];
+  }
+
   for (let index = 0; index < text.length; index += 1) {
     const char = text[index];
     const next = text[index + 1];
-    if (quoted && char === '"' && next === '"') {
-      cell += '"';
-      index += 1;
-    } else if (char === '"') {
-      quoted = !quoted;
-    } else if (char === "," && !quoted) {
-      row.push(cell.trim());
-      cell = "";
-    } else if ((char === "\n" || char === "\r") && !quoted) {
+    if (quoted) {
+      if (char === '"' && next === '"') {
+        cell += '"';
+        index += 1;
+      } else if (char === '"') {
+        quoted = false;
+      } else {
+        cell += char;
+      }
+    } else if (char === '"' && !fieldStarted) {
+      quoted = true;
+      fieldStarted = true;
+    } else if (char === ",") {
+      pushCell();
+    } else if (char === "\n" || char === "\r") {
       if (char === "\r" && next === "\n") index += 1;
-      row.push(cell.trim());
-      if (row.some((value) => value.length)) rows.push(row);
-      row = [];
-      cell = "";
+      pushCell();
+      pushRow();
     } else {
       cell += char;
+      fieldStarted = true;
     }
   }
-  row.push(cell.trim());
-  if (row.some((value) => value.length)) rows.push(row);
-  if (!rows.length) return [];
-  const headers = rows.shift().map((header) => header.trim());
-  return rows.map((cells) => Object.fromEntries(headers.map((header, index) => [header, cells[index] || ""])));
+  pushCell();
+  pushRow();
+  if (!records.length) return { headers: [], rows: [], totalRows: 0, truncated: false };
+  const headers = records.shift().map((header, index) => header.trim() || `Column ${index + 1}`);
+  const totalRows = records.length;
+  const rows = records.slice(0, rowLimit).map((cells) => Object.fromEntries(headers.map((header, index) => [header, cells[index] || ""])));
+  return { headers, rows, totalRows, truncated: totalRows > rowLimit };
 }
 
 function toCsv(rows) {
@@ -1914,6 +2000,7 @@ function toCsv(rows) {
 function renderCsv() {
   renderShell();
   $("[data-workspace-title]").textContent = "Local CSV triage";
+  const CSV_ROW_LIMIT = 500;
   const defaultCsv = `request,owner,status,risk,amount
 Customer notice refresh,Asha,ready,low,12000
 Vendor workflow review,Ben,review,medium,42000
@@ -1921,7 +2008,7 @@ Manual upload exception,,blocked,high,86000
 Pricing FAQ update,Mina,ready,low,9000
 Data extract request,Leo,review,high,64000
 Portal wording change,Sam,draft,medium,18000`;
-  let rows = parseCsv(defaultCsv);
+  let csvState = parseCsv(defaultCsv, CSV_ROW_LIMIT);
   $("[data-controls]").innerHTML = `
     <h2>Input</h2>
     <div class="control-group">
@@ -1929,18 +2016,38 @@ Portal wording change,Sam,draft,medium,18000`;
       <label>Paste CSV<textarea data-csv>${defaultCsv}</textarea></label>
       <label>Risk filter<select data-filter><option value="all">All</option><option>low</option><option>medium</option><option>high</option></select></label>
     </div>
+    <div class="note">This demo processes up to ${CSV_ROW_LIMIT} data rows in the browser.</div>
   `;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-export>Download cleaned CSV</button>`;
-  $("[data-workspace]").innerHTML = `<div class="hero-stats" data-profile></div><svg class="diagram" viewBox="0 0 760 230" data-chart aria-label="CSV risk chart"></svg><div data-table></div>`;
+  $("[data-workspace]").innerHTML = `<div class="hero-stats" data-profile></div><div data-csv-notice></div><svg class="diagram" viewBox="0 0 760 230" data-chart aria-label="CSV risk chart"></svg><div data-table></div>`;
   $("[data-inspector]").innerHTML = `<h2>Quality findings</h2><div data-findings></div>`;
+
+  function inferTypes(rows, headers) {
+    return Object.fromEntries(headers.map((header) => {
+      const values = rows.map((row) => row[header]).filter((value) => String(value).trim().length);
+      if (!values.length) return [header, "text"];
+      const numberLike = values.every((value) => /^-?\d+(\.\d+)?$/.test(String(value).trim()));
+      const dateLike = values.every((value) => /^\d{4}-\d{2}-\d{2}$/.test(String(value).trim()) || (!Number.isFinite(Number(value)) && !Number.isNaN(Date.parse(value))));
+      return [header, numberLike ? "number" : dateLike ? "date" : "text"];
+    }));
+  }
+
+  function renderCsvTable(headers, rows, types) {
+    if (!rows.length) return "<p>No rows.</p>";
+    return `<table><thead><tr>${headers.map((header) => `<th>${escapeHtml(header)}<span class="type-badge">${escapeHtml(types[header])}</span></th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${headers.map((header) => `<td>${escapeHtml(row[header] || "Missing")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  }
 
   function update() {
     const filter = $("[data-filter]").value;
+    const rows = csvState.rows;
+    const headers = csvState.headers;
     const visible = rows.filter((row) => filter === "all" || row.risk === filter);
     const missing = rows.filter((row) => Object.values(row).some((value) => !value)).length;
     const high = rows.filter((row) => row.risk === "high").length;
+    const types = inferTypes(rows, headers);
     $("[data-profile]").innerHTML = [["Rows", rows.length], ["Missing", missing], ["High risk", high]].map(([label, value]) => metricCard(value, label)).join("");
-    $("[data-table]").innerHTML = rows.length ? renderTable(Object.keys(rows[0]), visible.map((row) => Object.values(row).map((value) => escapeHtml(value || "Missing")))) : "<p>No rows.</p>";
+    $("[data-csv-notice]").innerHTML = csvState.truncated ? `<div class="note warning csv-notice">Input contains ${csvState.totalRows} data rows. This view is truncated to ${CSV_ROW_LIMIT} rows, and profiles reflect processed rows only.</div>` : "";
+    $("[data-table]").innerHTML = renderCsvTable(headers, visible, types);
     const groups = ["low", "medium", "high"].map((risk) => rows.filter((row) => row.risk === risk).length);
     $("[data-chart]").innerHTML = groups.map((count, index) => {
       const height = 28 + count * 48;
@@ -1956,7 +2063,7 @@ Portal wording change,Sam,draft,medium,18000`;
     ].map((item, index) => `<div class="note ${index === 1 && high ? "danger" : ""}">${escapeHtml(item)}</div>`).join("");
   }
   $("[data-csv]").addEventListener("input", (event) => {
-    rows = parseCsv(event.target.value);
+    csvState = parseCsv(event.target.value, CSV_ROW_LIMIT);
     update();
   });
   $("[data-file]").addEventListener("change", async (event) => {
@@ -1964,12 +2071,13 @@ Portal wording change,Sam,draft,medium,18000`;
     if (!file) return;
     const text = await file.text();
     $("[data-csv]").value = text;
-    rows = parseCsv(text);
+    csvState = parseCsv(text, CSV_ROW_LIMIT);
     update();
   });
   $("[data-filter]").addEventListener("change", update);
   $("[data-export]").addEventListener("click", () => {
     const filter = $("[data-filter]").value;
+    const rows = csvState.rows;
     const visible = rows.filter((row) => filter === "all" || row.risk === filter);
     downloadText("csv-triage-cleaned.csv", toCsv(visible), "text/csv;charset=utf-8");
   });
@@ -2388,27 +2496,88 @@ function renderImpact() {
 function renderPr() {
   renderShell();
   $("[data-workspace-title]").textContent = "Review aid";
+  const diffLines = [
+    { id: "mig-h", file: "migration.sql", text: "@@ migration.sql @@", kind: "context" },
+    { id: "mig-1", file: "migration.sql", text: "+ ALTER TABLE review_queue ADD COLUMN risk_score INTEGER NOT NULL DEFAULT 0;", kind: "add" },
+    { id: "mig-2", file: "migration.sql", text: "+ UPDATE review_queue SET risk_score = calculate_risk_score(payload);", kind: "add" },
+    { id: "mig-3", file: "migration.sql", text: "+ -- rollback drops risk_score but does not preserve rows inserted after upgrade", kind: "add" },
+    { id: "api-h", file: "api/client.ts", text: "@@ api/client.ts @@", kind: "context" },
+    { id: "api-1", file: "api/client.ts", text: "+ await client.post(\"/external/review\", payload)", kind: "add" },
+    { id: "api-2", file: "api/client.ts", text: "+ return { status: \"pending_review\" }", kind: "add" },
+    { id: "ui-h", file: "ReviewPanel.tsx", text: "@@ ReviewPanel.tsx @@", kind: "context" },
+    { id: "ui-1", file: "ReviewPanel.tsx", text: "- return null", kind: "remove" },
+    { id: "ui-2", file: "ReviewPanel.tsx", text: "+ return <ReviewSummary findings={findings} />", kind: "add" },
+    { id: "risk-h", file: "risk.ts", text: "@@ risk.ts @@", kind: "context" },
+    { id: "risk-1", file: "risk.ts", text: "+ const score = Math.round(weightedTotal / activeControls.length)", kind: "add" },
+    { id: "util-h", file: "utils.ts", text: "@@ utils.ts @@", kind: "context" },
+    { id: "util-1", file: "utils.ts", text: "+ export function syncReviewState() { writeState(); return true; }", kind: "add" },
+    { id: "readme-h", file: "README.md", text: "@@ README.md @@", kind: "context" },
+    { id: "readme-1", file: "README.md", text: "+ Run the static preview before requesting review.", kind: "add" }
+  ];
   const findings = [
-    ["High", "migration.sql", "Rollback path does not cover rows inserted after upgrade."],
-    ["High", "api/client.ts", "New outbound host needs security owner review."],
-    ["Medium", "ReviewPanel.tsx", "Empty response state lacks explicit user message."],
-    ["Medium", "risk.ts", "Risk score denominator is not shown to reviewers."],
-    ["Low", "utils.ts", "Helper name hides side effect."],
-    ["Low", "README.md", "Add local preview note for reviewers."]
+    { id: "rollback", severity: "High", file: "migration.sql", focus: "Rollback path does not cover rows inserted after upgrade.", lineIds: ["mig-2", "mig-3"], owner: "Platform" },
+    { id: "egress", severity: "High", file: "api/client.ts", focus: "New outbound host needs security owner review.", lineIds: ["api-1"], owner: "AppSec" },
+    { id: "empty", severity: "Medium", file: "ReviewPanel.tsx", focus: "Empty response state lacks explicit user message.", lineIds: ["ui-1", "ui-2"], owner: "Product" },
+    { id: "denominator", severity: "Medium", file: "risk.ts", focus: "Risk score denominator is not shown to reviewers.", lineIds: ["risk-1"], owner: "Risk" },
+    { id: "side-effect", severity: "Low", file: "utils.ts", focus: "Helper name hides side effect.", lineIds: ["util-1"], owner: "Engineering" },
+    { id: "preview", severity: "Low", file: "README.md", focus: "Add local preview note for reviewers.", lineIds: ["readme-1"], owner: "Engineering" }
   ];
   let severity = "All";
-  $("[data-controls]").innerHTML = `<h2>Severity</h2><div class="control-group">${["All", "High", "Medium", "Low"].map((item) => `<button data-sev="${item}">${item}</button>`).join("")}</div>`;
+  let decision = "Request changes";
+  let selectedFindingId = findings[0].id;
+  $("[data-controls]").innerHTML = `<h2>Review controls</h2><div class="control-group"><span class="panel-label">Severity</span>${["All", "High", "Medium", "Low"].map((item) => `<button data-sev="${item}">${item}</button>`).join("")}<span class="panel-label">Decision</span>${["Approve", "Request changes", "Comment"].map((item) => `<button data-decision="${item}">${item}</button>`).join("")}</div>`;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy review summary</button>`;
-  $("[data-workspace]").innerHTML = `<div class="output" data-diff></div><div data-findings></div><pre class="output" data-output></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Ownership matrix</h2>${renderTable(["Area", "Owner", "Review"], [["Data migration", "Platform", '<span class="status high">Required</span>'], ["Security", "AppSec", '<span class="status high">Required</span>'], ["UX copy", "Product", '<span class="status medium">Optional</span>']])}`;
+  $("[data-workspace]").innerHTML = `<div class="output" data-diff aria-label="Annotated fictional diff"></div><div data-findings></div><pre class="output" data-output aria-live="polite"></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Selected finding</h2><div data-selected-finding aria-live="polite"></div><h2>Ownership matrix</h2>${renderTable(["Area", "Owner", "Review"], [["Data migration", "Platform", '<span class="status high">Required</span>'], ["Security", "AppSec", '<span class="status high">Required</span>'], ["UX copy", "Product", '<span class="status medium">Optional</span>']])}`;
+
+  function visibleFindings() {
+    return findings.filter((finding) => severity === "All" || finding.severity === severity);
+  }
+
+  function selectedFinding() {
+    return findings.find((finding) => finding.id === selectedFindingId) || visibleFindings()[0] || findings[0];
+  }
+
+  function renderSummary(visible, current) {
+    return `Decision: ${decision}
+Severity filter: ${severity}
+Selected finding: ${current ? `[${current.severity}] ${current.file}: ${current.focus}` : "None"}
+
+Visible findings:
+${visible.map((finding) => `- [${finding.severity}] ${finding.file}: ${finding.focus} | owner: ${finding.owner}`).join("\n") || "- None"}
+
+Boundary: reviewer remains accountable for final judgment.`;
+  }
+
   function update() {
-    const visible = findings.filter((finding) => severity === "All" || finding[0] === severity);
-    $("[data-diff]").textContent = `@@ fictional diff excerpt @@\n+ await client.post("/external/review", payload)\n+ await db.execute(migrationStatement)\n- return null\n+ return { status: "pending_review" }`;
-    $("[data-findings]").innerHTML = renderTable(["Severity", "File", "Reviewer focus"], visible.map((finding) => [`<span class="status ${statusClass(finding[0])}">${finding[0]}</span>`, escapeHtml(finding[1]), escapeHtml(finding[2])]));
-    setOutput(`PR review summary (${severity})\n\n${visible.map((finding) => `- [${finding[0]}] ${finding[1]}: ${finding[2]}`).join("\n")}\n\nBoundary: reviewer remains accountable for final judgment.`);
+    const visible = visibleFindings();
+    if (!visible.some((finding) => finding.id === selectedFindingId)) selectedFindingId = visible[0]?.id || "";
+    const current = selectedFinding();
+    const visibleLineIds = new Set(visible.flatMap((finding) => finding.lineIds));
+    const selectedLineIds = new Set(current?.lineIds || []);
+    const hiddenLineIds = new Set(findings.filter((finding) => !visible.includes(finding)).flatMap((finding) => finding.lineIds));
+    $("[data-diff]").innerHTML = diffLines.map((line) => {
+      const classes = ["diff-line", line.kind === "context" ? "context" : "", selectedLineIds.has(line.id) ? "highlight" : "", !selectedLineIds.has(line.id) && !visibleLineIds.has(line.id) && hiddenLineIds.has(line.id) ? "muted" : ""].filter(Boolean).join(" ");
+      return `<span class="${classes}" data-line="${escapeHtml(line.id)}"><span class="muted-text">${escapeHtml(line.file)}</span> ${escapeHtml(line.text)}</span>`;
+    }).join("");
+    $("[data-findings]").innerHTML = `<div class="finding-list">${visible.map((finding) => `<button class="finding-button" type="button" data-finding="${escapeHtml(finding.id)}" aria-pressed="${finding.id === current?.id ? "true" : "false"}"><strong><span class="status ${statusClass(finding.severity)}">${escapeHtml(finding.severity)}</span> ${escapeHtml(finding.file)}</strong><span>${escapeHtml(finding.focus)}</span></button>`).join("") || "<p>No findings match this filter.</p>"}</div>`;
+    $("[data-selected-finding]").innerHTML = current ? `<div class="note"><strong>${escapeHtml(current.file)}</strong><br>${escapeHtml(current.focus)}<br><span class="muted-text">Owner: ${escapeHtml(current.owner)} | Lines: ${current.lineIds.map(escapeHtml).join(", ")}</span></div>` : `<div class="note">No finding selected.</div>`;
+    $$("[data-sev]").forEach((button) => button.classList.toggle("active", button.dataset.sev === severity));
+    $$("[data-decision]").forEach((button) => button.classList.toggle("active", button.dataset.decision === decision));
+    setOutput(renderSummary(visible, current));
+    $$("[data-finding]").forEach((button) => button.addEventListener("click", () => {
+      selectedFindingId = button.dataset.finding;
+      update();
+      $(`[data-finding="${CSS.escape(selectedFindingId)}"]`)?.focus();
+      $(`[data-line="${CSS.escape(selectedFinding()?.lineIds[0] || "")}"]`)?.scrollIntoView({ block: "nearest" });
+    }));
   }
   $$("[data-sev]").forEach((button) => button.addEventListener("click", () => {
     severity = button.dataset.sev;
+    update();
+  }));
+  $$("[data-decision]").forEach((button) => button.addEventListener("click", () => {
+    decision = button.dataset.decision;
     update();
   }));
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
@@ -2451,7 +2620,7 @@ function renderControl() {
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy readiness summary</button>`;
   $("[data-workspace]").innerHTML = `<div class="hero-stats" data-readiness></div><div class="heatmap" data-heatmap></div><div data-table></div><pre class="output" data-output></pre>`;
   $("[data-inspector]").innerHTML = `<h2>Control caveat</h2><div data-coverage></div><div class="note warning">Readiness is not attestation. Each evidence item must be validated against the approved control and source system.</div>`;
-  function update() {
+  function update(focusIndex = null) {
     const ready = items.filter((item) => item[3] === "Ready").length;
     const missing = items.filter((item) => item[3] === "Missing").length;
     $("[data-readiness]").innerHTML = [["Ready", ready], ["Review", items.length - ready - missing], ["Missing", missing]].map(([label, value]) => metricCard(value, label)).join("");
@@ -2462,9 +2631,11 @@ function renderControl() {
     $("[data-table]").innerHTML = renderTable(["Evidence", "Control", "Owner", "Status"], items.map((item, index) => [escapeHtml(item[0]), escapeHtml(item[1]), escapeHtml(item[2]), `<select data-status="${index}"><option ${item[3] === "Ready" ? "selected" : ""}>Ready</option><option ${item[3] === "Needs review" ? "selected" : ""}>Needs review</option><option ${item[3] === "Missing" ? "selected" : ""}>Missing</option></select>`]));
     setOutput(`Control evidence readiness\n\nReady: ${ready}/${items.length}\n${items.map((item) => `- ${item[0]} (${item[1]}): ${item[3]} | owner: ${item[2]}`).join("\n")}\n\nBoundary: not audit attestation.`);
     $$("[data-status]").forEach((select) => select.addEventListener("change", () => {
-      items[Number(select.dataset.status)][3] = select.value;
-      update();
+      const index = Number(select.dataset.status);
+      items[index][3] = select.value;
+      update(index);
     }));
+    if (focusIndex !== null) $(`[data-status="${focusIndex}"]`)?.focus();
   }
   $("[data-ready]").addEventListener("click", () => {
     items.forEach((item) => {
@@ -2503,12 +2674,27 @@ function renderFlags() {
     localStorage.setItem(key, JSON.stringify(state));
     $("[data-flags]").innerHTML = Object.keys(state).map((flag) => `<div class="toggle-row"><div><strong>${escapeHtml(flag)}</strong><p>${dependencies[flag] ? `Depends on: ${dependencies[flag].join(", ")}` : "No sample dependency"}</p></div><label class="switch"><input type="checkbox" data-flag="${flag}" ${state[flag] ? "checked" : ""}><span class="slider"></span></label></div>`).join("");
     const diff = Object.fromEntries(Object.entries(state).filter(([flag, value]) => defaults[flag] !== value));
-    function missingDeps(flag, seen = new Set()) {
-      if (seen.has(flag)) return [];
-      seen.add(flag);
-      return (dependencies[flag] || []).flatMap((dep) => state[dep] ? missingDeps(dep, seen) : [dep]);
+    function dependencyViolations(flag) {
+      const paths = [];
+      const missing = new Set();
+      function walk(current, path, visited) {
+        if (visited.has(current)) return;
+        const nextVisited = new Set(visited);
+        nextVisited.add(current);
+        (dependencies[current] || []).forEach((dep) => {
+          const nextPath = [...path, dep];
+          if (!state[dep]) {
+            missing.add(dep);
+            paths.push(nextPath);
+          } else {
+            walk(dep, nextPath, nextVisited);
+          }
+        });
+      }
+      walk(flag, [flag], new Set());
+      return { paths, missing: [...missing] };
     }
-    const warnings = Object.keys(dependencies).map((flag) => [flag, missingDeps(flag)]).filter(([flag, deps]) => state[flag] && deps.length);
+    const warnings = Object.keys(dependencies).map((flag) => [flag, dependencyViolations(flag)]).filter(([flag, result]) => state[flag] && result.missing.length);
     const targetFactor = $("[data-target]").selectedIndex + 1;
     const blast = Object.values(state).filter(Boolean).length * targetFactor;
     $("[data-flag-map]").innerHTML = `
@@ -2518,7 +2704,7 @@ function renderFlags() {
       <rect class="node ${state["bulk-export"] ? "active" : ""}" x="540" y="70" width="150" height="58" rx="7"></rect><text x="575" y="106">bulk-export</text>
       <path class="line hot" d="M210 99h90"></path><path class="line hot" d="M210 99 C260 140 270 174 300 174"></path><path class="line dashed" d="M470 64 C520 64 520 99 540 99"></path>`;
     setOutput(JSON.stringify(diff, null, 2) || "{}");
-    $("[data-warnings]").innerHTML = `<div class="stat"><strong>${blast}</strong><span>Blast-radius score</span></div><div class="note">Scale: enabled flags x rollout stage (${targetFactor}). This is a review aid, not a production risk model.</div>` + (warnings.length ? warnings.map(([flag, deps]) => `<div class="note danger">${escapeHtml(flag)} is on, but dependency is off: ${escapeHtml([...new Set(deps)].join(", "))}</div>`).join("") : `<div class="note">No dependency warnings in this fictional flag set.</div>`) + `<div class="note">Target: ${escapeHtml($("[data-target]").value)}</div>`;
+    $("[data-warnings]").innerHTML = `<div class="stat"><strong>${blast}</strong><span>Blast-radius score</span></div><div class="note">Scale: enabled flags x rollout stage (${targetFactor}). This is a review aid, not a production risk model.</div>` + (warnings.length ? warnings.map(([flag, result]) => `<div class="note danger">${escapeHtml(flag)} is on, but dependency is off: ${escapeHtml([...new Set(result.missing)].join(", "))}<br><span class="muted-text">Path: ${result.paths.map((path) => escapeHtml(path.join(" -> "))).join("; ")}</span></div>`).join("") : `<div class="note">No dependency warnings in this fictional flag set.</div>`) + `<div class="note">Target: ${escapeHtml($("[data-target]").value)}</div>`;
     $$("[data-flag]").forEach((input) => input.addEventListener("change", () => {
       state[input.dataset.flag] = input.checked;
       update();
