@@ -1235,6 +1235,7 @@ kbd {
   .evidence-grid,
   .boundary-grid,
   .section-head,
+  .presentation-strip,
   .path-rail,
   .sample-grid,
   .verification,
@@ -1256,6 +1257,35 @@ kbd {
     max-width: 36rem;
     font-size: 16px;
     line-height: 1.55;
+  }
+
+  .presentation-strip {
+    align-items: start;
+    gap: 18px;
+    padding: 22px;
+  }
+
+  .presentation-strip h2 {
+    font-size: clamp(30px, 9vw, 42px);
+    line-height: 1.1;
+  }
+
+  .presentation-strip p {
+    max-width: 34rem;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .key-row {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  kbd {
+    min-width: 0;
+    padding: 10px 8px;
   }
 
   .guided-path {
