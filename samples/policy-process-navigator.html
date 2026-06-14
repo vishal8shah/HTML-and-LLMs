@@ -3,7 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Policy/process navigator | Enterprise HTML</title>
+  <meta name="description" content="Select a role and goal to reveal relevant process steps, linked controls, escalation points, and RACI guidance.">
+  <meta property="og:title" content="Policy/process navigator | HTML and LLMs for Enterprise Work">
+  <meta property="og:description" content="Select a role and goal to reveal relevant process steps, linked controls, escalation points, and RACI guidance.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vishal8shah.github.io/HTML-and-LLMs/samples/policy-process-navigator.html">
+  <meta property="og:image" content="https://vishal8shah.github.io/HTML-and-LLMs/assets/social-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Policy/process navigator | HTML and LLMs for Enterprise Work">
+  <meta name="twitter:description" content="Select a role and goal to reveal relevant process steps, linked controls, escalation points, and RACI guidance.">
+  <meta name="twitter:image" content="https://vishal8shah.github.io/HTML-and-LLMs/assets/social-preview.png">
+  <meta name="theme-color" content="#080807">
+  <link rel="canonical" href="https://vishal8shah.github.io/HTML-and-LLMs/samples/policy-process-navigator.html">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <title>Policy/process navigator | HTML and LLMs for Enterprise Work</title>
   <style>
 :root {
   color-scheme: dark;
@@ -356,7 +369,7 @@ textarea:focus-visible {
 }
 
 .proof-list span::before {
-  content: "✓";
+  content: ">";
   color: var(--accent);
   margin-right: 9px;
 }
@@ -1227,6 +1240,158 @@ td strong {
   }
 }
 
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 100;
+  transform: translateY(-160%);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--accent);
+  font: 800 12px/1 var(--mono);
+  padding: 12px 14px;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font: 800 11px/1 var(--mono);
+  text-transform: uppercase;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--faint);
+}
+
+.legend-dot.low,
+.risk-band.low {
+  background: var(--green);
+}
+
+.legend-dot.medium,
+.risk-band.medium {
+  background: var(--accent);
+}
+
+.legend-dot.high,
+.risk-band.high {
+  background: var(--red);
+}
+
+.legend-dot.critical,
+.risk-band.critical {
+  background: color-mix(in srgb, var(--red) 70%, var(--accent));
+}
+
+.contribution-grid,
+.triple-bars,
+.branch-panel {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.contribution-row,
+.triple-row {
+  display: grid;
+  grid-template-columns: minmax(90px, .35fr) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  color: var(--muted);
+  font: 750 11px/1.2 var(--mono);
+  text-transform: uppercase;
+}
+
+.risk-band {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  border-radius: 999px;
+  color: var(--accent-ink);
+  font: 900 11px/1 var(--mono);
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+textarea.response-editor,
+textarea.why-editor {
+  min-height: 150px;
+}
+
+.diff-line {
+  display: block;
+  border-left: 3px solid transparent;
+  padding: 4px 8px;
+}
+
+.diff-line.active {
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+
+.panel,
+.workspace,
+.workspace-body,
+.mini-card,
+.note,
+.output {
+  min-width: 0;
+}
+
+.diagram,
+table,
+.output {
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+}
+@media print {
+  .sample-header,
+  .sample-subnav,
+  [data-controls],
+  .workspace-head .toolbar,
+  .artifact-sections,
+  .footer-note {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  .app-grid,
+  .workspace,
+  .workspace-body {
+    display: block !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+}
   </style>
 </head>
 <body data-sample="policy-process-navigator">
@@ -1424,11 +1589,30 @@ function renderTable(headers, rows) {
 
 function setOutput(text) {
   const output = $("[data-output]");
-  if (output) output.textContent = text;
+  if (output) {
+    output.setAttribute("aria-live", "polite");
+    output.textContent = text;
+  }
 }
 
 function metricCard(value, label) {
   return `<div class="stat"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`;
+}
+
+function renderLegend(items) {
+  return `<div class="legend" aria-label="Legend">${items.map(([label, tone]) => `<span class="legend-item"><span class="legend-dot ${escapeHtml(tone)}"></span>${escapeHtml(label)}</span>`).join("")}</div>`;
+}
+
+function riskBand(score) {
+  if (score >= 16) return ["Critical", "critical"];
+  if (score >= 10) return ["High", "high"];
+  if (score >= 5) return ["Medium", "medium"];
+  return ["Low", "low"];
+}
+
+function parseTimeValue(value) {
+  const [hours, minutes] = String(value).split(":").map(Number);
+  return (hours || 0) * 60 + (minutes || 0);
 }
 
 function setupTheme() {
@@ -1462,6 +1646,7 @@ function renderShell() {
   const previousSample = SAMPLES[previousId];
   const nextSample = SAMPLES[nextId];
   root.innerHTML = `
+    <a class="skip-link" href="#sample-main">Skip to content</a>
     <header class="sample-header">
       <div class="sample-shell sample-nav">
         <a class="brand" href="../index.html" aria-label="Back to showcase">
@@ -1478,7 +1663,7 @@ function renderShell() {
         </nav>
       </div>
     </header>
-    <main class="sample-shell">
+    <main class="sample-shell" id="sample-main">
       <div class="sample-subnav">
         <div class="crumb"><a href="../index.html#samples">&larr; Back to samples</a><span>/</span><span>${escapeHtml(sample.title)}</span></div>
         <nav class="sample-pager" aria-label="Sample sequence navigation">
@@ -1540,57 +1725,50 @@ function renderShell() {
 function renderDecision() {
   renderShell();
   $("[data-workspace-title]").textContent = "Decision model";
+  const defaults = { speed: 30, confidence: 25, effort: 20, risk: 15, reach: 10 };
   const options = [
     { name: "Guided HTML artifact", speed: 92, confidence: 78, effort: 82, risk: 66, reach: 86, stakeholders: [88, 76, 72, 84, 68], note: "Best for a fast, reviewable artifact that can be attached to a discussion." },
     { name: "Slide-only summary", speed: 76, confidence: 52, effort: 92, risk: 38, reach: 62, stakeholders: [54, 62, 45, 70, 58], note: "Familiar and quick, but weak for interaction, traceability, and reuse." },
     { name: "Platform backlog item", speed: 38, confidence: 88, effort: 44, risk: 82, reach: 78, stakeholders: [74, 86, 90, 60, 82], note: "Most durable for governed integration, but needs prioritization and delivery capacity." }
   ];
-  const weights = { speed: 30, confidence: 25, effort: 20, risk: 15, reach: 10 };
+  const weights = { ...defaults };
   $("[data-controls]").innerHTML = `
     <h2>Weights</h2>
     <div class="control-group">
       ${Object.keys(weights).map((key) => `<label>${key}<input type="range" min="0" max="100" value="${weights[key]}" data-weight="${key}"></label>`).join("")}
+      <button data-reset-weights>Reset weights</button>
     </div>
+    <div class="note" data-weight-total></div>
   `;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy brief</button><button data-download>Download</button>`;
-  $("[data-workspace]").innerHTML = `<div class="cards" data-options></div><svg class="diagram" viewBox="0 0 760 260" data-radar aria-label="Decision radar"></svg><pre class="output" data-output></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Stakeholder heatmap</h2><p>Scores reflect fictional review friction and confidence.</p><div class="heatmap" data-heatmap></div><div class="note" data-decision-note></div>`;
-
+  $("[data-workspace]").innerHTML = `<div class="cards" data-options></div><svg class="diagram" viewBox="0 0 760 260" data-radar aria-label="Decision radar"></svg><pre class="output" data-output aria-live="polite"></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Stakeholder heatmap</h2><p>Scores reflect fictional review friction and confidence.</p><div class="heatmap" data-heatmap></div><div class="note" data-decision-note aria-live="polite"></div><div class="contribution-grid" data-contributions></div>`;
   function update() {
-    Object.keys(weights).forEach((key) => {
-      weights[key] = Number($(`[data-weight="${key}"]`).value);
-    });
+    Object.keys(weights).forEach((key) => { weights[key] = Number($(`[data-weight="${key}"]`).value); });
     const total = Object.values(weights).reduce((sum, value) => sum + value, 0) || 1;
+    const normalized = Object.fromEntries(Object.entries(weights).map(([key, value]) => [key, value / total]));
+    const axes = ["speed", "confidence", "effort", "risk", "reach"];
     const scored = options.map((option) => ({
       ...option,
-      score: Math.round((option.speed * weights.speed + option.confidence * weights.confidence + option.effort * weights.effort + option.risk * weights.risk + option.reach * weights.reach) / total)
+      score: Math.round((option.speed * weights.speed + option.confidence * weights.confidence + option.effort * weights.effort + option.risk * weights.risk + option.reach * weights.reach) / total),
+      contribution: Object.fromEntries(axes.map((key) => [key, Math.round(option[key] * normalized[key])]))
     })).sort((a, b) => b.score - a.score);
-    $("[data-options]").innerHTML = scored.map((option, index) => `
-      <section class="mini-card ${index === 0 ? "selected" : ""}">
-        <h3>${escapeHtml(option.name)}</h3>
-        <p>${escapeHtml(option.note)}</p>
-        <div class="meter"><span style="width:${option.score}%"></span></div>
-        <p><strong>${option.score}/100</strong> weighted fit</p>
-      </section>
-    `).join("");
+    $("[data-weight-total]").textContent = `Weights normalised to 100%. Raw total: ${total}.`;
+    $("[data-options]").innerHTML = scored.map((option, index) => `<section class="mini-card ${index === 0 ? "selected" : ""}"><h3>${escapeHtml(option.name)}</h3><p>${escapeHtml(option.note)}</p><div class="meter"><span style="width:${option.score}%"></span></div><p><strong>${option.score}/100</strong> weighted fit</p></section>`).join("");
     const best = scored[0];
     const center = [380, 132];
-    const axes = ["speed", "confidence", "effort", "risk", "reach"];
     const points = axes.map((axis, index) => {
       const angle = -Math.PI / 2 + index * Math.PI * 2 / axes.length;
-      const radius = best[axis] * 1.05;
-      return [center[0] + Math.cos(angle) * radius, center[1] + Math.sin(angle) * radius];
+      return [center[0] + Math.cos(angle) * best[axis] * 1.05, center[1] + Math.sin(angle) * best[axis] * 1.05];
     });
-    $("[data-radar]").innerHTML = `
-      ${[45, 75, 105].map((r) => `<polygon points="${axes.map((_, i) => `${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * r},${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * r}`).join(" ")}" fill="none" stroke="var(--line)"/>`).join("")}
-      ${axes.map((axis, i) => `<line class="line" x1="${center[0]}" y1="${center[1]}" x2="${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 118}" y2="${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 118}"/><text x="${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 136 - 28}" y="${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 136}">${axis}</text>`).join("")}
-      <polygon points="${points.map((point) => point.join(",")).join(" ")}" fill="color-mix(in srgb, var(--accent) 22%, transparent)" stroke="var(--accent)" stroke-width="2"/>
-    `;
+    $("[data-radar]").innerHTML = `${[45, 75, 105].map((r) => `<polygon points="${axes.map((_, i) => `${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * r},${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * r}`).join(" ")}" fill="none" stroke="var(--line)"/>`).join("")}${axes.map((axis, i) => `<line class="line" x1="${center[0]}" y1="${center[1]}" x2="${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 118}" y2="${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 118}"/><text x="${center[0] + Math.cos(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 136 - 28}" y="${center[1] + Math.sin(-Math.PI / 2 + i * Math.PI * 2 / axes.length) * 136}">${axis}</text>`).join("")}<polygon points="${points.map((point) => point.join(",")).join(" ")}" fill="color-mix(in srgb, var(--accent) 22%, transparent)" stroke="var(--accent)" stroke-width="2"/>`;
     $("[data-heatmap]").innerHTML = best.stakeholders.map((score) => `<span style="background: color-mix(in srgb, var(--accent) ${score}%, var(--bg-2));"></span>`).join("");
     $("[data-decision-note]").textContent = best.note;
-    setOutput(`Decision brief draft\n\nRecommendation: ${best.name}\nWeighted fit: ${best.score}/100\nWhy: ${best.note}\n\nReview boundary: this is a structured decision aid, not spend approval, risk acceptance, or governance sign-off.`);
+    $("[data-contributions]").innerHTML = axes.map((axis) => `<div class="contribution-row"><span>${axis}</span><div class="meter"><span style="width:${Math.min(100, best.contribution[axis] * 4)}%"></span></div><strong>${best.contribution[axis]}</strong></div>`).join("");
+    setOutput(`Decision brief draft\n\nRecommendation: ${best.name}\nWeighted fit: ${best.score}/100\nNormalised weights: ${axes.map((axis) => `${axis} ${Math.round(normalized[axis] * 100)}%`).join(", ")}\nWhy: ${best.note}\n\nReview boundary: this is a structured decision aid, not spend approval, risk acceptance, or governance sign-off.`);
   }
   $$("[data-weight]").forEach((input) => input.addEventListener("input", update));
+  $("[data-reset-weights]").addEventListener("click", () => { Object.assign(weights, defaults); Object.keys(weights).forEach((key) => { $(`[data-weight="${key}"]`).value = weights[key]; }); update(); });
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
   $("[data-download]").addEventListener("click", () => downloadText("decision-brief.txt", $("[data-output]").textContent));
   update();
@@ -1599,65 +1777,56 @@ function renderDecision() {
 function renderMeeting() {
   renderShell();
   $("[data-workspace-title]").textContent = "Actions and decisions";
-  const key = "enterprise-html-meeting-v2";
+  const key = "enterprise-html-meeting-v3";
   const actions = [
-    { item: "Confirm review forum and accountable approver", owner: "Asha", due: "May 20", status: "Review", type: "Decision" },
-    { item: "Prepare customer-safe summary", owner: "Ben", due: "May 21", status: "Ready", type: "Action" },
-    { item: "Validate data classification for sample inputs", owner: "Mina", due: "May 22", status: "Blocked", type: "Control" },
-    { item: "Draft engineering impact note", owner: "Leo", due: "May 23", status: "Review", type: "Action" },
-    { item: "Check accessibility basics for artifact", owner: "Sam", due: "May 24", status: "Ready", type: "Control" },
-    { item: "Create LinkedIn-safe summary", owner: "Asha", due: "May 25", status: "Draft", type: "Comms" }
+    { id: "forum", item: "Confirm review forum and accountable approver", owner: "Asha", due: "2026-05-20", status: "Review", type: "Decision" },
+    { id: "summary", item: "Prepare customer-safe summary", owner: "Ben", due: "2026-05-21", status: "Ready", type: "Action" },
+    { id: "classification", item: "Validate data classification for sample inputs", owner: "Mina", due: "2026-05-22", status: "Blocked", type: "Control" },
+    { id: "impact", item: "Draft engineering impact note", owner: "Leo", due: "2026-05-23", status: "Review", type: "Action" },
+    { id: "accessibility", item: "Check accessibility basics for artifact", owner: "Sam", due: "2026-05-24", status: "Ready", type: "Control" },
+    { id: "linkedin", item: "Create LinkedIn-safe summary", owner: "Asha", due: "2026-05-25", status: "Draft", type: "Comms" }
   ];
   let done = JSON.parse(localStorage.getItem(key) || "[]");
-  $("[data-controls]").innerHTML = `
-    <h2>Filters</h2>
-    <div class="control-group">
-      <label>Owner<select data-owner><option>All</option>${[...new Set(actions.map((a) => a.owner))].map((owner) => `<option>${owner}</option>`).join("")}</select></label>
-      <label>Status<select data-status-filter><option>All</option><option>Draft</option><option>Review</option><option>Ready</option><option>Blocked</option></select></label>
-      <button data-reset>Reset completed</button>
-    </div>
-  `;
-  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy follow-up</button><button data-download>Download</button>`;
-  $("[data-workspace]").innerHTML = `<div data-action-table></div><div class="timeline" data-timeline></div><pre class="output" data-output></pre>`;
+  $("[data-controls]").innerHTML = `<h2>Filters</h2><div class="control-group"><label>Owner<select data-owner><option>All</option>${[...new Set(actions.map((a) => a.owner))].map((owner) => `<option>${owner}</option>`).join("")}</select></label><label>Status<select data-status-filter><option>All</option><option>Draft</option><option>Review</option><option>Ready</option><option>Blocked</option></select></label><button data-reset>Reset completed</button></div>`;
+  $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy follow-up</button><button data-download>Download</button><button data-csv-export>Export CSV</button>`;
+  $("[data-workspace]").innerHTML = `<div data-action-table></div><div class="timeline" data-timeline></div><pre class="output" data-output aria-live="polite"></pre>`;
   $("[data-inspector]").innerHTML = `<h2>Decision log</h2><div class="stack">${["Use fictional data only", "Publish as static GitHub Pages", "Keep approvals outside the demo"].map((item) => `<div class="note">${item}</div>`).join("")}</div>`;
-
-  function update() {
+  function visibleActions() {
     const owner = $("[data-owner]").value;
     const status = $("[data-status-filter]").value;
-    const visible = actions.filter((action) => (owner === "All" || action.owner === owner) && (status === "All" || action.status === status));
-    $("[data-action-table]").innerHTML = renderTable(["Done", "Item", "Owner", "Due", "Status"], visible.map((action) => {
-      const index = actions.indexOf(action);
-      return [`<input aria-label="Mark ${escapeHtml(action.item)} done" type="checkbox" data-action="${index}" ${done.includes(index) ? "checked" : ""}>`, `<strong>${escapeHtml(action.item)}</strong><br>${escapeHtml(action.type)}`, escapeHtml(action.owner), escapeHtml(action.due), `<span class="status ${statusClass(action.status)}">${escapeHtml(action.status)}</span>`];
-    }));
+    return actions.filter((action) => (owner === "All" || action.owner === owner) && (status === "All" || action.status === status)).sort((a, b) => new Date(a.due) - new Date(b.due));
+  }
+  function update() {
+    const visible = visibleActions();
+    $("[data-action-table]").innerHTML = renderTable(["Done", "Item", "Owner", "Due", "Status"], visible.map((action) => [`<input aria-label="Mark ${escapeHtml(action.item)} done" type="checkbox" data-action="${action.id}" ${done.includes(action.id) ? "checked" : ""}>`, `<strong>${escapeHtml(action.item)}</strong><br>${escapeHtml(action.type)}`, escapeHtml(action.owner), escapeHtml(action.due), `<span class="status ${statusClass(action.status)}">${escapeHtml(action.status)}</span>`]));
     $("[data-timeline]").innerHTML = visible.map((action) => `<section class="event"><time>${escapeHtml(action.due)}</time><div><strong>${escapeHtml(action.owner)}</strong><p>${escapeHtml(action.item)}</p></div></section>`).join("");
-    const open = actions.filter((_, index) => !done.includes(index));
+    const open = actions.filter((action) => !done.includes(action.id)).sort((a, b) => new Date(a.due) - new Date(b.due));
     setOutput(`Meeting follow-up\n\nCompleted: ${done.length}/${actions.length}\n\nOpen items:\n${open.map((action) => `- ${action.item} | owner: ${action.owner} | due: ${action.due} | status: ${action.status}`).join("\n") || "- None"}\n\nBoundary: paste this into the approved action-tracking system.`);
-    $$("[data-action]").forEach((box) => box.addEventListener("change", () => {
-      const index = Number(box.dataset.action);
-      done = box.checked ? [...new Set([...done, index])] : done.filter((item) => item !== index);
-      localStorage.setItem(key, JSON.stringify(done));
-      update();
-    }));
+    $$("[data-action]").forEach((box) => box.addEventListener("change", () => { const id = box.dataset.action; done = box.checked ? [...new Set([...done, id])] : done.filter((item) => item !== id); localStorage.setItem(key, JSON.stringify(done)); update(); }));
   }
   $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", update));
-  $("[data-reset]").addEventListener("click", () => {
-    done = [];
-    localStorage.removeItem(key);
-    update();
-  });
+  $("[data-reset]").addEventListener("click", () => { done = []; localStorage.removeItem(key); update(); });
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
   $("[data-download]").addEventListener("click", () => downloadText("meeting-follow-up.txt", $("[data-output]").textContent));
+  $("[data-csv-export]").addEventListener("click", () => downloadText("meeting-actions.csv", toCsv(actions.map((action) => ({ ...action, done: done.includes(action.id) ? "yes" : "no" }))), "text/csv;charset=utf-8"));
   update();
 }
 
 function renderPolicy() {
   renderShell();
   $("[data-workspace-title]").textContent = "Process navigator";
-  const paths = {
-    launch: ["Intake", "Risk review", "Approval forum", "Customer-safe comms", "Monitor"],
-    vendor: ["Business need", "Due diligence", "Data sharing review", "Residual risk", "Contract owner"],
-    process: ["Impact map", "Control review", "Training plan", "Decision record", "Measure"]
+  const model = {
+    launch: { steps: ["Intake", "Risk review", "Approval forum", "Customer-safe comms", "Monitor"], controls: ["DATA-01 Classification", "PRIV-02 Privacy review", "CHANGE-01 Change record", "COMM-03 Customer wording"], escalation: "Escalate to the business owner and risk partner when customer wording or data classification is unclear." },
+    vendor: { steps: ["Business need", "Due diligence", "Data sharing review", "Residual risk", "Contract owner"], controls: ["TPRM-01 Vendor due diligence", "DATA-04 Sharing review", "LEGAL-02 Contract owner", "RISK-08 Residual risk"], escalation: "Escalate to procurement, legal, and the data owner before sharing operational data." },
+    process: { steps: ["Impact map", "Control review", "Training plan", "Decision record", "Measure"], controls: ["OPS-05 Runbook update", "TRAIN-01 User readiness", "CHANGE-01 Decision record", "METRIC-02 Outcome measure"], escalation: "Escalate to operations lead if training or control ownership is not explicit." }
   };
+  const roleAccountability = {
+    "Business owner": ["Accountable", "Consulted", "Accountable", "Responsible", "Accountable"],
+    "Risk partner": ["Consulted", "Responsible", "Accountable", "Consulted", "Consulted"],
+    "Engineering lead": ["Consulted", "Responsible", "Consulted", "Consulted", "Responsible"],
+    "Operations lead": ["Consulted", "Consulted", "Consulted", "Responsible", "Responsible"]
+  };
+  let selectedStep = 0;
   $("[data-controls]").innerHTML = `
     <h2>Scenario</h2>
     <div class="control-group">
@@ -1666,42 +1835,82 @@ function renderPolicy() {
     </div>
   `;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy path</button>`;
-  $("[data-workspace]").innerHTML = `<svg class="diagram" viewBox="0 0 860 320" data-flow aria-label="Process flow"></svg><div data-raci></div><pre class="output" data-output></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Controls</h2><div data-controls-list></div>`;
+  $("[data-workspace]").innerHTML = `<svg class="diagram" viewBox="0 0 860 320" data-flow aria-label="Keyboard-operable process flow"></svg><div data-raci></div><pre class="output" data-output aria-live="polite"></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Controls</h2><div data-controls-list></div><h3>Escalation path</h3><div class="note" data-escalation aria-live="polite"></div>`;
 
   function update() {
     const goal = $("[data-goal]").value;
     const role = $("[data-role]").value;
-    const steps = paths[goal];
+    const current = model[goal];
+    const steps = current.steps;
+    selectedStep = Math.min(selectedStep, steps.length - 1);
     $("[data-flow]").innerHTML = steps.map((step, index) => {
       const x = 45 + index * 160;
-      return `<g><rect class="node ${index === 1 ? "active" : ""}" x="${x}" y="112" width="124" height="66" rx="7"></rect><text x="${x + 18}" y="142">${escapeHtml(step.split(" ").slice(0, 2).join(" "))}</text><text x="${x + 18}" y="162">${escapeHtml(step.split(" ").slice(2).join(" "))}</text>${index < steps.length - 1 ? `<path class="line hot" d="M${x + 124} 145h36"></path>` : ""}</g>`;
+      const state = roleAccountability[role][index];
+      return `<g data-step="${index}" tabindex="0" role="button" aria-label="Step ${index + 1}: ${escapeHtml(step)}. ${escapeHtml(state)} for ${escapeHtml(role)}" aria-pressed="${index === selectedStep}"><rect class="node ${index === selectedStep ? "active" : ""}" x="${x}" y="112" width="124" height="66" rx="7"></rect><text x="${x + 18}" y="142">${escapeHtml(step.split(" ").slice(0, 2).join(" "))}</text><text x="${x + 18}" y="162">${escapeHtml(step.split(" ").slice(2).join(" "))}</text>${index < steps.length - 1 ? `<path class="line hot" d="M${x + 124} 145h36"></path>` : ""}</g>`;
     }).join("");
-    $("[data-raci]").innerHTML = renderTable(["Step", "Responsible", "Accountable", "Consulted"], steps.map((step, index) => [escapeHtml(step), index % 2 ? "Risk partner" : role, "Business owner", "Engineering, Legal, Ops"]));
-    $("[data-controls-list]").innerHTML = ["DATA-01 Classification", "PRIV-02 Privacy review", "CHANGE-01 Change record", "COMM-03 Customer wording"].map((item) => `<div class="metric"><span>${item}</span><span class="status review">Review</span></div>`).join("");
-    setOutput(`Process path for ${role}\n\n${steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}\n\nBoundary: confirm the latest official policy and accountable owner before acting.`);
+    $("[data-raci]").innerHTML = renderTable(["Step", "Role position", "Responsible", "Consulted"], steps.map((step, index) => [escapeHtml(step), roleAccountability[role][index], index % 2 ? "Risk partner" : role, goal === "vendor" ? "Legal, Data owner" : "Engineering, Legal, Ops"]));
+    $("[data-controls-list]").innerHTML = current.controls.map((item, index) => `<div class="metric"><span>${escapeHtml(item)}</span><span class="status ${index === selectedStep ? "review" : "ready"}">${index === selectedStep ? "Review" : "Ready"}</span></div>`).join("");
+    $("[data-escalation]").textContent = current.escalation;
+    setOutput(`Process path for ${role}\n\n${steps.map((step, index) => `${index + 1}. ${step} - ${roleAccountability[role][index]}`).join("\n")}\n\nEscalation: ${current.escalation}\n\nBoundary: confirm the latest official policy and accountable owner before acting.`);
+    $$("[data-step]").forEach((node) => {
+      const activate = () => { selectedStep = Number(node.dataset.step); update(); };
+      node.addEventListener("click", activate);
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          activate();
+        }
+      });
+    });
   }
-  $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", update));
+  $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", () => { selectedStep = 0; update(); }));
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
   update();
 }
 
 function parseCsv(text) {
-  const lines = text.trim().split(/\r?\n/).filter(Boolean);
-  if (!lines.length) return [];
-  const headers = lines.shift().split(",").map((cell) => cell.trim());
-  return lines.map((line) => {
-    const cells = line.split(",").map((cell) => cell.trim());
-    return Object.fromEntries(headers.map((header, index) => [header, cells[index] || ""]));
-  });
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    const next = text[index + 1];
+    if (quoted && char === '"' && next === '"') {
+      cell += '"';
+      index += 1;
+    } else if (char === '"') {
+      quoted = !quoted;
+    } else if (char === "," && !quoted) {
+      row.push(cell.trim());
+      cell = "";
+    } else if ((char === "\n" || char === "\r") && !quoted) {
+      if (char === "\r" && next === "\n") index += 1;
+      row.push(cell.trim());
+      if (row.some((value) => value.length)) rows.push(row);
+      row = [];
+      cell = "";
+    } else {
+      cell += char;
+    }
+  }
+  row.push(cell.trim());
+  if (row.some((value) => value.length)) rows.push(row);
+  if (!rows.length) return [];
+  const headers = rows.shift().map((header) => header.trim());
+  return rows.map((cells) => Object.fromEntries(headers.map((header, index) => [header, cells[index] || ""])));
 }
 
 function toCsv(rows) {
   if (!rows.length) return "";
   const headers = Object.keys(rows[0]);
-  return [headers.join(","), ...rows.map((row) => headers.map((header) => row[header]).join(","))].join("\n");
+  const encode = (value) => {
+    const text = String(value ?? "");
+    return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+  };
+  return [headers.join(","), ...rows.map((row) => headers.map((header) => encode(row[header])).join(","))].join("\n");
 }
-
 function renderCsv() {
   renderShell();
   $("[data-workspace-title]").textContent = "Local CSV triage";
@@ -1770,6 +1979,8 @@ Portal wording change,Sam,draft,medium,18000`;
 function renderRisk() {
   renderShell();
   $("[data-workspace-title]").textContent = "Risk acceptance draft";
+  const controls = ["Data classification checked", "Peer review captured", "Rollback owner named", "Expiry date agreed", "Residual risk owner named", "Formal forum identified"];
+  const checkedControls = new Set([0, 1, 2]);
   $("[data-controls]").innerHTML = `
     <h2>Inputs</h2>
     <div class="control-group">
@@ -1780,25 +1991,35 @@ function renderRisk() {
     </div>
   `;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy brief</button><button data-print>Print</button>`;
-  $("[data-workspace]").innerHTML = `<div class="matrix" data-matrix></div><div class="timeline" data-risk-timeline></div><pre class="output" data-output></pre>`;
+  $("[data-workspace]").innerHTML = `<div data-risk-band></div><div class="matrix" data-matrix></div><div class="timeline" data-risk-timeline></div><pre class="output" data-output aria-live="polite"></pre>`;
   $("[data-inspector]").innerHTML = `<h2>Control checklist</h2><div data-control-list></div>`;
-  const controls = ["Data classification checked", "Peer review captured", "Rollback owner named", "Expiry date agreed", "Residual risk owner named", "Formal forum identified"];
-
-  function update() {
+  function renderControls() {
+    $("[data-control-list]").innerHTML = controls.map((item, index) => `<div class="toggle-row"><span>${escapeHtml(item)}</span><label class="switch"><input type="checkbox" data-control="${index}" ${checkedControls.has(index) ? "checked" : ""}><span class="slider"></span></label></div>`).join("");
+    $$("[data-control]").forEach((box) => box.addEventListener("change", () => {
+      const index = Number(box.dataset.control);
+      if (box.checked) checkedControls.add(index); else checkedControls.delete(index);
+      update(false);
+    }));
+  }
+  function update(renderList = true) {
     const likelihood = Number($("[data-likelihood]").value);
     const impact = Number($("[data-impact]").value);
-    const score = likelihood * impact;
-    const rating = score >= 16 ? "High" : score >= 8 ? "Medium" : "Low";
+    const inherent = likelihood * impact;
+    const residual = Math.max(1, inherent - checkedControls.size * 2);
+    const [inherentName, inherentClass] = riskBand(inherent);
+    const [residualName, residualClass] = riskBand(residual);
+    $("[data-risk-band]").innerHTML = `<div class="note"><strong>Inherent risk:</strong> <span class="risk-band ${inherentClass}">${inherentName} ${inherent}/25</span> <strong>Residual risk:</strong> <span class="risk-band ${residualClass}">${residualName} ${residual}/25</span></div>`;
     $("[data-matrix]").innerHTML = Array.from({ length: 25 }, (_, index) => {
       const x = index % 5 + 1;
       const y = Math.floor(index / 5) + 1;
-      return `<div class="matrix-cell ${x === likelihood && y === impact ? "active" : ""}">${x}×${y}</div>`;
+      const [, cellClass] = riskBand(x * y);
+      return `<div class="matrix-cell ${cellClass} ${x === likelihood && y === impact ? "active" : ""}">${x}x${y}</div>`;
     }).join("");
     $("[data-risk-timeline]").innerHTML = ["Draft brief", "Peer review", "Risk forum", "Retire workaround"].map((item, index) => `<section class="event"><time>Step ${index + 1}</time><div><strong>${item}</strong><p>${index < 2 ? "Artifact can help prepare this step." : "Approval remains outside this demo."}</p></div></section>`).join("");
-    $("[data-control-list]").innerHTML = controls.map((item, index) => `<div class="toggle-row"><span>${escapeHtml(item)}</span><label class="switch"><input type="checkbox" ${index < 3 ? "checked" : ""}><span class="slider"></span></label></div>`).join("");
-    setOutput(`Risk acceptance draft\n\nScenario: ${$("[data-risk-name]").value}\nRating: ${rating} (${score}/25)\nLikelihood: ${likelihood}/5\nImpact: ${impact}/5\n\nMitigation:\n${$("[data-mitigation]").value}\n\nBoundary: draft only. Formal acceptance requires approved risk governance.`);
+    if (renderList) renderControls();
+    setOutput(`Risk acceptance draft\n\nScenario: ${$("[data-risk-name]").value}\nInherent risk: ${inherentName} (${inherent}/25)\nResidual risk after checked mitigations: ${residualName} (${residual}/25)\nLikelihood: ${likelihood}/5\nImpact: ${impact}/5\nControls checked: ${checkedControls.size}/${controls.length}\n\nMitigation:\n${$("[data-mitigation]").value}\n\nBoundary: draft only. Formal acceptance requires approved risk governance.`);
   }
-  $$("input, textarea", $("[data-controls]")).forEach((field) => field.addEventListener("input", update));
+  $$("input, textarea", $("[data-controls]")).forEach((field) => field.addEventListener("input", () => update(false)));
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
   $("[data-print]").addEventListener("click", () => window.print());
   update();
@@ -1814,63 +2035,81 @@ function renderConversation() {
     escalation: "I need this escalated now because our leadership meeting is tomorrow."
   };
   const drafts = {
-    "Clear and calm": "I understand the concern. The safe next step is to confirm the current status with the accountable owner and give you a clear update window.",
-    "Brief and practical": "Thanks for raising it. I will confirm the owner, status, and next action, then come back with the approved update path.",
-    "Empathetic and detailed": "I can see why this creates uncertainty. I will separate what is confirmed from what still needs approval, then share the next step and owner."
+    "Clear and calm": "I understand the concern. What is confirmed is that the review is still open. I will check the accountable owner and give you the approved update window.",
+    "Brief and practical": "Thanks for raising it. I will confirm the owner, current status, and next action, then come back through the approved support path.",
+    "Empathetic and detailed": "I can see why this creates uncertainty. I will separate what is confirmed from what still needs approval, then share the next step, owner, and expected update path."
+  };
+  const replies = {
+    neutral: "Customer accepts the update path.",
+    challenge: "Customer asks for a guaranteed completion date.",
+    escalation: "Customer asks for a senior escalation and written confirmation."
   };
   $("[data-controls]").innerHTML = `
     <h2>Scenario</h2>
     <div class="control-group">
       <label>Customer intent<select data-intent>${Object.keys(scenarios).map((key) => `<option value="${key}">${key}</option>`).join("")}</select></label>
       <label>Tone<select data-tone>${Object.keys(drafts).map((tone) => `<option>${tone}</option>`).join("")}</select></label>
+      <label>Customer reply<select data-reply>${Object.keys(replies).map((key) => `<option value="${key}">${key}</option>`).join("")}</select></label>
     </div>
   `;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy response</button>`;
-  $("[data-workspace]").innerHTML = `<div class="cards"><section class="mini-card"><h3>Listen</h3><p>Acknowledge before explaining.</p></section><section class="mini-card"><h3>Bound</h3><p>Avoid unsupported promises.</p></section><section class="mini-card"><h3>Next</h3><p>Give one owner and step.</p></section></div><pre class="output" data-output></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Quality checklist</h2><div data-checks></div>`;
-  function update() {
+  $("[data-workspace]").innerHTML = `<div class="cards"><section class="mini-card"><h3>Listen</h3><p>Acknowledge before explaining.</p></section><section class="mini-card"><h3>Bound</h3><p>Avoid unsupported promises.</p></section><section class="mini-card"><h3>Next</h3><p>Give one owner and step.</p></section></div><label>Editable response<textarea class="response-editor" data-response></textarea></label><pre class="output" data-output aria-live="polite"></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Quality checklist</h2><div data-checks></div><h3>Branch</h3><div class="note" data-branch aria-live="polite"></div>`;
+  const checks = [
+    ["Acknowledges concern", (text) => /understand|thanks|see why|concern/i.test(text)],
+    ["Separates known from unknown", (text) => /confirmed|still needs|current status|review is still open/i.test(text)],
+    ["Avoids policy promises", (text) => !/guarantee|approved already|definitely|promise/i.test(text)],
+    ["Names next step", (text) => /next|owner|check|confirm|support path/i.test(text)],
+    ["Uses safe wording", (text) => /approved|accountable|review|support path/i.test(text)],
+    ["Routes formal approval elsewhere", (text) => /approved support|approved update|formal approval|accountable owner/i.test(text)]
+  ];
+  function branchAdvice(reply) {
+    if (reply === "challenge") return "Do not guarantee a date. Offer the approved update window and owner confirmation.";
+    if (reply === "escalation") return "Acknowledge urgency, route through the escalation owner, and avoid inventing authority.";
+    return "Confirm the next update path and keep the message bounded.";
+  }
+  function update(resetDraft = true) {
     const intent = $("[data-intent]").value;
     const tone = $("[data-tone]").value;
-    const response = `${drafts[tone]} For anything account-specific or policy-sensitive, I will use the approved support process.`;
-    setOutput(`Fictional customer says:\n"${scenarios[intent]}"\n\n${tone} response draft:\n${response}\n\nBoundary: not approved customer communication.`);
-    $("[data-checks]").innerHTML = ["Acknowledges concern", "Separates known from unknown", "Avoids policy promises", "Names next step", "Uses safe wording", "Routes formal approval elsewhere"].map((item) => `<div class="metric"><span>${item}</span><span class="status ready">Pass</span></div>`).join("");
+    const reply = $("[data-reply]").value;
+    if (resetDraft) $("[data-response]").value = `${drafts[tone]} For anything account-specific or policy-sensitive, I will use the approved support process.`;
+    const text = $("[data-response]").value;
+    const results = checks.map(([label, test]) => [label, test(text)]);
+    const score = results.filter(([, pass]) => pass).length;
+    const advice = branchAdvice(reply);
+    $("[data-checks]").innerHTML = results.map(([label, pass]) => `<div class="metric"><span>${escapeHtml(label)}</span><span class="status ${pass ? "ready" : "missing"}">${pass ? "Pass" : "Review"}</span></div>`).join("");
+    $("[data-branch]").textContent = `${replies[reply]} ${advice}`;
+    setOutput(`Fictional customer says:\n"${scenarios[intent]}"\n\nDraft response (${score}/6 quality checks):\n${text}\n\nBranch: ${replies[reply]}\nRecommended next move: ${advice}\n\nBoundary: not approved customer communication.`);
   }
-  $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", update));
+  $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", () => update(true)));
+  $("[data-response]").addEventListener("input", () => update(false));
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
-  update();
+  update(true);
 }
 
 function renderAdr() {
   renderShell();
   $("[data-workspace-title]").textContent = "ADR workspace";
   const options = [
-    { name: "Static artifact pack", quality: 86, cost: 82, governance: 62, note: "Fast, portable, and reviewable; integration remains manual." },
-    { name: "Internal platform feature", quality: 92, cost: 38, governance: 88, note: "Durable and governed; needs roadmap capacity." },
-    { name: "Deck plus wiki page", quality: 58, cost: 90, governance: 54, note: "Low friction, but weak for interaction and evidence packing." }
+    { name: "Static artifact pack", quality: 86, cost: 82, governance: 62, status: "Proposed", note: "Fast, portable, and reviewable; integration remains manual." },
+    { name: "Internal platform feature", quality: 92, cost: 38, governance: 88, status: "Proposed", note: "Durable and governed; needs roadmap capacity." },
+    { name: "Deck plus wiki page", quality: 58, cost: 90, governance: 54, status: "Superseded", note: "Low friction, but weak for interaction and evidence packing." }
   ];
   let selected = 0;
   $("[data-controls]").innerHTML = `<h2>Options</h2><div class="control-group">${options.map((option, index) => `<button data-option="${index}">${escapeHtml(option.name)}</button>`).join("")}</div>`;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy ADR</button>`;
-  $("[data-workspace]").innerHTML = `<div class="cards" data-scorecards></div><svg class="diagram" viewBox="0 0 840 280" data-arch aria-label="Architecture diagram"></svg><pre class="output" data-output></pre>`;
+  $("[data-workspace]").innerHTML = `<div class="cards" data-scorecards></div><svg class="diagram" viewBox="0 0 840 280" data-arch aria-label="Architecture diagram"></svg><pre class="output" data-output aria-live="polite"></pre>`;
   $("[data-inspector]").innerHTML = `<h2>Consequences</h2><div data-consequences></div>`;
+  function bar(label, value) { return `<div class="triple-row"><span>${label}</span><div class="meter"><span style="width:${value}%"></span></div><strong>${value}</strong></div>`; }
   function update() {
     const option = options[selected];
-    $("[data-scorecards]").innerHTML = options.map((item, index) => `<section class="mini-card ${index === selected ? "selected" : ""}"><h3>${escapeHtml(item.name)}</h3><div class="meter"><span style="width:${item.quality}%"></span></div><p>${escapeHtml(item.note)}</p></section>`).join("");
-    $("[data-arch]").innerHTML = `
-      <rect class="node active" x="70" y="92" width="150" height="72" rx="7"></rect><text x="105" y="132">LLM output</text>
-      <path class="line hot" d="M220 128h70"></path>
-      <rect class="node active" x="290" y="92" width="170" height="72" rx="7"></rect><text x="318" y="132">HTML artifact</text>
-      <path class="line hot" d="M460 128h70"></path>
-      <rect class="node" x="530" y="52" width="190" height="58" rx="7"></rect><text x="562" y="88">Human review</text>
-      <rect class="node" x="530" y="146" width="190" height="58" rx="7"></rect><text x="556" y="182">Governed system</text>
-      <path class="line dashed" d="M625 110v36"></path>`;
-    $("[data-consequences]").innerHTML = [`Quality ${option.quality}/100`, `Delivery fit ${option.cost}/100`, `Governance fit ${option.governance}/100`, option.note].map((item) => `<div class="note">${escapeHtml(item)}</div>`).join("");
-    setOutput(`Architecture Decision Record - Draft\n\nContext: team needs a reviewable enterprise artifact.\nDecision: ${option.name}\nStatus: Proposed\nConsequences:\n- ${option.note}\n- Normal engineering review remains required\n- Production integration is out of scope for this demo`);
+    $("[data-scorecards]").innerHTML = options.map((item, index) => `<section class="mini-card ${index === selected ? "selected" : ""}"><h3>${escapeHtml(item.name)}</h3><div class="triple-bars">${bar("quality", item.quality)}${bar("delivery", item.cost)}${bar("governance", item.governance)}</div><p>${escapeHtml(item.note)}</p></section>`).join("");
+    const integrationLabel = selected === 1 ? "Platform feature" : selected === 2 ? "Deck/wiki" : "HTML pack";
+    $("[data-arch]").innerHTML = `<rect class="node active" x="70" y="92" width="150" height="72" rx="7"></rect><text x="105" y="132">LLM output</text><path class="line hot" d="M220 128h70"></path><rect class="node active" x="290" y="92" width="170" height="72" rx="7"></rect><text x="318" y="132">${escapeHtml(integrationLabel)}</text><path class="line ${selected === 1 ? "hot" : "dashed"}" d="M460 128h70"></path><rect class="node ${selected === 1 ? "active" : ""}" x="530" y="52" width="190" height="58" rx="7"></rect><text x="562" y="88">Human review</text><rect class="node ${selected === 1 ? "active" : ""}" x="530" y="146" width="190" height="58" rx="7"></rect><text x="556" y="182">Governed system</text><path class="line dashed" d="M625 110v36"></path>`;
+    $("[data-consequences]").innerHTML = [`Status ${option.status}`, `Quality ${option.quality}/100`, `Delivery fit ${option.cost}/100`, `Governance fit ${option.governance}/100`, option.note].map((item) => `<div class="note">${escapeHtml(item)}</div>`).join("");
+    setOutput(`Architecture Decision Record - Draft\n\nContext: team needs a reviewable enterprise artifact.\nDecision: ${option.name}\nStatus: ${option.status}\nConsequences:\n- ${option.note}\n- Normal engineering review remains required\n- Production integration is out of scope for this demo`);
   }
-  $$("[data-option]").forEach((button) => button.addEventListener("click", () => {
-    selected = Number(button.dataset.option);
-    update();
-  }));
+  $$("[data-option]").forEach((button) => button.addEventListener("click", () => { selected = Number(button.dataset.option); update(); }));
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
   update();
 }
@@ -1986,11 +2225,11 @@ function renderImpact() {
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy reviewer checklist</button><button data-impact-present>Present</button>`;
   $("[data-workspace]").innerHTML = `
     <div data-impact-normal>
-      <svg class="diagram" viewBox="0 0 1100 420" data-map aria-label="Interactive dependency map"></svg>
+      ${renderLegend([["Low", "low"], ["Medium", "medium"], ["High", "high"], ["Critical", "critical"]])}<svg class="diagram" viewBox="0 0 1100 420" data-map aria-label="Interactive dependency map"></svg>
       <div data-evidence></div>
     </div>
-    <div class="impact-presenter-shell" data-impact-presenter hidden></div>`;
-  $("[data-inspector]").innerHTML = `<h2>Selected service</h2><div data-selected></div>`;
+    <div class="impact-presenter-shell" data-impact-presenter tabindex="-1" hidden></div>`;
+  $("[data-inspector]").innerHTML = `<h2>Selected service</h2><div data-selected aria-live="polite"></div>`;
 
   function isCriticalEdge(a, b, focus = criticalPath) {
     return focus.includes(a) && focus.includes(b) && Math.abs(focus.indexOf(a) - focus.indexOf(b)) === 1;
@@ -2008,12 +2247,21 @@ function renderImpact() {
       return `<path class="line ${hot ? "hot critical" : ""} ${b === "pay" || b === "ledger" ? "danger" : ""}" d="M${from.x + 150} ${from.y + 34} C${from.x + 205} ${from.y + 34} ${to.x - 55} ${to.y + 34} ${to.x} ${to.y + 34}"></path>`;
     }).join("") + visible.map((node) => {
       const focused = focus.includes(node.id);
-      return `<g data-node="${node.id}" class="${focused ? "focused" : ""}"><rect class="node ${node.id === selected ? "active" : ""} ${focused ? "spotlight" : ""} ${statusClass(node.risk)}" x="${node.x}" y="${node.y}" width="150" height="68" rx="8"></rect><text x="${node.x + 16}" y="${node.y + 29}">${escapeHtml(node.label)}</text><text x="${node.x + 16}" y="${node.y + 50}">${escapeHtml(node.risk)} | ${escapeHtml(node.team.split(" ")[0])}</text></g>`;
+      return `<g data-node="${node.id}" tabindex="0" role="button" aria-label="Select ${escapeHtml(node.label)}. Risk ${escapeHtml(node.risk)}. Owner ${escapeHtml(node.owner)}" aria-pressed="${node.id === selected}" class="${focused ? "focused" : ""}"><rect class="node ${node.id === selected ? "active" : ""} ${focused ? "spotlight" : ""} ${statusClass(node.risk)}" x="${node.x}" y="${node.y}" width="150" height="68" rx="8"></rect><text x="${node.x + 16}" y="${node.y + 29}">${escapeHtml(node.label)}</text><text x="${node.x + 16}" y="${node.y + 50}">${escapeHtml(node.risk)} | ${escapeHtml(node.team.split(" ")[0])}</text></g>`;
     }).join("");
-    $$("[data-node]", target).forEach((nodeEl) => nodeEl.addEventListener("click", () => {
-      selected = nodeEl.dataset.node;
-      update();
-    }));
+    $$("[data-node]", target).forEach((nodeEl) => {
+      const activate = () => {
+        selected = nodeEl.dataset.node;
+        update();
+      };
+      nodeEl.addEventListener("click", activate);
+      nodeEl.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          activate();
+        }
+      });
+    });
   }
 
   function selectedPanel(current) {
@@ -2035,7 +2283,7 @@ function renderImpact() {
       </div>
       <div class="impact-presenter">
         <nav class="impact-slide-rail" aria-label="Presentation sections">
-          ${slideData.map((item, index) => `<button class="impact-slide-button ${index === slideIndex ? "active" : ""}" data-slide="${index}"><span>0${index + 1}</span>${escapeHtml(item.title)}</button>`).join("")}
+          ${slideData.map((item, index) => `<button class="impact-slide-button ${index === slideIndex ? "active" : ""}" data-slide="${index}" aria-current="${index === slideIndex ? "step" : "false"}"><span>0${index + 1}</span>${escapeHtml(item.title)}</button>`).join("")}
         </nav>
         <section class="impact-stage">
           <div class="impact-map-card">
@@ -2043,7 +2291,7 @@ function renderImpact() {
           </div>
           <aside class="impact-inspector">
             <span class="panel-label">Selected service</span>
-            <div data-present-selected>${selectedPanel(current)}</div>
+            <div data-present-selected aria-live="polite">${selectedPanel(current)}</div>
           </aside>
           <section class="impact-evidence-drawer">
             <div class="panel-head"><h3>Evidence drawer</h3><span class="status review">${escapeHtml(slide.title)}</span></div>
@@ -2083,13 +2331,15 @@ function renderImpact() {
 
   function setPresentation(active) {
     presenting = active;
+    const presenterShell = $("[data-impact-presenter]");
     document.body.classList.toggle("impact-presentation-active", active);
+    document.body.dataset.presentationMode = active ? "true" : "false";
     $("[data-impact-normal]").hidden = active;
-    $("[data-impact-presenter]").hidden = !active;
+    presenterShell.hidden = !active;
     if (active) {
       selected = slideData[slideIndex].selected;
       renderPresentation();
-      $("[data-impact-presenter]").focus?.();
+      presenterShell.focus();
     } else {
       update();
     }
@@ -2105,7 +2355,7 @@ function renderImpact() {
   });
   $("[data-copy]").addEventListener("click", (event) => {
     const current = nodes.find((node) => node.id === selected);
-    copyText(`Reviewer checklist for ${current.label}\n- Confirm owner: ${current.owner} (${current.team})\n- Review evidence: ${current.evidence}\n- Validate upstream dependencies: ${current.upstream.join(", ") || "None"}\n- Validate downstream dependencies: ${current.downstream.join(", ") || "None"}\n- Record decision outside this demo`, event.currentTarget);
+    copyText(`Reviewer checklist for ${current.label}\n- Confirm owner: ${current.owner} (${current.team})\n- Review evidence: ${current.evidence}\n- Validate upstream dependencies: ${current.upstream.join(", ") || "None"}\n- Validate downstream dependencies: ${current.downstream.join(", ") || "None"}\n- Critical path: ${criticalPath.map((id) => nodes.find((node) => node.id === id)?.label || id).join(" -> ")}\n- Record decision outside this demo`, event.currentTarget);
   });
   $$("[data-impact-present]").forEach((button) => button.addEventListener("click", () => setPresentation(true)));
   document.addEventListener("keydown", (event) => {
@@ -2168,32 +2418,20 @@ function renderPr() {
 function renderIncident() {
   renderShell();
   $("[data-workspace-title]").textContent = "Incident timeline";
-  const events = [
-    ["09:12", "Detect", "Alert fired for elevated checkout failures."],
-    ["09:18", "Assess", "On-call linked failures to payment timeout changes."],
-    ["09:31", "Mitigate", "Feature flag disabled for high-volume path."],
-    ["09:47", "Recover", "Error rate returned to expected range."],
-    ["10:15", "Follow-up", "Drafted remediation owner list."]
-  ];
+  const events = [["09:12", "Detect", "Alert fired for elevated checkout failures."], ["09:18", "Assess", "On-call linked failures to payment timeout changes."], ["09:31", "Mitigate", "Feature flag disabled for high-volume path."], ["09:47", "Recover", "Error rate returned to expected range."], ["10:15", "Follow-up", "Drafted remediation owner list."]];
   let filter = "All";
   $("[data-controls]").innerHTML = `<h2>Event controls</h2><div class="control-group"><label>Type<select data-type-filter><option>All</option><option>Detect</option><option>Assess</option><option>Mitigate</option><option>Recover</option><option>Follow-up</option></select></label><label>Time<input data-time value="10:30"></label><label>Type<select data-new-type><option>Follow-up</option><option>Detect</option><option>Assess</option><option>Mitigate</option><option>Recover</option></select></label><label>Note<input data-note value="Schedule learning review."></label><button class="primary" data-add>Add event</button></div>`;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy postmortem</button>`;
-  $("[data-workspace]").innerHTML = `<div class="timeline" data-timeline></div><pre class="output" data-output></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Five whys</h2>${["Why alert?", "Timeouts increased", "Why timeouts?", "Config changed", "Why not caught?", "Fixture missed peak load"].map((item) => `<div class="note">${escapeHtml(item)}</div>`).join("")}`;
+  $("[data-workspace]").innerHTML = `<div class="timeline" data-timeline></div><pre class="output" data-output aria-live="polite"></pre>`;
+  $("[data-inspector]").innerHTML = `<h2>Five whys</h2><label>Editable analysis<textarea class="why-editor" data-whys>Why alert? Elevated failures.\nWhy failures? Payment timeouts increased.\nWhy timeouts? Config changed.\nWhy not caught? Fixture missed peak load.\nWhy gap? Load scenario was not in release checklist.</textarea></label><div class="note">Export uses the current event filter and this editable five-whys text.</div>`;
   function update() {
-    const visible = events.filter((event) => filter === "All" || event[1] === filter);
+    const visible = events.filter((event) => filter === "All" || event[1] === filter).sort((a, b) => parseTimeValue(a[0]) - parseTimeValue(b[0]));
     $("[data-timeline]").innerHTML = visible.map((event) => `<section class="event"><time>${event[0]}</time><div><strong>${event[1]}</strong><p>${event[2]}</p></div></section>`).join("");
-    setOutput(`Incident postmortem draft\n\n${events.map((event) => `${event[0]} - ${event[1]} - ${event[2]}`).join("\n")}\n\nBoundary: official incident record remains in approved operational tooling.`);
+    setOutput(`Incident postmortem draft (${filter === "All" ? "all events" : filter})\n\n${visible.map((event) => `${event[0]} - ${event[1]} - ${event[2]}`).join("\n")}\n\nFive whys:\n${$("[data-whys]").value}\n\nBoundary: official incident record remains in approved operational tooling.`);
   }
-  $("[data-type-filter]").addEventListener("change", (event) => {
-    filter = event.target.value;
-    update();
-  });
-  $("[data-add]").addEventListener("click", () => {
-    events.push([$("[data-time]").value, $("[data-new-type]").value, $("[data-note]").value]);
-    events.sort((a, b) => a[0].localeCompare(b[0]));
-    update();
-  });
+  $("[data-type-filter]").addEventListener("change", (event) => { filter = event.target.value; update(); });
+  $("[data-whys]").addEventListener("input", update);
+  $("[data-add]").addEventListener("click", () => { events.push([$("[data-time]").value, $("[data-new-type]").value, $("[data-note]").value]); update(); });
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
   update();
 }
@@ -2212,12 +2450,15 @@ function renderControl() {
   $("[data-controls]").innerHTML = `<h2>Actions</h2><div class="control-group"><button class="primary" data-ready>Mark ready items</button><button data-print>Print pack</button></div>`;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy readiness summary</button>`;
   $("[data-workspace]").innerHTML = `<div class="hero-stats" data-readiness></div><div class="heatmap" data-heatmap></div><div data-table></div><pre class="output" data-output></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Control caveat</h2><div class="note warning">Readiness is not attestation. Each evidence item must be validated against the approved control and source system.</div>`;
+  $("[data-inspector]").innerHTML = `<h2>Control caveat</h2><div data-coverage></div><div class="note warning">Readiness is not attestation. Each evidence item must be validated against the approved control and source system.</div>`;
   function update() {
     const ready = items.filter((item) => item[3] === "Ready").length;
     const missing = items.filter((item) => item[3] === "Missing").length;
     $("[data-readiness]").innerHTML = [["Ready", ready], ["Review", items.length - ready - missing], ["Missing", missing]].map(([label, value]) => metricCard(value, label)).join("");
     $("[data-heatmap]").innerHTML = items.map((item) => `<span style="background:${item[3] === "Ready" ? "var(--green)" : item[3] === "Missing" ? "var(--red)" : "var(--accent)"}"></span>`).join("");
+    const controlsReady = Object.entries(items.reduce((acc, item) => { acc[item[1]] = acc[item[1]] || []; acc[item[1]].push(item[3]); return acc; }, {}));
+    const fullCoverage = controlsReady.filter(([, statuses]) => statuses.every((status) => status === "Ready")).length;
+    $("[data-coverage]").innerHTML = `<div class="stat"><strong>${fullCoverage}/${controlsReady.length}</strong><span>Controls fully ready</span></div>`;
     $("[data-table]").innerHTML = renderTable(["Evidence", "Control", "Owner", "Status"], items.map((item, index) => [escapeHtml(item[0]), escapeHtml(item[1]), escapeHtml(item[2]), `<select data-status="${index}"><option ${item[3] === "Ready" ? "selected" : ""}>Ready</option><option ${item[3] === "Needs review" ? "selected" : ""}>Needs review</option><option ${item[3] === "Missing" ? "selected" : ""}>Missing</option></select>`]));
     setOutput(`Control evidence readiness\n\nReady: ${ready}/${items.length}\n${items.map((item) => `- ${item[0]} (${item[1]}): ${item[3]} | owner: ${item[2]}`).join("\n")}\n\nBoundary: not audit attestation.`);
     $$("[data-status]").forEach((select) => select.addEventListener("change", () => {
@@ -2262,8 +2503,14 @@ function renderFlags() {
     localStorage.setItem(key, JSON.stringify(state));
     $("[data-flags]").innerHTML = Object.keys(state).map((flag) => `<div class="toggle-row"><div><strong>${escapeHtml(flag)}</strong><p>${dependencies[flag] ? `Depends on: ${dependencies[flag].join(", ")}` : "No sample dependency"}</p></div><label class="switch"><input type="checkbox" data-flag="${flag}" ${state[flag] ? "checked" : ""}><span class="slider"></span></label></div>`).join("");
     const diff = Object.fromEntries(Object.entries(state).filter(([flag, value]) => defaults[flag] !== value));
-    const warnings = Object.entries(dependencies).filter(([flag, deps]) => state[flag] && deps.some((dep) => !state[dep]));
-    const blast = Object.values(state).filter(Boolean).length * ($("[data-target]").selectedIndex + 1);
+    function missingDeps(flag, seen = new Set()) {
+      if (seen.has(flag)) return [];
+      seen.add(flag);
+      return (dependencies[flag] || []).flatMap((dep) => state[dep] ? missingDeps(dep, seen) : [dep]);
+    }
+    const warnings = Object.keys(dependencies).map((flag) => [flag, missingDeps(flag)]).filter(([flag, deps]) => state[flag] && deps.length);
+    const targetFactor = $("[data-target]").selectedIndex + 1;
+    const blast = Object.values(state).filter(Boolean).length * targetFactor;
     $("[data-flag-map]").innerHTML = `
       <rect class="node ${state["checkout-v2"] ? "active" : ""}" x="60" y="70" width="150" height="58" rx="7"></rect><text x="88" y="106">checkout-v2</text>
       <rect class="node ${state["payment-routing"] ? "active" : ""}" x="300" y="35" width="170" height="58" rx="7"></rect><text x="323" y="71">payment-routing</text>
@@ -2271,7 +2518,7 @@ function renderFlags() {
       <rect class="node ${state["bulk-export"] ? "active" : ""}" x="540" y="70" width="150" height="58" rx="7"></rect><text x="575" y="106">bulk-export</text>
       <path class="line hot" d="M210 99h90"></path><path class="line hot" d="M210 99 C260 140 270 174 300 174"></path><path class="line dashed" d="M470 64 C520 64 520 99 540 99"></path>`;
     setOutput(JSON.stringify(diff, null, 2) || "{}");
-    $("[data-warnings]").innerHTML = `<div class="stat"><strong>${blast}</strong><span>Blast-radius score</span></div>` + (warnings.length ? warnings.map(([flag, deps]) => `<div class="note danger">${escapeHtml(flag)} is on, but dependency is off: ${escapeHtml(deps.filter((dep) => !state[dep]).join(", "))}</div>`).join("") : `<div class="note">No dependency warnings in this fictional flag set.</div>`) + `<div class="note">Target: ${escapeHtml($("[data-target]").value)}</div>`;
+    $("[data-warnings]").innerHTML = `<div class="stat"><strong>${blast}</strong><span>Blast-radius score</span></div><div class="note">Scale: enabled flags x rollout stage (${targetFactor}). This is a review aid, not a production risk model.</div>` + (warnings.length ? warnings.map(([flag, deps]) => `<div class="note danger">${escapeHtml(flag)} is on, but dependency is off: ${escapeHtml([...new Set(deps)].join(", "))}</div>`).join("") : `<div class="note">No dependency warnings in this fictional flag set.</div>`) + `<div class="note">Target: ${escapeHtml($("[data-target]").value)}</div>`;
     $$("[data-flag]").forEach((input) => input.addEventListener("change", () => {
       state[input.dataset.flag] = input.checked;
       update();
@@ -2303,8 +2550,13 @@ const renderers = {
   flags: renderFlags
 };
 
-renderers[sample.type]();
-
+try {
+  if (!renderers[sample.type]) throw new Error(`Unknown sample type: ${sample.type}`);
+  renderers[sample.type]();
+} catch (error) {
+  console.error(error);
+  root.innerHTML = `<main class="sample-shell"><section class="panel"><h1>Sample could not render</h1><p>This self-contained artifact hit a runtime error. The page remains safe to share, but the demo needs review.</p><pre class="output" aria-live="polite">${escapeHtml(error.message)}</pre><p><a href="../index.html">Back to showcase</a></p></section></main>`;
+}
   </script>
 </body>
 </html>

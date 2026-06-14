@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vishal8shah.github.io/HTML-and-LLMs/sitemap.xml

@@ -13,6 +13,9 @@
   <meta name="twitter:title" content="HTML and LLMs for Enterprise Work">
   <meta name="twitter:description" content="Show the work, not just the prompt: 12 interactive HTML demos for enterprise work.">
   <meta name="twitter:image" content="https://vishal8shah.github.io/HTML-and-LLMs/assets/social-preview.png">
+  <meta name="theme-color" content="#080807">
+  <link rel="canonical" href="https://vishal8shah.github.io/HTML-and-LLMs/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <title>HTML and LLMs for Enterprise Work | Vishal Shah</title>
   <style>
 :root {
@@ -97,6 +100,25 @@ main {
 
 a {
   color: inherit;
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 100;
+  transform: translateY(-160%);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--accent);
+  font: 800 12px/1 var(--mono);
+  padding: 12px 14px;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 button,
@@ -1216,6 +1238,7 @@ kbd {
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="shell nav">
       <a class="brand" href="https://vishalshah.app" aria-label="Vishal Shah home">
@@ -1235,7 +1258,7 @@ kbd {
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="shell hero" id="top">
       <div class="reveal">
         <p class="hero-kicker">HTML and LLMs for enterprise work</p>
@@ -1299,10 +1322,10 @@ kbd {
           </section>
           <section class="cockpit-card">
             <h2>4. Evidence pack</h2>
-            <div class="pack-row"><strong>01_decision-brief.html</strong><span>42 KB</span></div>
-            <div class="pack-row"><strong>02_dependency-map.svg</strong><span>18 KB</span></div>
-            <div class="pack-row"><strong>03_risk-register.csv</strong><span>5 KB</span></div>
-            <div class="pack-row"><strong>readme.txt</strong><span>2 KB</span></div>
+            <div class="pack-row"><strong><a href="samples/decision-brief-explorer.html">Decision brief explorer</a></strong><span>HTML</span></div>
+            <div class="pack-row"><strong><a href="samples/change-impact-map.html">Change impact map</a></strong><span>HTML</span></div>
+            <div class="pack-row"><strong><a href="README.md">Repository README</a></strong><span>MD</span></div>
+            <div class="pack-row"><strong><a href="assets/social-preview.png">Social preview image</a></strong><span>PNG</span></div>
           </section>
         </div>
       </div>
