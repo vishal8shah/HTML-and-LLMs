@@ -1185,24 +1185,40 @@ kbd {
     width: min(100% - 28px, 1220px);
   }
 
+  body {
+    overflow-x: hidden;
+  }
+
   .nav {
     align-items: flex-start;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
+    min-height: 0;
     padding: 14px 0;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .brand-text {
+    font-size: 12px;
   }
 
   .nav-links {
     width: 100%;
+    flex-wrap: wrap;
     justify-content: flex-start;
-    overflow-x: auto;
-    padding-bottom: 3px;
+    gap: 6px 4px;
+    overflow: visible;
+    padding-bottom: 0;
   }
 
   .nav-links a,
   .nav-links button {
-    flex: 0 0 auto;
-    font-size: 11px;
+    flex: 0 1 auto;
+    font-size: 10px;
+    padding: 8px 9px;
   }
 
   .hero {
@@ -1218,11 +1234,28 @@ kbd {
   .lens-grid,
   .evidence-grid,
   .boundary-grid,
+  .section-head,
   .path-rail,
   .sample-grid,
   .verification,
   .proof-strip {
     grid-template-columns: 1fr;
+  }
+
+  .section-head {
+    align-items: start;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(32px, 10vw, 44px);
+  }
+
+  .section-head p {
+    max-width: 36rem;
+    font-size: 16px;
+    line-height: 1.55;
   }
 
   .guided-path {
@@ -1247,6 +1280,24 @@ kbd {
   .samples-toolbar {
     align-items: flex-start;
     flex-direction: column;
+    width: 100%;
+  }
+
+  .segment {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .segment button {
+    min-width: 0;
+    padding: 10px 8px;
+    white-space: normal;
+  }
+
+  .samples-toolbar .button {
+    width: 100%;
+    justify-content: center;
   }
 
   .section-block {
