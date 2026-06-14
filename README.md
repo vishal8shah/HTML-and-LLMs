@@ -1,8 +1,10 @@
-# Enterprise HTML Effectiveness
+# HTML with GPT for Enterprise Work
 
 A static collection of self-contained HTML artifacts for enterprise-focused work
 created with LLMs. Each page embeds its CSS and JavaScript, opens directly in the
 browser, uses no framework, no backend, and no build step.
+
+Repository: [vishal8shah/HTML-with-GPT](https://github.com/vishal8shah/HTML-with-GPT).
 
 The site is designed to support an AI guild presentation and public sharing from
 [vishalshah.app](https://vishalshah.app). It demonstrates how HTML can turn AI-assisted
@@ -103,7 +105,7 @@ In GitHub:
 After GitHub Pages is enabled, the expected path is:
 
 ```text
-vishal8shah.github.io/HTML-and-LLMs/
+vishal8shah.github.io/HTML-with-GPT/
 ```
 
 ## License
