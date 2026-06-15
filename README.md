@@ -1,8 +1,8 @@
 # HTML with GPT for Enterprise Work
 
-A static collection of self-contained HTML artifacts for enterprise-focused work
-created with LLMs. Each page embeds its CSS and JavaScript, opens directly in the
-browser, uses no framework, no backend, and no build step.
+A static collection of self-contained HTML draft artifacts for enterprise-focused
+work created with LLMs. Each page embeds its CSS and JavaScript, opens directly
+in the browser, uses no framework, no backend, and no build step.
 
 Repository: [vishal8shah/HTML-with-GPT](https://github.com/vishal8shah/HTML-with-GPT).
 
@@ -27,7 +27,14 @@ A related earlier experiment explored the same idea with Claude assistance:
 [Power of HTML with LLMs](https://vishal8shah.github.io/Power-of-HTML-with-LLMs/index.html).
 
 The point is not a model comparison. The point is HTML as a useful artifact format
-for LLM-assisted work.
+for LLM-assisted work that people can inspect, edit, challenge, and sign off.
+
+## Human review
+
+LLMs can hallucinate, omit context, or produce plausible but wrong output. Treat
+these artifacts as first drafts and review aids. Before using any artifact for
+real work, accountable humans should verify the facts, edit the wording, check
+the assumptions, and sign off through the appropriate enterprise process.
 
 ## What is included
 
@@ -65,12 +72,15 @@ Engineering samples:
 
 These samples are public-safe demonstrations. They do not claim to provide:
 
-- production approval
-- compliance attestation
+- production sign-off
+- formal evidence claim
 - real customer or enterprise data access
-- governed identity, authorization, audit logging, or retention
+- governed identity, authorization, logging, or retention
 - backend integration
-- AI quality assurance
+- AI output assurance
+
+They are useful first drafts, not systems of record or substitutes for human
+accountability.
 
 Every claim should either be visible in the demo or supported by public references
 such as WHATWG HTML, MDN Web Docs, W3C WCAG, or OWASP guidance.

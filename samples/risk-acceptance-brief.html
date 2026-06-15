@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit approval caveats.">
+  <meta name="description" content="Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit human-review caveats.">
   <meta property="og:title" content="Risk acceptance brief | HTML with GPT for Enterprise Work">
-  <meta property="og:description" content="Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit approval caveats.">
+  <meta property="og:description" content="Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit human-review caveats.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vishal8shah.github.io/HTML-with-GPT/samples/risk-acceptance-brief.html">
   <meta property="og:image" content="https://vishal8shah.github.io/HTML-with-GPT/assets/social-preview.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Risk acceptance brief | HTML with GPT for Enterprise Work">
-  <meta name="twitter:description" content="Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit approval caveats.">
+  <meta name="twitter:description" content="Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit human-review caveats.">
   <meta name="twitter:image" content="https://vishal8shah.github.io/HTML-with-GPT/assets/social-preview.png">
   <meta name="theme-color" content="#080807">
   <link rel="canonical" href="https://vishal8shah.github.io/HTML-with-GPT/samples/risk-acceptance-brief.html">
@@ -642,7 +642,7 @@ td strong {
 
 .status.low,
 .status.ready,
-.status.approved,
+.status.accepted,
 .status.done {
   color: var(--green);
 }
@@ -1516,8 +1516,8 @@ const SAMPLES = {
     summary: "Compare fictional options, tune criteria weights, inspect stakeholder impact, and export a concise recommendation draft.",
     stats: [["3", "Options"], ["5", "Criteria"], ["8", "Stakeholders"]],
     proof: ["Forms update the decision model instantly", "CSS meters and SVG make trade-offs visible", "Clipboard/download actions create a portable brief"],
-    boundary: "This structures a human decision review. It does not validate facts, approve spend, or replace governance forums.",
-    prompt: "Create a self-contained HTML decision brief explorer for three enterprise options. Include weighted criteria, stakeholder impact, a recommendation draft, export actions, and a clear boundary that it is not an approval record.",
+    boundary: "This structures a human decision review. It does not validate facts, authorize spend, or replace governance forums.",
+    prompt: "Create a self-contained HTML decision brief explorer for three enterprise options. Include weighted criteria, stakeholder impact, a recommendation draft, export actions, and a clear boundary that it is not a sign-off record.",
     type: "decision"
   },
   "meeting-action-tracker": {
@@ -1526,8 +1526,8 @@ const SAMPLES = {
     title: "Meeting action tracker",
     summary: "Turn a fictional meeting into owner-filtered actions, due-date timeline, decisions, and a copyable follow-up note.",
     stats: [["9", "Actions"], ["4", "Owners"], ["3", "Decisions"]],
-    proof: ["Checkboxes persist locally in the browser", "Filters and timelines make follow-up easier to scan", "Generated text can be copied into approved tools"],
-    boundary: "This is not a system of record. Real actions belong in the approved workflow, ticketing, or collaboration platform.",
+    proof: ["Checkboxes persist locally in the browser", "Filters and timelines make follow-up easier to scan", "Generated text can be copied into official tools after review"],
+    boundary: "This is not a system of record. Real actions belong in the official workflow, ticketing, or collaboration platform.",
     prompt: "Create a standalone HTML meeting action tracker for an enterprise review meeting. Include owners, due dates, statuses, decisions, filters, local state, a timeline, and a follow-up export.",
     type: "meeting"
   },
@@ -1537,7 +1537,7 @@ const SAMPLES = {
     title: "Policy/process navigator",
     summary: "Select a role and goal to reveal relevant process steps, linked controls, escalation points, and RACI guidance.",
     stats: [["4", "Roles"], ["12", "Steps"], ["7", "Controls"]],
-    proof: ["Native controls can reveal role-specific process paths", "Inline SVG can make approvals and handoffs readable", "Tables keep ownership and control context close to the workflow"],
+    proof: ["Native controls can reveal role-specific process paths", "Inline SVG can make handoffs and review paths readable", "Tables keep ownership and control context close to the workflow"],
     boundary: "Policy owners must validate all content. This demo does not interpret policy or provide official advice.",
     prompt: "Create a public-safe HTML process navigator for enterprise users. Include role and goal selectors, a process diagram, controls, RACI, escalation points, and a policy-owner validation boundary.",
     type: "policy"
@@ -1549,7 +1549,7 @@ const SAMPLES = {
     summary: "Paste or upload fictional CSV data, profile quality, filter rows, flag anomalies, and export a cleaned view.",
     stats: [["18", "Rows"], ["5", "Fields"], ["4", "Issues"]],
     proof: ["The File API lets a static page read local files selected by the user", "JavaScript can profile and filter rows in the browser", "Export patterns create a reviewed working copy"],
-    boundary: "Do not use sensitive data without enterprise approval. This is not a governed data platform or data-quality control.",
+    boundary: "Do not use sensitive data without explicit enterprise permission. This is not a governed data platform or data-quality control.",
     prompt: "Create a self-contained HTML CSV triage workspace. It should read pasted or uploaded CSV, profile missing values, filter by risk, flag anomalies, show charts, and export cleaned data.",
     type: "csv"
   },
@@ -1557,11 +1557,11 @@ const SAMPLES = {
     number: "05",
     lens: "Business lens",
     title: "Risk acceptance brief",
-    summary: "Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit approval caveats.",
+    summary: "Draft a risk note with a 5x5 matrix, control checklist, mitigation timeline, and explicit human-review caveats.",
     stats: [["25", "Matrix cells"], ["6", "Controls"], ["4", "Milestones"]],
     proof: ["Forms create structured risk drafts", "Matrix visuals make likelihood and impact visible", "Print/download actions turn the artifact into a review pack"],
-    boundary: "This is not risk acceptance, audit evidence, legal advice, or an approval. It is a draft aid for accountable humans.",
-    prompt: "Create a standalone HTML risk acceptance brief for fictional enterprise risk. Include a 5x5 matrix, mitigations, controls, residual risk, approval path, export, and no-attestation boundary.",
+    boundary: "This is not risk acceptance, official evidence, legal advice, or a sign-off. It is a draft aid for accountable humans.",
+    prompt: "Create a standalone HTML risk acceptance brief for fictional enterprise risk. Include a 5x5 matrix, mitigations, controls, residual risk, review path, export, and no-formal-evidence boundary.",
     type: "risk"
   },
   "customer-conversation-simulator": {
@@ -1571,7 +1571,7 @@ const SAMPLES = {
     summary: "Practice response framing for fictional customer scenarios with tone comparison, branching next steps, and a quality checklist.",
     stats: [["4", "Scenarios"], ["3", "Tones"], ["6", "Checks"]],
     proof: ["Branching UI can simulate realistic review practice", "HTML keeps scenario, response, and checklist visible together", "Copy actions preserve the draft while keeping policy boundaries clear"],
-    boundary: "This does not represent real customers, policy advice, regulated communication approval, or AI quality assurance.",
+    boundary: "This does not represent real customers, policy advice, formal communication sign-off, or AI output assurance.",
     prompt: "Create a customer conversation simulator as one HTML file. Use fictional scenarios, tone selectors, branching response drafts, communication checklist, and safe-language boundaries.",
     type: "conversation"
   },
@@ -1582,8 +1582,8 @@ const SAMPLES = {
     summary: "Compare architecture options, inspect target-state diagrams, capture consequences, and export an ADR-shaped draft.",
     stats: [["3", "Options"], ["9", "Forces"], ["1", "Draft ADR"]],
     proof: ["Option scorecards make ADR trade-offs inspectable", "SVG diagrams connect current and target architectures", "Generated text can follow a familiar ADR structure"],
-    boundary: "Engineering leads still own design review, threat modeling, approval, and production implementation.",
-    prompt: "Create a self-contained HTML architecture decision record for a regulated enterprise team. Include options, scoring, architecture diagram, consequences, guardrails, and ADR export.",
+    boundary: "Engineering leads still own design review, threat modeling, human sign-off, and implementation.",
+    prompt: "Create a self-contained HTML architecture decision record for an enterprise team. Include options, scoring, architecture diagram, consequences, guardrails, and ADR export.",
     type: "adr"
   },
   "change-impact-map": {
@@ -1594,7 +1594,7 @@ const SAMPLES = {
     stats: [["12", "Services"], ["6", "Data stores"], ["14", "Controls"]],
     proof: ["Inline SVG can be scripted directly in HTML", "Filters and selected states turn diagrams into review tools", "Evidence tables make reviewer actions concrete"],
     boundary: "The map is fictional. Real dependency and ownership data must come from governed source-of-truth systems.",
-    prompt: "Create a standalone HTML change impact map for a regulated enterprise service change. Include SVG dependencies, risk filters, owner details, evidence table, timeline, and reviewer checklist export.",
+    prompt: "Create a standalone HTML change impact map for an enterprise service change. Include SVG dependencies, risk filters, owner details, evidence table, timeline, and reviewer checklist export.",
     type: "impact"
   },
   "pull-request-reviewer-aid": {
@@ -1615,7 +1615,7 @@ const SAMPLES = {
     summary: "Build a multi-lane incident narrative with event filters, five-whys, remediation board, and exportable postmortem draft.",
     stats: [["11", "Events"], ["5", "Whys"], ["6", "Actions"]],
     proof: ["Local forms and DOM updates turn a narrative into an inspectable timeline", "Filtering by event type supports live facilitation", "Generated postmortem text remains editable and bounded"],
-    boundary: "Official incident records belong in approved operational systems with timestamps, ownership, and retention controls.",
+    boundary: "Official incident records belong in operational systems with timestamps, ownership, and retention controls.",
     prompt: "Create a self-contained HTML incident timeline for a fictional enterprise outage. Include multi-lane events, filters, five-whys, remediation actions, and postmortem export.",
     type: "incident"
   },
@@ -1623,11 +1623,11 @@ const SAMPLES = {
     number: "11",
     lens: "Engineering lens",
     title: "Control evidence pack",
-    summary: "Track fictional evidence items, readiness status, control coverage, heatmap, and a non-attestational audit-pack view.",
+    summary: "Track fictional evidence items, readiness status, control coverage, heatmap, and a draft review-pack view.",
     stats: [["14", "Evidence items"], ["8", "Controls"], ["4", "Owners"]],
-    proof: ["Tables and status controls make evidence readiness visible", "Heatmaps make gaps easier to discuss", "Print/export patterns create a review pack without claiming attestation"],
-    boundary: "This is not compliance attestation. Evidence validity requires approved controls, source systems, and audit process.",
-    prompt: "Create a static HTML control evidence pack for fictional regulated engineering change. Include readiness status, owners, controls, heatmap, print view, export, and non-attestation boundary.",
+    proof: ["Tables and status controls make evidence readiness visible", "Heatmaps make gaps easier to discuss", "Print/export patterns create a review pack without claiming formal evidence"],
+    boundary: "This is not a formal evidence claim. Evidence validity requires official controls, source systems, and review process.",
+    prompt: "Create a static HTML control evidence pack for a fictional enterprise engineering change. Include readiness status, owners, controls, heatmap, print view, export, and no-formal-evidence boundary.",
     type: "control"
   },
   "feature-flag-risk-editor": {
@@ -1637,7 +1637,7 @@ const SAMPLES = {
     summary: "Toggle fictional feature flags, inspect dependencies, calculate blast-radius risk, view rollout stages, and export a JSON diff.",
     stats: [["8", "Flags"], ["5", "Dependencies"], ["4", "Stages"]],
     proof: ["Local state can simulate rollout choices safely", "Dependency checks make hidden risk visible", "JSON export demonstrates a reviewable change payload"],
-    boundary: "This does not change production flags. Real changes need identity, authorization, logging, approvals, and rollback controls.",
+    boundary: "This does not change production flags. Real changes need identity, authorization, logging, human sign-off, and rollback controls.",
     prompt: "Create a feature-flag risk editor as one HTML artifact. Include toggle matrix, dependency graph, blast-radius scoring, staged rollout plan, JSON diff export, and production-change boundary.",
     type: "flags"
   }
@@ -1821,6 +1821,10 @@ function renderShell() {
           <p>${escapeHtml(sample.boundary)}</p>
         </article>
         <article class="panel">
+          <h2>Human review required</h2>
+          <p>LLMs can hallucinate, omit context, or produce plausible but wrong output. Treat this artifact as a first draft until accountable people verify facts, edit wording, and sign off through the appropriate enterprise process.</p>
+        </article>
+        <article class="panel">
           <h2>References used for claims</h2>
           <p><a href="https://html.spec.whatwg.org/multipage/">WHATWG HTML</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/File_API">MDN File API</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">MDN Web Storage</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/SVG">MDN SVG</a><br><a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a></p>
         </article>
@@ -1887,7 +1891,7 @@ function renderDecision() {
     $("[data-heatmap]").innerHTML = best.stakeholders.map((score) => `<span style="background: color-mix(in srgb, var(--accent) ${score}%, var(--bg-2));"></span>`).join("");
     $("[data-decision-note]").textContent = best.note;
     $("[data-contributions]").innerHTML = axes.map((axis) => `<div class="contribution-row"><span>${axis}</span><div class="meter"><span style="width:${Math.min(100, best.contribution[axis] * 4)}%"></span></div><strong>${best.contribution[axis]}</strong></div>`).join("");
-    setOutput(`Decision brief draft\n\nRecommendation: ${best.name}\nWeighted fit: ${best.score}/100\nNormalised weights: ${axes.map((axis) => `${axis} ${Math.round(normalized[axis] * 100)}%`).join(", ")}\nWhy: ${best.note}\n\nReview boundary: this is a structured decision aid, not spend approval, risk acceptance, or governance sign-off.`);
+    setOutput(`Decision brief draft\n\nRecommendation: ${best.name}\nWeighted fit: ${best.score}/100\nNormalised weights: ${axes.map((axis) => `${axis} ${Math.round(normalized[axis] * 100)}%`).join(", ")}\nWhy: ${best.note}\n\nReview boundary: this is a structured decision aid, not spend sign-off, risk acceptance, or governance sign-off.`);
   }
   $$("[data-weight]").forEach((input) => input.addEventListener("input", update));
   $("[data-reset-weights]").addEventListener("click", () => { Object.assign(weights, defaults); Object.keys(weights).forEach((key) => { $(`[data-weight="${key}"]`).value = weights[key]; }); update(); });
@@ -1901,7 +1905,7 @@ function renderMeeting() {
   $("[data-workspace-title]").textContent = "Actions and decisions";
   const key = "enterprise-html-meeting-v3";
   const actions = [
-    { id: "forum", item: "Confirm review forum and accountable approver", owner: "Asha", due: "2026-05-20", status: "Review", type: "Decision" },
+    { id: "forum", item: "Confirm review forum and accountable reviewer", owner: "Asha", due: "2026-05-20", status: "Review", type: "Decision" },
     { id: "summary", item: "Prepare customer-safe summary", owner: "Ben", due: "2026-05-21", status: "Ready", type: "Action" },
     { id: "classification", item: "Validate data classification for sample inputs", owner: "Mina", due: "2026-05-22", status: "Blocked", type: "Control" },
     { id: "impact", item: "Draft engineering impact note", owner: "Leo", due: "2026-05-23", status: "Review", type: "Action" },
@@ -1912,7 +1916,7 @@ function renderMeeting() {
   $("[data-controls]").innerHTML = `<h2>Filters</h2><div class="control-group"><label>Owner<select data-owner><option>All</option>${[...new Set(actions.map((a) => a.owner))].map((owner) => `<option>${owner}</option>`).join("")}</select></label><label>Status<select data-status-filter><option>All</option><option>Draft</option><option>Review</option><option>Ready</option><option>Blocked</option></select></label><button data-reset>Reset completed</button></div>`;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy follow-up</button><button data-download>Download</button><button data-csv-export>Export CSV</button>`;
   $("[data-workspace]").innerHTML = `<div data-action-table></div><div class="timeline" data-timeline></div><pre class="output" data-output aria-live="polite"></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Decision log</h2><div class="stack">${["Use fictional data only", "Publish as static GitHub Pages", "Keep approvals outside the demo"].map((item) => `<div class="note">${item}</div>`).join("")}</div>`;
+  $("[data-inspector]").innerHTML = `<h2>Decision log</h2><div class="stack">${["Use fictional data only", "Publish as static GitHub Pages", "Keep human sign-off outside the demo"].map((item) => `<div class="note">${item}</div>`).join("")}</div>`;
   function visibleActions() {
     const owner = $("[data-owner]").value;
     const status = $("[data-status-filter]").value;
@@ -1923,7 +1927,7 @@ function renderMeeting() {
     $("[data-action-table]").innerHTML = renderTable(["Done", "Item", "Owner", "Due", "Status"], visible.map((action) => [`<input aria-label="Mark ${escapeHtml(action.item)} done" type="checkbox" data-action="${action.id}" ${done.includes(action.id) ? "checked" : ""}>`, `<strong>${escapeHtml(action.item)}</strong><br>${escapeHtml(action.type)}`, escapeHtml(action.owner), escapeHtml(action.due), `<span class="status ${statusClass(action.status)}">${escapeHtml(action.status)}</span>`]));
     $("[data-timeline]").innerHTML = visible.map((action) => `<section class="event"><time>${escapeHtml(action.due)}</time><div><strong>${escapeHtml(action.owner)}</strong><p>${escapeHtml(action.item)}</p></div></section>`).join("");
     const open = actions.filter((action) => !done.includes(action.id)).sort((a, b) => new Date(a.due) - new Date(b.due));
-    setOutput(`Meeting follow-up\n\nCompleted: ${done.length}/${actions.length}\n\nOpen items:\n${open.map((action) => `- ${action.item} | owner: ${action.owner} | due: ${action.due} | status: ${action.status}`).join("\n") || "- None"}\n\nBoundary: paste this into the approved action-tracking system.`);
+    setOutput(`Meeting follow-up\n\nCompleted: ${done.length}/${actions.length}\n\nOpen items:\n${open.map((action) => `- ${action.item} | owner: ${action.owner} | due: ${action.due} | status: ${action.status}`).join("\n") || "- None"}\n\nBoundary: paste this into the official action-tracking system after review.`);
     $$("[data-action]").forEach((box) => box.addEventListener("change", () => { const id = box.dataset.action; done = box.checked ? [...new Set([...done, id])] : done.filter((item) => item !== id); localStorage.setItem(key, JSON.stringify(done)); update(); }));
   }
   $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", update));
@@ -2151,7 +2155,7 @@ function renderRisk() {
       <label>Scenario<input data-risk-name value="Temporary manual reconciliation for customer notification list"></label>
       <label>Likelihood<input type="range" min="1" max="5" value="3" data-likelihood></label>
       <label>Impact<input type="range" min="1" max="5" value="4" data-impact></label>
-      <label>Mitigation<textarea data-mitigation>Limit use to fictional test records, require peer review, and retire after the approved workflow is available.</textarea></label>
+      <label>Mitigation<textarea data-mitigation>Limit use to fictional test records, require peer review, and retire after the official workflow is available.</textarea></label>
     </div>
   `;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy brief</button><button data-print>Print</button>`;
@@ -2181,7 +2185,7 @@ function renderRisk() {
     }).join("");
     $("[data-risk-timeline]").innerHTML = ["Draft brief", "Peer review", "Risk forum", "Retire workaround"].map((item, index) => `<section class="event"><time>Step ${index + 1}</time><div><strong>${item}</strong><p>${index < 2 ? "Artifact can help prepare this step." : "Approval remains outside this demo."}</p></div></section>`).join("");
     if (renderList) renderControls();
-    setOutput(`Risk acceptance draft\n\nScenario: ${$("[data-risk-name]").value}\nInherent risk: ${inherentName} (${inherent}/25)\nResidual risk after checked mitigations: ${residualName} (${residual}/25)\nLikelihood: ${likelihood}/5\nImpact: ${impact}/5\nControls checked: ${checkedControls.size}/${controls.length}\n\nMitigation:\n${$("[data-mitigation]").value}\n\nBoundary: draft only. Formal acceptance requires approved risk governance.`);
+    setOutput(`Risk acceptance draft\n\nScenario: ${$("[data-risk-name]").value}\nInherent risk: ${inherentName} (${inherent}/25)\nResidual risk after checked mitigations: ${residualName} (${residual}/25)\nLikelihood: ${likelihood}/5\nImpact: ${impact}/5\nControls checked: ${checkedControls.size}/${controls.length}\n\nMitigation:\n${$("[data-mitigation]").value}\n\nBoundary: draft only. Formal acceptance requires accountable human review and the official risk process.`);
   }
   $$("input, textarea", $("[data-controls]")).forEach((field) => field.addEventListener("input", () => update(false)));
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
@@ -2195,13 +2199,13 @@ function renderConversation() {
   const scenarios = {
     delay: "We expected an answer yesterday. Why is this still waiting?",
     data: "Can you explain where our data is stored and who can access it?",
-    complaint: "The previous message was confusing and made it sound like the change was already approved.",
+    complaint: "The previous message was confusing and made it sound like the change was already signed off.",
     escalation: "I need this escalated now because our leadership meeting is tomorrow."
   };
   const drafts = {
-    "Clear and calm": "I understand the concern. What is confirmed is that the review is still open. I will check the accountable owner and give you the approved update window.",
-    "Brief and practical": "Thanks for raising it. I will confirm the owner, current status, and next action, then come back through the approved support path.",
-    "Empathetic and detailed": "I can see why this creates uncertainty. I will separate what is confirmed from what still needs approval, then share the next step, owner, and expected update path."
+    "Clear and calm": "I understand the concern. What is confirmed is that the review is still open. I will check the accountable owner and give you the official update window.",
+    "Brief and practical": "Thanks for raising it. I will confirm the owner, current status, and next action, then come back through the official support path.",
+    "Empathetic and detailed": "I can see why this creates uncertainty. I will separate what is confirmed from what still needs human sign-off, then share the next step, owner, and expected update path."
   };
   const replies = {
     neutral: "Customer accepts the update path.",
@@ -2222,13 +2226,13 @@ function renderConversation() {
   const checks = [
     ["Acknowledges concern", (text) => /understand|thanks|see why|concern/i.test(text)],
     ["Separates known from unknown", (text) => /confirmed|still needs|current status|review is still open/i.test(text)],
-    ["Avoids policy promises", (text) => !/guarantee|approved already|definitely|promise/i.test(text)],
+    ["Avoids policy promises", (text) => !/guarantee|signed off already|definitely|promise/i.test(text)],
     ["Names next step", (text) => /next|owner|check|confirm|support path/i.test(text)],
-    ["Uses safe wording", (text) => /approved|accountable|review|support path/i.test(text)],
-    ["Routes formal approval elsewhere", (text) => /approved support|approved update|formal approval|accountable owner/i.test(text)]
+    ["Uses safe wording", (text) => /official|accountable|review|support path/i.test(text)],
+    ["Routes formal sign-off elsewhere", (text) => /official support|official update|formal sign-off|accountable owner/i.test(text)]
   ];
   function branchAdvice(reply) {
-    if (reply === "challenge") return "Do not guarantee a date. Offer the approved update window and owner confirmation.";
+    if (reply === "challenge") return "Do not guarantee a date. Offer the official update window and owner confirmation.";
     if (reply === "escalation") return "Acknowledge urgency, route through the escalation owner, and avoid inventing authority.";
     return "Confirm the next update path and keep the message bounded.";
   }
@@ -2236,14 +2240,14 @@ function renderConversation() {
     const intent = $("[data-intent]").value;
     const tone = $("[data-tone]").value;
     const reply = $("[data-reply]").value;
-    if (resetDraft) $("[data-response]").value = `${drafts[tone]} For anything account-specific or policy-sensitive, I will use the approved support process.`;
+    if (resetDraft) $("[data-response]").value = `${drafts[tone]} For anything account-specific or policy-sensitive, I will use the official support process.`;
     const text = $("[data-response]").value;
     const results = checks.map(([label, test]) => [label, test(text)]);
     const score = results.filter(([, pass]) => pass).length;
     const advice = branchAdvice(reply);
     $("[data-checks]").innerHTML = results.map(([label, pass]) => `<div class="metric"><span>${escapeHtml(label)}</span><span class="status ${pass ? "ready" : "missing"}">${pass ? "Pass" : "Review"}</span></div>`).join("");
     $("[data-branch]").textContent = `${replies[reply]} ${advice}`;
-    setOutput(`Fictional customer says:\n"${scenarios[intent]}"\n\nDraft response (${score}/6 quality checks):\n${text}\n\nBranch: ${replies[reply]}\nRecommended next move: ${advice}\n\nBoundary: not approved customer communication.`);
+    setOutput(`Fictional customer says:\n"${scenarios[intent]}"\n\nDraft response (${score}/6 quality checks):\n${text}\n\nBranch: ${replies[reply]}\nRecommended next move: ${advice}\n\nBoundary: not signed-off customer communication.`);
   }
   $$("select", $("[data-controls]")).forEach((select) => select.addEventListener("change", () => update(true)));
   $("[data-response]").addEventListener("input", () => update(false));
@@ -2291,7 +2295,7 @@ function renderImpact() {
     { id: "auth", label: "Auth Service", x: 292, y: 214, team: "Identity", owner: "Ava Stone", risk: "High", evidence: "Privileged-access review, token scope check", upstream: [], downstream: ["api", "portal", "mobile"], controls: ["PRIV-02", "IAM-01"], note: "Token and role changes are not implied by the feature change." },
     { id: "ledger", label: "Ledger Feed", x: 944, y: 62, team: "Finance Systems", owner: "Eli Brooks", risk: "High", evidence: "Posting sample, reconciliation query", upstream: ["pay"], downstream: [], controls: ["FIN-01", "SOX-AC-01"], note: "Evidence should show postings and reconciliation exceptions." },
     { id: "warehouse", label: "Warehouse", x: 944, y: 184, team: "Operations", owner: "Nina Rao", risk: "Medium", evidence: "Pick-list replay, exception report", upstream: ["inv"], downstream: [], controls: ["OPS-05"], note: "Operational users need a clear exception path during rollout." },
-    { id: "notify", label: "Notification Hub", x: 742, y: 306, team: "Messaging", owner: "Owen Blake", risk: "Low", evidence: "Template review, opt-out check", upstream: ["order"], downstream: [], controls: ["COMMS-01"], note: "Customer wording belongs in approved communication tooling." }
+    { id: "notify", label: "Notification Hub", x: 742, y: 306, team: "Messaging", owner: "Owen Blake", risk: "Low", evidence: "Template review, opt-out check", upstream: ["order"], downstream: [], controls: ["COMMS-01"], note: "Customer wording belongs in official communication tooling." }
   ];
   const links = [
     ["auth", "api"], ["auth", "portal"], ["auth", "mobile"], ["portal", "api"], ["mobile", "api"],
@@ -2359,7 +2363,7 @@ function renderImpact() {
       focus: ["auth", "api", "order", "pay", "ledger"],
       selected: "auth",
       progress: 6,
-      notes: "Keep the boundary honest: this artifact can organize review evidence, but it cannot grant approval, attest controls, or integrate with identity systems by itself.",
+      notes: "Keep the boundary honest: this artifact can organize review evidence, but it cannot grant sign-off, validate official controls, or integrate with identity systems by itself.",
       evidence: [
         ["EV-2140", "Token scope review", "Identity", "Ready"],
         ["EV-2141", "Rollback runbook excerpt", "SRE", "Review"],
@@ -2372,7 +2376,7 @@ function renderImpact() {
       focus: ["order", "pay", "ledger"],
       selected: "ledger",
       progress: 7,
-      notes: "The close is not that HTML replaces enterprise systems. It is that AI can produce a reviewable artifact that humans can navigate, challenge and carry into approved workflows.",
+      notes: "The close is not that HTML replaces enterprise systems. It is that AI can produce a reviewable artifact that humans can navigate, challenge and carry into official workflows.",
       evidence: [
         ["EV-2150", "Decision summary", "Release Lead", "Draft"],
         ["EV-2151", "Open questions list", "All owners", "Review"],
@@ -2652,7 +2656,7 @@ function renderIncident() {
   function update() {
     const visible = events.filter((event) => filter === "All" || event[1] === filter).sort((a, b) => parseTimeValue(a[0]) - parseTimeValue(b[0]));
     $("[data-timeline]").innerHTML = visible.map((event) => `<section class="event"><time>${event[0]}</time><div><strong>${event[1]}</strong><p>${event[2]}</p></div></section>`).join("");
-    setOutput(`Incident postmortem draft (${filter === "All" ? "all events" : filter})\n\n${visible.map((event) => `${event[0]} - ${event[1]} - ${event[2]}`).join("\n")}\n\nFive whys:\n${$("[data-whys]").value}\n\nBoundary: official incident record remains in approved operational tooling.`);
+    setOutput(`Incident postmortem draft (${filter === "All" ? "all events" : filter})\n\n${visible.map((event) => `${event[0]} - ${event[1]} - ${event[2]}`).join("\n")}\n\nFive whys:\n${$("[data-whys]").value}\n\nBoundary: official incident record remains in operational tooling.`);
   }
   $("[data-type-filter]").addEventListener("change", (event) => { filter = event.target.value; update(); });
   $("[data-whys]").addEventListener("input", update);
@@ -2675,7 +2679,7 @@ function renderControl() {
   $("[data-controls]").innerHTML = `<h2>Actions</h2><div class="control-group"><button class="primary" data-ready>Mark ready items</button><button data-print>Print pack</button></div>`;
   $("[data-workspace-actions]").innerHTML = `<button class="primary" data-copy>Copy readiness summary</button>`;
   $("[data-workspace]").innerHTML = `<div class="hero-stats" data-readiness></div><div class="heatmap" data-heatmap></div><div data-table></div><pre class="output" data-output></pre>`;
-  $("[data-inspector]").innerHTML = `<h2>Control caveat</h2><div data-coverage></div><div class="note warning">Readiness is not attestation. Each evidence item must be validated against the approved control and source system.</div>`;
+  $("[data-inspector]").innerHTML = `<h2>Control caveat</h2><div data-coverage></div><div class="note warning">Readiness is not proof. Each evidence item must be validated against the official control and source system.</div>`;
   function update(focusIndex = null) {
     const ready = items.filter((item) => item[3] === "Ready").length;
     const missing = items.filter((item) => item[3] === "Missing").length;
@@ -2685,7 +2689,7 @@ function renderControl() {
     const fullCoverage = controlsReady.filter(([, statuses]) => statuses.every((status) => status === "Ready")).length;
     $("[data-coverage]").innerHTML = `<div class="stat"><strong>${fullCoverage}/${controlsReady.length}</strong><span>Controls fully ready</span></div>`;
     $("[data-table]").innerHTML = renderTable(["Evidence", "Control", "Owner", "Status"], items.map((item, index) => [escapeHtml(item[0]), escapeHtml(item[1]), escapeHtml(item[2]), `<select data-status="${index}"><option ${item[3] === "Ready" ? "selected" : ""}>Ready</option><option ${item[3] === "Needs review" ? "selected" : ""}>Needs review</option><option ${item[3] === "Missing" ? "selected" : ""}>Missing</option></select>`]));
-    setOutput(`Control evidence readiness\n\nReady: ${ready}/${items.length}\n${items.map((item) => `- ${item[0]} (${item[1]}): ${item[3]} | owner: ${item[2]}`).join("\n")}\n\nBoundary: not audit attestation.`);
+    setOutput(`Control evidence readiness\n\nReady: ${ready}/${items.length}\n${items.map((item) => `- ${item[0]} (${item[1]}): ${item[3]} | owner: ${item[2]}`).join("\n")}\n\nBoundary: not a formal evidence claim.`);
     $$("[data-status]").forEach((select) => select.addEventListener("change", () => {
       const index = Number(select.dataset.status);
       items[index][3] = select.value;
