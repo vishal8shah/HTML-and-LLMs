@@ -1161,7 +1161,7 @@ td strong {
 
 .footer-note a:hover,
 .signature-credit a:hover {
-  color: var(--accent-strong);
+  color: var(--accent);
   text-decoration-color: var(--accent);
 }
 
@@ -1767,7 +1767,7 @@ function renderShell() {
         <nav class="links" aria-label="Sample navigation">
           <a href="../index.html">Home</a>
           <a href="../index.html#samples">Samples</a>
-          <a href="../index.html#evidence">Evidence</a>
+          <a href="../index.html#evidence">References</a>
           <a href="../index.html#boundaries">Boundaries</a>
           <a href="https://vishalshah.app">vishalshah.app</a>
           <button type="button" data-theme-toggle>Light</button>
@@ -2655,12 +2655,12 @@ function renderIncident() {
   $("[data-inspector]").innerHTML = `<h2>Five whys</h2><label>Editable analysis<textarea class="why-editor" data-whys>Why alert? Elevated failures.\nWhy failures? Payment timeouts increased.\nWhy timeouts? Config changed.\nWhy not caught? Fixture missed peak load.\nWhy gap? Load scenario was not in release checklist.</textarea></label><div class="note">Export uses the current event filter and this editable five-whys text.</div>`;
   function update() {
     const visible = events.filter((event) => filter === "All" || event[1] === filter).sort((a, b) => parseTimeValue(a[0]) - parseTimeValue(b[0]));
-    $("[data-timeline]").innerHTML = visible.map((event) => `<section class="event"><time>${event[0]}</time><div><strong>${event[1]}</strong><p>${event[2]}</p></div></section>`).join("");
-    setOutput(`Incident postmortem draft (${filter === "All" ? "all events" : filter})\n\n${visible.map((event) => `${event[0]} - ${event[1]} - ${event[2]}`).join("\n")}\n\nFive whys:\n${$("[data-whys]").value}\n\nBoundary: official incident record remains in operational tooling.`);
+    $("[data-timeline]").innerHTML = visible.map((event) => `<section class="event"><time>${escapeHtml(event[0])}</time><div><strong>${escapeHtml(event[1])}</strong><p>${escapeHtml(event[2])}</p></div></section>`).join("");
+    setOutput(`Incident postmortem draft (${filter === "All" ? "all events" : filter})\n\n${visible.map(([time, type, note]) => `${time} - ${type} - ${note}`).join("\n")}\n\nFive whys:\n${$("[data-whys]").value}\n\nBoundary: official incident record remains in operational tooling.`);
   }
   $("[data-type-filter]").addEventListener("change", (event) => { filter = event.target.value; update(); });
   $("[data-whys]").addEventListener("input", update);
-  $("[data-add]").addEventListener("click", () => { events.push([$("[data-time]").value, $("[data-new-type]").value, $("[data-note]").value]); update(); });
+  $("[data-add]").addEventListener("click", () => { const timeInput = $("[data-time]"); const time = timeInput.value.trim(); if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) { timeInput.setAttribute("aria-invalid", "true"); timeInput.focus(); return; } timeInput.removeAttribute("aria-invalid"); events.push([time, $("[data-new-type]").value, $("[data-note]").value]); update(); });
   $("[data-copy]").addEventListener("click", (event) => copyText($("[data-output]").textContent, event.currentTarget));
   update();
 }

@@ -278,6 +278,22 @@ textarea:focus-visible {
   line-height: 1.6;
 }
 
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.hero-badge {
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-radius: 4px;
+  color: var(--accent);
+  font: 800 11px/1 var(--mono);
+  padding: 7px 9px;
+  text-transform: uppercase;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1051,7 +1067,7 @@ kbd {
 
 .signature-links a:hover,
 .signature-credit a:hover {
-  color: var(--accent-strong);
+  color: var(--accent);
   text-decoration-color: var(--accent);
 }
 
@@ -1367,7 +1383,7 @@ kbd {
         <a href="#samples">Samples</a>
         <a href="#business">Business</a>
         <a href="#engineering">Engineering</a>
-        <a href="#evidence">Evidence</a>
+        <a href="#evidence">References</a>
         <a href="#boundaries">Boundaries</a>
         <button type="button" data-open-presenter>Present</button>
         <button class="theme-toggle" type="button" data-theme-toggle>Light</button>
@@ -1383,6 +1399,10 @@ kbd {
         <p class="hero-copy">
           Twelve browser-native draft artifacts that make AI-assisted output inspectable, interactive, and easier for humans to review. Built with static HTML, CSS, SVG, and a bit of JavaScript.
         </p>
+        <div class="hero-badges" aria-label="Demo boundaries">
+          <span class="hero-badge">Fictional data only</span>
+          <span class="hero-badge">Static demo, not enterprise system</span>
+        </div>
         <div class="hero-actions">
           <a class="button primary" href="#samples">Open the showcase</a>
           <a class="button" href="#evidence">See the evidence</a>
@@ -1479,7 +1499,7 @@ kbd {
     <section class="shell proof-strip reveal" aria-label="Verification summary">
       <div class="proof-item">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-        <strong>Runs anywhere</strong><span>Static files. No app server required for the public demo.</span>
+        <strong>Runs in modern browsers</strong><span>Static files. No app server required for the public demo.</span>
       </div>
       <div class="proof-item">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
